@@ -33,7 +33,7 @@ static CGFloat const scrollViewOffset = 297.0f;
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *typeViewsCollection;
 
-- (IBAction)contentViewTouchDown:(UIControl *)sender;
+- (IBAction)tapLeftView:(UITapGestureRecognizer *)sender;
 - (IBAction)typeSegmentedControlValueChange:(UISegmentedControl *)sender;
 
 #pragma mark - Contrains
@@ -51,12 +51,14 @@ static CGFloat const scrollViewOffset = 297.0f;
     _searchTextField.leftViewMode = UITextFieldViewModeAlways;
     _searchTextField.leftView = searchIconImageView;
 
+//    _chapterTableView.
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    [_menuScrollView setContentOffset:CGPointMake(scrollViewOffset, 0) animated:YES];
+    [_menuScrollView setContentOffset:CGPointMake(scrollViewOffset, 0) animated:YES];
 
     UITableViewHeaderFooterView *bookmarkHeaderFooterView = [_bookmarkTableView headerViewForSection:0];
     bookmarkHeaderFooterView.textLabel.textColor = [UIColor colorWithRed:2.0f/255 green:83.0f/255 blue:157.0f/255 alpha:1.0f];
@@ -70,6 +72,7 @@ static CGFloat const scrollViewOffset = 297.0f;
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Update Constraints
 - (void)updateViewConstraints
 {
     [super updateViewConstraints];
@@ -128,24 +131,20 @@ static CGFloat const scrollViewOffset = 297.0f;
     ((UIImageView *)textField.leftView).highlighted = NO;
 }
 
-- (IBAction)contentViewTouchDown:(UIControl *)sender
+- (IBAction)tapLeftView:(UITapGestureRecognizer *)sender
 {
+    NSLog(@"%s", __FUNCTION__);
     if (_searchTextField.isFirstResponder) {
         [_searchTextField resignFirstResponder];
     }
 }
 
 #pragma mark UIScrollView Delegate
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    if (_searchTextField.isFirstResponder) {
-        [_searchTextField resignFirstResponder];
-    }
-}
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    _blackMaskView.alpha = 0.75f * (scrollViewOffset - scrollView.contentOffset.x) / scrollViewOffset;
+    if (scrollView == _menuScrollView) {
+        _blackMaskView.alpha = 0.75f * (scrollViewOffset - scrollView.contentOffset.x) / scrollViewOffset;
+    }
 }
 
 #pragma mark UITableView Datasource

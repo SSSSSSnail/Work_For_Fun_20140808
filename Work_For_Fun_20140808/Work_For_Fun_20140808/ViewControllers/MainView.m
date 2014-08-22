@@ -36,7 +36,6 @@ typedef NS_ENUM(NSInteger, viewTag) {
 #pragma mark - Dispatch Event
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-
     if (self.hidden || !self.userInteractionEnabled || self.alpha < 0.01)
     {
         return nil;
@@ -62,18 +61,18 @@ typedef NS_ENUM(NSInteger, viewTag) {
     }
 
     UIView *targetView = [self viewWithTag:targetTag];
-
     __block UIView *hitView = [self viewWithTag:targetTag];
     [targetView.subviews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         CGPoint thePoint = [self convertPoint:point toView:obj];
-        UIView *theSubHitView = [obj hitTest:thePoint withEvent:event];
-        if (theSubHitView != nil) {
-            hitView = theSubHitView;
-            *stop = YES;
+        if ([obj pointInside:thePoint withEvent:event]) {
+            UIView *theSubHitView = [obj hitTest:thePoint withEvent:event];
+            if (theSubHitView) {
+                hitView = theSubHitView;
+                *stop = YES;
+            }
         }
     }];
     
     return hitView;
 }
-
 @end

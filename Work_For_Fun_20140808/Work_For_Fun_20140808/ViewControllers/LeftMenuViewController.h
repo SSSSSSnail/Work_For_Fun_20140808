@@ -11,3 +11,8 @@
 @interface LeftMenuViewController : UIViewController
 
 @end
+
+
+@interface MenuScrollView : UIScrollView
+
+@end

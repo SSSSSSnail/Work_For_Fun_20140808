@@ -3,6 +3,7 @@
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -33,6 +34,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-4" y="-4"/>
         </scene>
         <!--View Controller - Main-->
         <scene sceneID="YLG-0h-XEJ">
@@ -50,20 +52,56 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" canCancelContentTouches="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SMi-bQ-Ibw">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" canCancelContentTouches="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SMi-bQ-Ibw" customClass="MainScrollView">
                                         <rect key="frame" x="0.0" y="0.0" width="330" height="548"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lQD-oQ-ZUN" userLabel="View - ContentView">
                                                 <rect key="frame" x="0.0" y="0.0" width="660" height="548"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jwd-rh-v4L" userLabel="View - PageView1" customClass="BookPageView">
+                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="320" id="nUm-vE-bhF"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JKz-Ma-f0v" userLabel="View - PageView2" customClass="BookPageView">
+                                                        <rect key="frame" x="330" y="0.0" width="320" height="548"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="320" id="2sA-Vx-dpa"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sWf-pG-Ye5" userLabel="View - PageView3" customClass="BookPageView">
+                                                        <rect key="frame" x="660" y="0.0" width="320" height="548"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="320" id="iLs-OF-dkn"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <constraints>
+                                                    <constraint firstItem="sWf-pG-Ye5" firstAttribute="leading" secondItem="lQD-oQ-ZUN" secondAttribute="leading" constant="660" id="6ha-OD-wDa"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Jwd-rh-v4L" secondAttribute="bottom" id="BpC-gv-Lg7"/>
+                                                    <constraint firstItem="sWf-pG-Ye5" firstAttribute="top" secondItem="lQD-oQ-ZUN" secondAttribute="top" id="Buj-0m-MLe"/>
+                                                    <constraint firstItem="JKz-Ma-f0v" firstAttribute="top" secondItem="lQD-oQ-ZUN" secondAttribute="top" id="G4w-dq-vQ6"/>
+                                                    <constraint firstAttribute="bottom" secondItem="sWf-pG-Ye5" secondAttribute="bottom" id="GEh-W7-vOx"/>
                                                     <constraint firstAttribute="width" constant="660" id="Hqy-8u-Uup"/>
+                                                    <constraint firstItem="Jwd-rh-v4L" firstAttribute="leading" secondItem="lQD-oQ-ZUN" secondAttribute="leading" id="Jg0-fe-1pV"/>
+                                                    <constraint firstItem="JKz-Ma-f0v" firstAttribute="leading" secondItem="lQD-oQ-ZUN" secondAttribute="leading" constant="330" id="cqE-Az-rUN"/>
                                                     <constraint firstAttribute="height" constant="548" id="eMt-dF-1YY"/>
+                                                    <constraint firstAttribute="bottom" secondItem="JKz-Ma-f0v" secondAttribute="bottom" id="evO-tU-PNF"/>
+                                                    <constraint firstItem="Jwd-rh-v4L" firstAttribute="top" secondItem="lQD-oQ-ZUN" secondAttribute="top" id="jij-6v-0AT"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstItem="lQD-oQ-ZUN" firstAttribute="leading" secondItem="SMi-bQ-Ibw" secondAttribute="leading" id="MK4-3l-M22"/>
                                             <constraint firstItem="lQD-oQ-ZUN" firstAttribute="leading" secondItem="SMi-bQ-Ibw" secondAttribute="trailing" constant="-660" id="XPE-Ch-eHx"/>
@@ -72,73 +110,84 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="delegate" destination="pbk-tu-bDg" id="vYf-nT-dV9"/>
+                                            <outletCollection property="gestureRecognizers" destination="7RQ-1t-Mei" appends="YES" id="DWO-0q-MWh"/>
                                         </connections>
                                     </scrollView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0i9-Av-tfX" userLabel="View - Bar">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+                                        <rect key="frame" x="0.0" y="-92" width="320" height="70"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <button opaque="NO" tag="15" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ybx-Dc-Bo3" userLabel="Button - Bookmark">
-                                                <rect key="frame" x="265" y="10" width="40" height="40"/>
+                                                <rect key="frame" x="265" y="22" width="40" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.98039215690000003" green="0.2306584009" blue="0.2603388995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="ev1-ED-Ceh"/>
                                                     <constraint firstAttribute="width" constant="40" id="faW-vu-VOG"/>
                                                 </constraints>
-                                                <state key="normal">
+                                                <state key="normal" backgroundImage="Bar_Button_Bookmark">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" backgroundImage="Bar_Button_Bookmark_Selected"/>
                                                 <connections>
                                                     <action selector="barButtonAction:" destination="pbk-tu-bDg" eventType="touchUpInside" id="uNJ-zR-4Je"/>
+                                                    <action selector="barButtonTouchDown:" destination="pbk-tu-bDg" eventType="touchDown" id="lvc-vk-T8W"/>
+                                                    <action selector="barButtonTouchDragExit:" destination="pbk-tu-bDg" eventType="touchDragExit" id="kuW-ej-lJw"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="14" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U0d-KT-Nhe" userLabel="Button - Search">
-                                                <rect key="frame" x="224" y="10" width="40" height="40"/>
+                                                <rect key="frame" x="224" y="22" width="40" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.98039215690000003" green="0.2306584009" blue="0.2603388995" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal">
+                                                <state key="normal" backgroundImage="Bar_Button_Search">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" backgroundImage="Bar_Button_Search_Selected"/>
                                                 <connections>
                                                     <action selector="barButtonAction:" destination="pbk-tu-bDg" eventType="touchUpInside" id="dmc-z3-GGc"/>
+                                                    <action selector="barButtonTouchDown:" destination="pbk-tu-bDg" eventType="touchDown" id="WqG-7K-LRa"/>
+                                                    <action selector="barButtonTouchDragExit:" destination="pbk-tu-bDg" eventType="touchDragExit" id="Un5-ms-MVD"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKS-wL-Mrj" userLabel="Button - Calculator">
-                                                <rect key="frame" x="183" y="10" width="40" height="40"/>
+                                                <rect key="frame" x="183" y="22" width="40" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.98039215690000003" green="0.2306584009" blue="0.2603388995" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal">
+                                                <state key="normal" backgroundImage="Bar_Button_Calculator">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" backgroundImage="Bar_Button_Calculator_Selected"/>
                                                 <connections>
                                                     <action selector="barButtonAction:" destination="pbk-tu-bDg" eventType="touchUpInside" id="nmt-lq-xkj"/>
+                                                    <action selector="barButtonTouchDown:" destination="pbk-tu-bDg" eventType="touchDown" id="kAI-pv-iYl"/>
+                                                    <action selector="barButtonTouchDragExit:" destination="pbk-tu-bDg" eventType="touchDragExit" id="eAS-5k-ecV"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zlz-k5-sUk" userLabel="Button - Document">
-                                                <rect key="frame" x="142" y="10" width="40" height="40"/>
+                                                <rect key="frame" x="142" y="22" width="40" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.98039215690000003" green="0.2306584009" blue="0.2603388995" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal">
+                                                <state key="normal" backgroundImage="Bar_Button_Document">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" backgroundImage="Bar_Button_Document_Selected"/>
                                                 <connections>
                                                     <action selector="barButtonAction:" destination="pbk-tu-bDg" eventType="touchUpInside" id="YBY-lk-aVF"/>
+                                                    <action selector="barButtonTouchDown:" destination="pbk-tu-bDg" eventType="touchDown" id="uca-Zm-WYr"/>
+                                                    <action selector="barButtonTouchDragExit:" destination="pbk-tu-bDg" eventType="touchDragExit" id="cfA-Zk-A5J"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lw3-Di-DTB" userLabel="Button - Note">
-                                                <rect key="frame" x="101" y="10" width="40" height="40"/>
+                                                <rect key="frame" x="101" y="22" width="40" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.98039215690000003" green="0.2306584009" blue="0.2603388995" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal">
+                                                <state key="normal" backgroundImage="Bar_Button_Note">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" backgroundImage="Bar_Button_Note_Selected"/>
                                                 <connections>
                                                     <action selector="barButtonAction:" destination="pbk-tu-bDg" eventType="touchUpInside" id="BBO-n1-FrE"/>
+                                                    <action selector="barButtonTouchDown:" destination="pbk-tu-bDg" eventType="touchDown" id="ASi-U6-Acz"/>
+                                                    <action selector="barButtonTouchDragExit:" destination="pbk-tu-bDg" eventType="touchDragExit" id="Akk-47-6et"/>
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.96862745098039216" green="0.95686274509803915" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="Ybx-Dc-Bo3" firstAttribute="height" secondItem="U0d-KT-Nhe" secondAttribute="height" id="0gW-Rs-0HS"/>
                                             <constraint firstItem="Zlz-k5-sUk" firstAttribute="height" secondItem="Ybx-Dc-Bo3" secondAttribute="height" id="2cs-2E-O1x"/>
@@ -154,11 +203,80 @@
                                             <constraint firstItem="U0d-KT-Nhe" firstAttribute="leading" secondItem="pKS-wL-Mrj" secondAttribute="trailing" constant="1" id="d9k-6e-O0y"/>
                                             <constraint firstItem="pKS-wL-Mrj" firstAttribute="top" secondItem="Ybx-Dc-Bo3" secondAttribute="top" id="dFc-Je-DHW"/>
                                             <constraint firstItem="pKS-wL-Mrj" firstAttribute="height" secondItem="Ybx-Dc-Bo3" secondAttribute="height" id="hvR-z6-st5"/>
-                                            <constraint firstAttribute="bottom" secondItem="Ybx-Dc-Bo3" secondAttribute="bottom" constant="20" id="nbb-t1-r0E"/>
+                                            <constraint firstAttribute="bottom" secondItem="Ybx-Dc-Bo3" secondAttribute="bottom" constant="8" id="nbb-t1-r0E"/>
                                             <constraint firstItem="Ybx-Dc-Bo3" firstAttribute="width" secondItem="Lw3-Di-DTB" secondAttribute="width" id="obY-et-zuC"/>
                                             <constraint firstItem="Zlz-k5-sUk" firstAttribute="top" secondItem="Ybx-Dc-Bo3" secondAttribute="top" id="q5M-w0-xyc"/>
                                             <constraint firstItem="Ybx-Dc-Bo3" firstAttribute="top" secondItem="Lw3-Di-DTB" secondAttribute="top" id="rJ6-Ih-t8b"/>
                                             <constraint firstItem="Ybx-Dc-Bo3" firstAttribute="width" secondItem="U0d-KT-Nhe" secondAttribute="width" id="rXv-41-4nx"/>
+                                        </constraints>
+                                    </view>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BIE-5g-ahc" userLabel="View - TopMenuView">
+                                        <rect key="frame" x="0.0" y="-34" width="320" height="582"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LAg-jU-gAw" userLabel="View - TopMenuContentView">
+                                                <rect key="frame" x="0.0" y="6" width="320" height="576"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3S1-ZD-I4Q" userLabel="View - TopMenuSwitchAnimationView">
+                                                        <rect key="frame" x="0.0" y="12" width="320" height="564"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <subviews>
+                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="参考文献" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1L4-2w-ZE6">
+                                                                <rect key="frame" x="20" y="0.0" width="300" height="21"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="21" id="9e1-qE-sk7"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="17"/>
+                                                                <color key="textColor" red="0.023529411764705882" green="0.46666666666666667" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <view alpha="0.39999999999999986" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wyL-Pp-VAq" userLabel="View - SpaceLine">
+                                                                <rect key="frame" x="20" y="31" width="280" height="1"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="1" id="UeU-Jm-KFc"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="trailing" secondItem="wyL-Pp-VAq" secondAttribute="trailing" constant="20" id="Zv6-9X-l3S"/>
+                                                            <constraint firstItem="1L4-2w-ZE6" firstAttribute="leading" secondItem="3S1-ZD-I4Q" secondAttribute="leading" constant="20" id="bMl-GF-t9a"/>
+                                                            <constraint firstItem="wyL-Pp-VAq" firstAttribute="leading" secondItem="3S1-ZD-I4Q" secondAttribute="leading" constant="20" id="cut-xL-Zf3"/>
+                                                            <constraint firstAttribute="trailing" secondItem="1L4-2w-ZE6" secondAttribute="trailing" id="dwN-tH-b90"/>
+                                                            <constraint firstItem="wyL-Pp-VAq" firstAttribute="top" secondItem="1L4-2w-ZE6" secondAttribute="bottom" constant="10" id="sYe-uu-Rph"/>
+                                                            <constraint firstItem="1L4-2w-ZE6" firstAttribute="top" secondItem="3S1-ZD-I4Q" secondAttribute="top" id="yf4-pc-uHd"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="3S1-ZD-I4Q" secondAttribute="trailing" id="PTo-y0-CSG"/>
+                                                    <constraint firstAttribute="bottom" secondItem="3S1-ZD-I4Q" secondAttribute="bottom" id="Tl0-mf-Fzi"/>
+                                                    <constraint firstItem="3S1-ZD-I4Q" firstAttribute="top" secondItem="LAg-jU-gAw" secondAttribute="top" constant="12" id="ZIw-dg-euB"/>
+                                                    <constraint firstItem="3S1-ZD-I4Q" firstAttribute="leading" secondItem="LAg-jU-gAw" secondAttribute="leading" id="zK7-h6-xOu"/>
+                                                </constraints>
+                                            </view>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Top_menu_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="5nL-MB-yVH">
+                                                <rect key="frame" x="154" y="0.0" width="12" height="7"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="12" id="UuD-pd-drC"/>
+                                                    <constraint firstAttribute="height" constant="7" id="ovm-fh-o6P"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="5nL-MB-yVH" firstAttribute="top" secondItem="BIE-5g-ahc" secondAttribute="top" id="2aW-RE-iEy"/>
+                                            <constraint firstAttribute="bottom" secondItem="LAg-jU-gAw" secondAttribute="bottom" id="3kV-EU-nQ6"/>
+                                            <constraint firstItem="5nL-MB-yVH" firstAttribute="centerX" secondItem="BIE-5g-ahc" secondAttribute="leading" constant="160" id="TRn-9M-nMJ"/>
+                                            <constraint firstAttribute="trailing" secondItem="LAg-jU-gAw" secondAttribute="trailing" id="kAd-Z5-CZy"/>
+                                            <constraint firstItem="LAg-jU-gAw" firstAttribute="top" secondItem="BIE-5g-ahc" secondAttribute="top" constant="6" id="rBS-HG-7ec"/>
+                                            <constraint firstItem="LAg-jU-gAw" firstAttribute="leading" secondItem="BIE-5g-ahc" secondAttribute="leading" id="wqF-pd-xo1"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -169,16 +287,17 @@
                                     <constraint firstItem="SMi-bQ-Ibw" firstAttribute="top" secondItem="xWI-ET-Kls" secondAttribute="top" id="0jd-Mx-jMf"/>
                                     <constraint firstItem="0i9-Av-tfX" firstAttribute="leading" secondItem="xWI-ET-Kls" secondAttribute="leading" id="3vp-Zg-jJ4"/>
                                     <constraint firstAttribute="trailing" secondItem="SMi-bQ-Ibw" secondAttribute="trailing" constant="-10" id="BKc-M8-JeW"/>
+                                    <constraint firstAttribute="bottom" secondItem="BIE-5g-ahc" secondAttribute="bottom" id="JmQ-5a-Aaw"/>
+                                    <constraint firstItem="BIE-5g-ahc" firstAttribute="centerX" secondItem="xWI-ET-Kls" secondAttribute="leading" constant="160" id="Lc1-pV-a8G"/>
                                     <constraint firstItem="SMi-bQ-Ibw" firstAttribute="leading" secondItem="xWI-ET-Kls" secondAttribute="leading" id="PEc-id-UdF"/>
                                     <constraint firstAttribute="bottom" secondItem="SMi-bQ-Ibw" secondAttribute="bottom" id="bEp-hC-0Dh"/>
-                                    <constraint firstItem="0i9-Av-tfX" firstAttribute="top" secondItem="xWI-ET-Kls" secondAttribute="top" id="yoh-le-GtR"/>
+                                    <constraint firstItem="BIE-5g-ahc" firstAttribute="top" secondItem="0i9-Av-tfX" secondAttribute="bottom" constant="-12" id="brz-eP-V4e"/>
+                                    <constraint firstItem="BIE-5g-ahc" firstAttribute="width" secondItem="xWI-ET-Kls" secondAttribute="width" id="dfx-Rh-cIA"/>
+                                    <constraint firstItem="0i9-Av-tfX" firstAttribute="top" secondItem="xWI-ET-Kls" secondAttribute="top" constant="-92" id="yoh-le-GtR"/>
                                 </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="7RQ-1t-Mei" appends="YES" id="jkp-Wa-XZa"/>
-                                </connections>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="xWI-ET-Kls" secondAttribute="bottom" id="3fz-fG-NBS"/>
                             <constraint firstItem="xWI-ET-Kls" firstAttribute="top" secondItem="eo2-mK-FFn" secondAttribute="bottom" id="53H-Xw-yHY"/>
@@ -188,12 +307,29 @@
                     </view>
                     <connections>
                         <outlet property="mainContentScrollView" destination="SMi-bQ-Ibw" id="m0D-3S-X2R"/>
+                        <outlet property="menuBarTop" destination="yoh-le-GtR" id="QAY-eZ-eDa"/>
+                        <outlet property="pageView1" destination="Jwd-rh-v4L" id="Vzv-Y1-XRY"/>
+                        <outlet property="pageView1Offset" destination="Jg0-fe-1pV" id="S0t-QK-KKo"/>
+                        <outlet property="pageView2" destination="JKz-Ma-f0v" id="IhE-9v-7tM"/>
+                        <outlet property="pageView2Offset" destination="cqE-Az-rUN" id="qLP-8V-uBF"/>
+                        <outlet property="pageView3" destination="sWf-pG-Ye5" id="qdd-rM-NnO"/>
+                        <outlet property="pageView3Offset" destination="6ha-OD-wDa" id="cn5-wh-cDp"/>
+                        <outlet property="pageViewConstraintWidth" destination="iLs-OF-dkn" id="56p-FN-Wef"/>
                         <outlet property="scrollContentView" destination="lQD-oQ-ZUN" id="eIF-5f-QFA"/>
                         <outlet property="scrollContentViewHeight" destination="eMt-dF-1YY" id="oJd-xw-xzD"/>
                         <outlet property="scrollContentViewWidth" destination="Hqy-8u-Uup" id="MvB-Ow-Xoq"/>
                         <outlet property="scrollViewContentSizeHeight" destination="s9q-qS-dbV" id="1Me-nK-f0p"/>
                         <outlet property="scrollViewContentSizeWidth" destination="XPE-Ch-eHx" id="EXp-Mw-Veg"/>
+                        <outlet property="topArrowCenterX" destination="TRn-9M-nMJ" id="Rh1-Pt-SFc"/>
                         <outlet property="topBarView" destination="0i9-Av-tfX" id="0kA-wA-IPX"/>
+                        <outlet property="topMenuAnimationView" destination="3S1-ZD-I4Q" id="I4v-Xw-Jtb"/>
+                        <outlet property="topMenuArrow" destination="5nL-MB-yVH" id="IWE-KH-6BJ"/>
+                        <outlet property="topMenuContentView" destination="LAg-jU-gAw" id="jpr-Ge-h0N"/>
+                        <outlet property="topMenuTitleLabel" destination="1L4-2w-ZE6" id="wJ7-PO-cdN"/>
+                        <outlet property="topMenuView" destination="BIE-5g-ahc" id="aWX-pp-y1e"/>
+                        <outlet property="topMenuViewBottom" destination="JmQ-5a-Aaw" id="1Uo-tS-FRI"/>
+                        <outlet property="topMenuViewCenterX" destination="Lc1-pV-a8G" id="6as-zM-OeM"/>
+                        <outlet property="topMenuViewWidth" destination="dfx-Rh-cIA" id="t2W-bu-YRP"/>
                         <outletCollection property="barButtonCollection" destination="Ybx-Dc-Bo3" id="SzV-el-qIh"/>
                         <outletCollection property="barButtonCollection" destination="U0d-KT-Nhe" id="GSG-sN-7Wn"/>
                         <outletCollection property="barButtonCollection" destination="pKS-wL-Mrj" id="4rY-fp-tOy"/>
@@ -222,7 +358,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" tag="3" contentMode="scaleToFill" directionalLockEnabled="YES" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="l9R-hD-aT8">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" tag="3" contentMode="scaleToFill" directionalLockEnabled="YES" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="l9R-hD-aT8" customClass="MenuScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
@@ -585,6 +721,17 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Bar_Button_Bookmark" width="40" height="40"/>
+        <image name="Bar_Button_Bookmark_Selected" width="40" height="40"/>
+        <image name="Bar_Button_Calculator" width="40" height="40"/>
+        <image name="Bar_Button_Calculator_Selected" width="40" height="40"/>
+        <image name="Bar_Button_Document" width="40" height="40"/>
+        <image name="Bar_Button_Document_Selected" width="40" height="40"/>
+        <image name="Bar_Button_Note" width="40" height="40"/>
+        <image name="Bar_Button_Note_Selected" width="40" height="40"/>
+        <image name="Bar_Button_Search" width="40" height="40"/>
+        <image name="Bar_Button_Search_Selected" width="40" height="40"/>
+        <image name="Top_menu_arrow" width="12" height="8"/>
         <image name="leftMenuRightButton" width="18" height="55"/>
         <image name="leftMenuTopBanner" width="297" height="65"/>
     </resources>

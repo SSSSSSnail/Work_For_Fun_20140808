@@ -11,3 +11,13 @@
 @interface MainContentViewController : UIViewController
 
 @end
+
+
+@interface MainView : UIView
+
+@end
+
+
+@interface MainScrollView : UIScrollView
+
+@end

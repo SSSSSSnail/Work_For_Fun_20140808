@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		070813F21998ADD000043CF0 /* book.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 070813F11998ADD000043CF0 /* book.pdf */; };
-		073BC8BF199C9211002C60FD /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 073BC8BE199C9211002C60FD /* MainView.m */; };
 		075C11FD19938B2B004F72FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075C11FC19938B2B004F72FD /* Foundation.framework */; };
 		075C11FF19938B2B004F72FD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075C11FE19938B2B004F72FD /* CoreGraphics.framework */; };
 		075C120119938B2B004F72FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075C120019938B2B004F72FD /* UIKit.framework */; };
@@ -23,6 +22,8 @@
 		075C121E19938B2B004F72FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075C120019938B2B004F72FD /* UIKit.framework */; };
 		075C122619938B2B004F72FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 075C122419938B2B004F72FD /* InfoPlist.strings */; };
 		075C122819938B2B004F72FD /* Work_For_Fun_20140808Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 075C122719938B2B004F72FD /* Work_For_Fun_20140808Tests.m */; };
+		0775322019B2F33E001211DF /* BookPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0775321F19B2F33E001211DF /* BookPageView.m */; };
+		07B9F05319A890AE002F132F /* GlobalInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B9F05219A890AE002F132F /* GlobalInstance.m */; };
 		07F593931999ED1E00BD5C90 /* CIDFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593561999ED1E00BD5C90 /* CIDFont.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		07F593941999ED1E00BD5C90 /* CIDType0Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593581999ED1E00BD5C90 /* CIDType0Font.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		07F593951999ED1E00BD5C90 /* CIDType2Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F5935A1999ED1E00BD5C90 /* CIDType2Font.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
@@ -69,8 +70,6 @@
 
 /* Begin PBXFileReference section */
 		070813F11998ADD000043CF0 /* book.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = book.pdf; sourceTree = "<group>"; };
-		073BC8BD199C9211002C60FD /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
-		073BC8BE199C9211002C60FD /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
 		075C11F919938B2B004F72FD /* Work_For_Fun_20140808.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Work_For_Fun_20140808.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		075C11FC19938B2B004F72FD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		075C11FE19938B2B004F72FD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -90,6 +89,10 @@
 		075C122319938B2B004F72FD /* Work_For_Fun_20140808Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Work_For_Fun_20140808Tests-Info.plist"; sourceTree = "<group>"; };
 		075C122519938B2B004F72FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		075C122719938B2B004F72FD /* Work_For_Fun_20140808Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Work_For_Fun_20140808Tests.m; sourceTree = "<group>"; };
+		0775321E19B2F33E001211DF /* BookPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookPageView.h; sourceTree = "<group>"; };
+		0775321F19B2F33E001211DF /* BookPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookPageView.m; sourceTree = "<group>"; };
+		07B9F05119A890AE002F132F /* GlobalInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalInstance.h; sourceTree = "<group>"; };
+		07B9F05219A890AE002F132F /* GlobalInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalInstance.m; sourceTree = "<group>"; };
 		07F593551999ED1E00BD5C90 /* CIDFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIDFont.h; sourceTree = "<group>"; };
 		07F593561999ED1E00BD5C90 /* CIDFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CIDFont.m; sourceTree = "<group>"; };
 		07F593571999ED1E00BD5C90 /* CIDType0Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIDType0Font.h; sourceTree = "<group>"; };
@@ -233,6 +236,8 @@
 				075C121219938B2B004F72FD /* ViewController.m */,
 				075C121419938B2B004F72FD /* Images.xcassets */,
 				075C120319938B2B004F72FD /* Supporting Files */,
+				07B9F05119A890AE002F132F /* GlobalInstance.h */,
+				07B9F05219A890AE002F132F /* GlobalInstance.m */,
 			);
 			path = Work_For_Fun_20140808;
 			sourceTree = "<group>";
@@ -337,8 +342,8 @@
 				07F593B6199A0F7D00BD5C90 /* LeftMenuViewController.m */,
 				07F593B8199A0F9200BD5C90 /* MainContentViewController.h */,
 				07F593B9199A0F9200BD5C90 /* MainContentViewController.m */,
-				073BC8BD199C9211002C60FD /* MainView.h */,
-				073BC8BE199C9211002C60FD /* MainView.m */,
+				0775321E19B2F33E001211DF /* BookPageView.h */,
+				0775321F19B2F33E001211DF /* BookPageView.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -506,9 +511,10 @@
 				07F593A91999ED1E00BD5C90 /* RenderingStateStack.m in Sources */,
 				07F593AF1999ED1E00BD5C90 /* TrueTypeFont.m in Sources */,
 				07F593BA199A0F9200BD5C90 /* MainContentViewController.m in Sources */,
-				073BC8BF199C9211002C60FD /* MainView.m in Sources */,
 				07F593931999ED1E00BD5C90 /* CIDFont.m in Sources */,
+				0775322019B2F33E001211DF /* BookPageView.m in Sources */,
 				07F593A11999ED1E00BD5C90 /* PageViewController.m in Sources */,
+				07B9F05319A890AE002F132F /* GlobalInstance.m in Sources */,
 				07F593A61999ED1E00BD5C90 /* PDFPageDetailsView.m in Sources */,
 				07F593B11999ED1E00BD5C90 /* Type1Font.m in Sources */,
 			);
@@ -656,6 +662,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

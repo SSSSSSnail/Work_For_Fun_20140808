@@ -76,7 +76,7 @@ static CGFloat const scrollViewOffset = 297.0f;
 - (void)updateViewConstraints
 {
     [super updateViewConstraints];
-    _scrollViewContentTop2Bottom.constant = - [UIScreen mainScreen].bounds.size.height;
+    _scrollViewContentTop2Bottom.constant = - ScreenBoundsHeight();
 }
 
 
@@ -133,7 +133,6 @@ static CGFloat const scrollViewOffset = 297.0f;
 
 - (IBAction)tapLeftView:(UITapGestureRecognizer *)sender
 {
-    NSLog(@"%s", __FUNCTION__);
     if (_searchTextField.isFirstResponder) {
         [_searchTextField resignFirstResponder];
     }
@@ -143,7 +142,7 @@ static CGFloat const scrollViewOffset = 297.0f;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView == _menuScrollView) {
-        _blackMaskView.alpha = 0.75f * (scrollViewOffset - scrollView.contentOffset.x) / scrollViewOffset;
+        _blackMaskView.alpha = 0.4f * (scrollViewOffset - scrollView.contentOffset.x) / scrollViewOffset;
     }
 }
 
@@ -206,6 +205,20 @@ static CGFloat const scrollViewOffset = 297.0f;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [_menuScrollView setContentOffset:CGPointMake(scrollViewOffset, 0) animated:YES];
+}
+
+@end
+
+
+@implementation MenuScrollView
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+{
+    if (point.x <= [UIScreen mainScreen].bounds.size.width) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 @end

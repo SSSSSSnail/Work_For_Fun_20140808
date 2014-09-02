@@ -14,6 +14,8 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "Masonry.h"
+    #import <pop/POP.h>
+    #import "GlobalInstance.h"
 #endif
 
 #define ISSCREEN4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)

@@ -12,6 +12,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    if (![GInstance() initDataBase]) {
+        NSLog(@"ERROR: Database init failed!!");
+    }
     return YES;
 }
 							

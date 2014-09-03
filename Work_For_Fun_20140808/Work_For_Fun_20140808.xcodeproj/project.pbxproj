@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		070813F21998ADD000043CF0 /* book.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 070813F11998ADD000043CF0 /* book.pdf */; };
 		075594AB19B60B2E009DEFB4 /* SuperDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 075594AA19B60B2E009DEFB4 /* SuperDao.m */; };
 		075C11FD19938B2B004F72FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075C11FC19938B2B004F72FD /* Foundation.framework */; };
 		075C11FF19938B2B004F72FD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075C11FE19938B2B004F72FD /* CoreGraphics.framework */; };
@@ -23,6 +22,11 @@
 		075C122619938B2B004F72FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 075C122419938B2B004F72FD /* InfoPlist.strings */; };
 		075C122819938B2B004F72FD /* Work_For_Fun_20140808Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 075C122719938B2B004F72FD /* Work_For_Fun_20140808Tests.m */; };
 		0775322019B2F33E001211DF /* BookPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0775321F19B2F33E001211DF /* BookPageView.m */; };
+		0783DB1819B7091500869653 /* book.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 0783DB1719B7091500869653 /* book.sqlite */; };
+		0783DB1B19B7164200869653 /* ChapterDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 0783DB1A19B7164200869653 /* ChapterDao.m */; };
+		0783DB1E19B7166F00869653 /* SuperBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 0783DB1D19B7166F00869653 /* SuperBean.m */; };
+		0783DB2119B7168700869653 /* ChapterBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 0783DB2019B7168700869653 /* ChapterBean.m */; };
+		0783DB2319B72E8E00869653 /* book.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0783DB2219B72E8E00869653 /* book.pdf */; };
 		07B9F05319A890AE002F132F /* GlobalInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B9F05219A890AE002F132F /* GlobalInstance.m */; };
 		07BBEEC419B5D74E004BB46C /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BBEEC319B5D74E004BB46C /* GuideViewController.m */; };
 		07F593931999ED1E00BD5C90 /* CIDFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593561999ED1E00BD5C90 /* CIDFont.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
@@ -70,7 +74,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		070813F11998ADD000043CF0 /* book.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = book.pdf; sourceTree = "<group>"; };
 		075594A919B60B2E009DEFB4 /* SuperDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperDao.h; sourceTree = "<group>"; };
 		075594AA19B60B2E009DEFB4 /* SuperDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperDao.m; sourceTree = "<group>"; };
 		075C11F919938B2B004F72FD /* Work_For_Fun_20140808.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Work_For_Fun_20140808.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +95,14 @@
 		075C122719938B2B004F72FD /* Work_For_Fun_20140808Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Work_For_Fun_20140808Tests.m; sourceTree = "<group>"; };
 		0775321E19B2F33E001211DF /* BookPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookPageView.h; sourceTree = "<group>"; };
 		0775321F19B2F33E001211DF /* BookPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookPageView.m; sourceTree = "<group>"; };
+		0783DB1719B7091500869653 /* book.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = book.sqlite; sourceTree = "<group>"; };
+		0783DB1919B7164200869653 /* ChapterDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterDao.h; sourceTree = "<group>"; };
+		0783DB1A19B7164200869653 /* ChapterDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterDao.m; sourceTree = "<group>"; };
+		0783DB1C19B7166F00869653 /* SuperBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperBean.h; sourceTree = "<group>"; };
+		0783DB1D19B7166F00869653 /* SuperBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperBean.m; sourceTree = "<group>"; };
+		0783DB1F19B7168700869653 /* ChapterBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterBean.h; sourceTree = "<group>"; };
+		0783DB2019B7168700869653 /* ChapterBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterBean.m; sourceTree = "<group>"; };
+		0783DB2219B72E8E00869653 /* book.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = book.pdf; sourceTree = "<group>"; };
 		07B9F05119A890AE002F132F /* GlobalInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalInstance.h; sourceTree = "<group>"; };
 		07B9F05219A890AE002F132F /* GlobalInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalInstance.m; sourceTree = "<group>"; };
 		07BBEEC219B5D74E004BB46C /* GuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideViewController.h; sourceTree = "<group>"; };
@@ -189,7 +200,7 @@
 		070813F01998ADD000043CF0 /* Book */ = {
 			isa = PBXGroup;
 			children = (
-				070813F11998ADD000043CF0 /* book.pdf */,
+				0783DB2219B72E8E00869653 /* book.pdf */,
 			);
 			path = Book;
 			sourceTree = "<group>";
@@ -197,6 +208,7 @@
 		075594A619B60B1A009DEFB4 /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
+				0783DB1719B7091500869653 /* book.sqlite */,
 				075594A719B60B1A009DEFB4 /* Bean */,
 				075594A819B60B1A009DEFB4 /* Dao */,
 			);
@@ -206,6 +218,10 @@
 		075594A719B60B1A009DEFB4 /* Bean */ = {
 			isa = PBXGroup;
 			children = (
+				0783DB1C19B7166F00869653 /* SuperBean.h */,
+				0783DB1D19B7166F00869653 /* SuperBean.m */,
+				0783DB1F19B7168700869653 /* ChapterBean.h */,
+				0783DB2019B7168700869653 /* ChapterBean.m */,
 			);
 			path = Bean;
 			sourceTree = "<group>";
@@ -215,6 +231,8 @@
 			children = (
 				075594A919B60B2E009DEFB4 /* SuperDao.h */,
 				075594AA19B60B2E009DEFB4 /* SuperDao.m */,
+				0783DB1919B7164200869653 /* ChapterDao.h */,
+				0783DB1A19B7164200869653 /* ChapterDao.m */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -455,11 +473,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0783DB1819B7091500869653 /* book.sqlite in Resources */,
 				07F593A21999ED1E00BD5C90 /* PageViewController.xib in Resources */,
+				0783DB2319B72E8E00869653 /* book.pdf in Resources */,
 				075C121519938B2B004F72FD /* Images.xcassets in Resources */,
 				075C120719938B2B004F72FD /* InfoPlist.strings in Resources */,
 				075C121019938B2B004F72FD /* Main.storyboard in Resources */,
-				070813F21998ADD000043CF0 /* book.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +539,7 @@
 				07F593AB1999ED1E00BD5C90 /* Scanner.m in Sources */,
 				07F593961999ED1E00BD5C90 /* CMap.m in Sources */,
 				07F593981999ED1E00BD5C90 /* DocumentsView.m in Sources */,
+				0783DB1B19B7164200869653 /* ChapterDao.m in Sources */,
 				07F593AD1999ED1E00BD5C90 /* SimpleFont.m in Sources */,
 				07F593B21999ED1E00BD5C90 /* Type3Font.m in Sources */,
 				07F593941999ED1E00BD5C90 /* CIDType0Font.m in Sources */,
@@ -537,11 +557,13 @@
 				07F5939C1999ED1E00BD5C90 /* FontFile.m in Sources */,
 				07F5939E1999ED1E00BD5C90 /* MMType1Font.m in Sources */,
 				07F593991999ED1E00BD5C90 /* Font.m in Sources */,
+				0783DB1E19B7166F00869653 /* SuperBean.m in Sources */,
 				07F593A91999ED1E00BD5C90 /* RenderingStateStack.m in Sources */,
 				07F593AF1999ED1E00BD5C90 /* TrueTypeFont.m in Sources */,
 				07F593BA199A0F9200BD5C90 /* MainContentViewController.m in Sources */,
 				07F593931999ED1E00BD5C90 /* CIDFont.m in Sources */,
 				0775322019B2F33E001211DF /* BookPageView.m in Sources */,
+				0783DB2119B7168700869653 /* ChapterBean.m in Sources */,
 				07F593A11999ED1E00BD5C90 /* PageViewController.m in Sources */,
 				075594AB19B60B2E009DEFB4 /* SuperDao.m in Sources */,
 				07B9F05319A890AE002F132F /* GlobalInstance.m in Sources */,

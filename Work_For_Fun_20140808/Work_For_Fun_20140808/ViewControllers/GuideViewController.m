@@ -8,6 +8,8 @@
 
 #import "GuideViewController.h"
 
+#import "ChapterDao.h"
+
 static NSString *const kADNumber = @"adnumber";
 static NSString *const kUserGuide = @"userGuide";
 
@@ -30,6 +32,9 @@ static NSString *const kUserGuide = @"userGuide";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    NSLog(@"%d", [[ChapterDao sharedInstance] selectCount]);
+    NSLog(@"%@", ((ChapterBean *)[[ChapterDao sharedInstance] selectAllChapter][0]).title);
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     int adNumber = [userDefaults integerForKey:kADNumber];

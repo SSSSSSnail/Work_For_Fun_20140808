@@ -19,6 +19,11 @@ extern NSString *const DBName;
 @property (assign, nonatomic, readonly) long totalPage;
 @property (assign, nonatomic) int currentPage;
 
+@property (strong, nonatomic) FMDatabase *db;
+
+- (BOOL)initDataBase;
+- (void)closeDatabase;
+
 @end
 
 GlobalInstance *GInstance();

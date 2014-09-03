@@ -10,4 +10,13 @@
 
 @interface SuperDao : NSObject
 
+@property (copy, nonatomic, readonly) NSString *tableName;
+
+- (int)selectCount;
+
+- (NSArray *)selectAll;
+- (NSArray *)selectByWhere:(NSString *)whereSql;
+
+- (void)deleteAll;
+
 @end

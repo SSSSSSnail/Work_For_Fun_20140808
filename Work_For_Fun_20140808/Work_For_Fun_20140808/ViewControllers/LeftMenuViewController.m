@@ -51,8 +51,6 @@ static CGFloat const scrollViewOffset = 297.0f;
     _searchTextField.leftViewMode = UITextFieldViewModeAlways;
     _searchTextField.leftView = searchIconImageView;
 
-//    _chapterTableView.
-
 }
 
 - (void)viewDidAppear:(BOOL)animated

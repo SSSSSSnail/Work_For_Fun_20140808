@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		070813F21998ADD000043CF0 /* book.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 070813F11998ADD000043CF0 /* book.pdf */; };
+		075594AB19B60B2E009DEFB4 /* SuperDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 075594AA19B60B2E009DEFB4 /* SuperDao.m */; };
 		075C11FD19938B2B004F72FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075C11FC19938B2B004F72FD /* Foundation.framework */; };
 		075C11FF19938B2B004F72FD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075C11FE19938B2B004F72FD /* CoreGraphics.framework */; };
 		075C120119938B2B004F72FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075C120019938B2B004F72FD /* UIKit.framework */; };
@@ -15,7 +16,6 @@
 		075C120919938B2B004F72FD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 075C120819938B2B004F72FD /* main.m */; };
 		075C120D19938B2B004F72FD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 075C120C19938B2B004F72FD /* AppDelegate.m */; };
 		075C121019938B2B004F72FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 075C120E19938B2B004F72FD /* Main.storyboard */; };
-		075C121319938B2B004F72FD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 075C121219938B2B004F72FD /* ViewController.m */; };
 		075C121519938B2B004F72FD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 075C121419938B2B004F72FD /* Images.xcassets */; };
 		075C121C19938B2B004F72FD /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075C121B19938B2B004F72FD /* XCTest.framework */; };
 		075C121D19938B2B004F72FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 075C11FC19938B2B004F72FD /* Foundation.framework */; };
@@ -24,6 +24,7 @@
 		075C122819938B2B004F72FD /* Work_For_Fun_20140808Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 075C122719938B2B004F72FD /* Work_For_Fun_20140808Tests.m */; };
 		0775322019B2F33E001211DF /* BookPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0775321F19B2F33E001211DF /* BookPageView.m */; };
 		07B9F05319A890AE002F132F /* GlobalInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B9F05219A890AE002F132F /* GlobalInstance.m */; };
+		07BBEEC419B5D74E004BB46C /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BBEEC319B5D74E004BB46C /* GuideViewController.m */; };
 		07F593931999ED1E00BD5C90 /* CIDFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593561999ED1E00BD5C90 /* CIDFont.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		07F593941999ED1E00BD5C90 /* CIDType0Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593581999ED1E00BD5C90 /* CIDType0Font.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		07F593951999ED1E00BD5C90 /* CIDType2Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F5935A1999ED1E00BD5C90 /* CIDType2Font.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
@@ -70,6 +71,8 @@
 
 /* Begin PBXFileReference section */
 		070813F11998ADD000043CF0 /* book.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = book.pdf; sourceTree = "<group>"; };
+		075594A919B60B2E009DEFB4 /* SuperDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperDao.h; sourceTree = "<group>"; };
+		075594AA19B60B2E009DEFB4 /* SuperDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperDao.m; sourceTree = "<group>"; };
 		075C11F919938B2B004F72FD /* Work_For_Fun_20140808.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Work_For_Fun_20140808.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		075C11FC19938B2B004F72FD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		075C11FE19938B2B004F72FD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -81,8 +84,6 @@
 		075C120B19938B2B004F72FD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		075C120C19938B2B004F72FD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		075C120F19938B2B004F72FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		075C121119938B2B004F72FD /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		075C121219938B2B004F72FD /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		075C121419938B2B004F72FD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		075C121A19938B2B004F72FD /* Work_For_Fun_20140808Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Work_For_Fun_20140808Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		075C121B19938B2B004F72FD /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -93,6 +94,8 @@
 		0775321F19B2F33E001211DF /* BookPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookPageView.m; sourceTree = "<group>"; };
 		07B9F05119A890AE002F132F /* GlobalInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalInstance.h; sourceTree = "<group>"; };
 		07B9F05219A890AE002F132F /* GlobalInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalInstance.m; sourceTree = "<group>"; };
+		07BBEEC219B5D74E004BB46C /* GuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideViewController.h; sourceTree = "<group>"; };
+		07BBEEC319B5D74E004BB46C /* GuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideViewController.m; sourceTree = "<group>"; };
 		07F593551999ED1E00BD5C90 /* CIDFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIDFont.h; sourceTree = "<group>"; };
 		07F593561999ED1E00BD5C90 /* CIDFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CIDFont.m; sourceTree = "<group>"; };
 		07F593571999ED1E00BD5C90 /* CIDType0Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIDType0Font.h; sourceTree = "<group>"; };
@@ -191,6 +194,31 @@
 			path = Book;
 			sourceTree = "<group>";
 		};
+		075594A619B60B1A009DEFB4 /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				075594A719B60B1A009DEFB4 /* Bean */,
+				075594A819B60B1A009DEFB4 /* Dao */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
+		075594A719B60B1A009DEFB4 /* Bean */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Bean;
+			sourceTree = "<group>";
+		};
+		075594A819B60B1A009DEFB4 /* Dao */ = {
+			isa = PBXGroup;
+			children = (
+				075594A919B60B2E009DEFB4 /* SuperDao.h */,
+				075594AA19B60B2E009DEFB4 /* SuperDao.m */,
+			);
+			path = Dao;
+			sourceTree = "<group>";
+		};
 		075C11F019938B2B004F72FD = {
 			isa = PBXGroup;
 			children = (
@@ -226,14 +254,13 @@
 		075C120219938B2B004F72FD /* Work_For_Fun_20140808 */ = {
 			isa = PBXGroup;
 			children = (
+				075594A619B60B1A009DEFB4 /* DataBase */,
 				07F593B4199A0F5300BD5C90 /* ViewControllers */,
 				07F593541999ED1E00BD5C90 /* PDFKitten */,
 				070813F01998ADD000043CF0 /* Book */,
 				075C120B19938B2B004F72FD /* AppDelegate.h */,
 				075C120C19938B2B004F72FD /* AppDelegate.m */,
 				075C120E19938B2B004F72FD /* Main.storyboard */,
-				075C121119938B2B004F72FD /* ViewController.h */,
-				075C121219938B2B004F72FD /* ViewController.m */,
 				075C121419938B2B004F72FD /* Images.xcassets */,
 				075C120319938B2B004F72FD /* Supporting Files */,
 				07B9F05119A890AE002F132F /* GlobalInstance.h */,
@@ -338,6 +365,8 @@
 		07F593B4199A0F5300BD5C90 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				07BBEEC219B5D74E004BB46C /* GuideViewController.h */,
+				07BBEEC319B5D74E004BB46C /* GuideViewController.m */,
 				07F593B5199A0F7D00BD5C90 /* LeftMenuViewController.h */,
 				07F593B6199A0F7D00BD5C90 /* LeftMenuViewController.m */,
 				07F593B8199A0F9200BD5C90 /* MainContentViewController.h */,
@@ -482,7 +511,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				075C121319938B2B004F72FD /* ViewController.m in Sources */,
 				075C120D19938B2B004F72FD /* AppDelegate.m in Sources */,
 				07F593AE1999ED1E00BD5C90 /* StringDetector.m in Sources */,
 				07F593A51999ED1E00BD5C90 /* PDFPage.m in Sources */,
@@ -499,6 +527,7 @@
 				07F593AA1999ED1E00BD5C90 /* RootViewController.m in Sources */,
 				07F593B01999ED1E00BD5C90 /* Type0Font.m in Sources */,
 				07F593A81999ED1E00BD5C90 /* RenderingState.m in Sources */,
+				07BBEEC419B5D74E004BB46C /* GuideViewController.m in Sources */,
 				07F5939B1999ED1E00BD5C90 /* FontDescriptor.m in Sources */,
 				07F593B7199A0F7D00BD5C90 /* LeftMenuViewController.m in Sources */,
 				07F593951999ED1E00BD5C90 /* CIDType2Font.m in Sources */,
@@ -514,6 +543,7 @@
 				07F593931999ED1E00BD5C90 /* CIDFont.m in Sources */,
 				0775322019B2F33E001211DF /* BookPageView.m in Sources */,
 				07F593A11999ED1E00BD5C90 /* PageViewController.m in Sources */,
+				075594AB19B60B2E009DEFB4 /* SuperDao.m in Sources */,
 				07B9F05319A890AE002F132F /* GlobalInstance.m in Sources */,
 				07F593A61999ED1E00BD5C90 /* PDFPageDetailsView.m in Sources */,
 				07F593B11999ED1E00BD5C90 /* Type1Font.m in Sources */,

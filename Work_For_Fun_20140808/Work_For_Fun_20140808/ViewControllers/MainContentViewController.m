@@ -53,6 +53,8 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 @property (weak, nonatomic) IBOutlet UIView *topMenuAnimationView;
 @property (weak, nonatomic) IBOutlet UILabel *topMenuTitleLabel;
 
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapTopMenuGesture;
+
 @property (weak, nonatomic) IBOutlet BookPageView *pageView1;
 @property (weak, nonatomic) IBOutlet BookPageView *pageView2;
 @property (weak, nonatomic) IBOutlet BookPageView *pageView3;
@@ -69,11 +71,6 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topMenuViewCenterX;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topMenuViewWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topMenuViewBottom;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pageView1Offset;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pageView2Offset;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pageView3Offset;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pageViewConstraintWidth;
 
 // IBAction
 - (IBAction)barButtonAction:(UIButton *)sender;
@@ -116,6 +113,11 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
         make.edges.equalTo(self.view);
     }];
     [self addChildViewController:leftMenuViewController];
+
+    //Cancel singel tap
+    [_tapTopMenuGesture requireGestureRecognizerToFail:_pageView1.doubleTap];
+    [_tapTopMenuGesture requireGestureRecognizerToFail:_pageView2.doubleTap];
+    [_tapTopMenuGesture requireGestureRecognizerToFail:_pageView3.doubleTap];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -141,8 +143,6 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 
     _topMenuViewWidth.constant = - 280.0f;
     _topMenuViewBottom.constant = ISSCREEN4 ? 480.0f : 390.0f;
-
-    _pageViewConstraintWidth.constant = ScreenBoundsWidth();
 }
 
 #pragma mark - Bar Button Action
@@ -293,23 +293,27 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     CGFloat pageOffsetXLeft = (selectedPage - 1) * _pageViewWithGapWidth;
     CGFloat pageOffsetXRight = (selectedPage + 1) * _pageViewWithGapWidth;
 
+    CGFloat page1FrameX = CGRectGetMinX(_pageView1.frame);
+    CGFloat page2FrameX = CGRectGetMinX(_pageView2.frame);
+    CGFloat page3FrameX = CGRectGetMinX(_pageView3.frame);
+
     NSLog(@"pageOffsetXCurrent : %f", pageOffsetXCurrent);
-    if (pageOffsetXCurrent == _pageView1Offset.constant) {
+    if (pageOffsetXCurrent == page1FrameX) {
         page1OffsetXMatched = true;
         pageOffsetCurrentMatched = true;
-    } else if (pageOffsetXCurrent == _pageView2Offset.constant) {
+    } else if (pageOffsetXCurrent == page2FrameX) {
         page2OffsetXMatched = true;
         pageOffsetCurrentMatched = true;
-    } else if (pageOffsetXCurrent == _pageView3Offset.constant) {
+    } else if (pageOffsetXCurrent == page3FrameX) {
         page3OffsetXMatched = true;
         pageOffsetCurrentMatched = true;
     }
 
     if (pageOffsetCurrentMatched) {
         if (page1OffsetXMatched) {
-            _pageView1Offset.constant = pageOffsetXCurrent;
-            _pageView2Offset.constant = pageOffsetXLeft;
-            _pageView3Offset.constant = pageOffsetXRight;
+            page1FrameX = pageOffsetXCurrent;
+            page2FrameX = pageOffsetXLeft;
+            page3FrameX = pageOffsetXRight;
 
             _pageView1.toPageNumber = selectedPage;
             _pageView2.toPageNumber = selectedPage - 1;
@@ -319,9 +323,9 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
             NSLog(@"%f", pageOffsetXLeft);
             NSLog(@"%f", pageOffsetXRight);
         } else if (page2OffsetXMatched) {
-            _pageView1Offset.constant = pageOffsetXRight;
-            _pageView2Offset.constant = pageOffsetXCurrent;
-            _pageView3Offset.constant = pageOffsetXLeft;
+            page1FrameX = pageOffsetXRight;
+            page2FrameX = pageOffsetXCurrent;
+            page3FrameX = pageOffsetXLeft;
 
             _pageView1.toPageNumber = selectedPage + 1;
             _pageView2.toPageNumber = selectedPage;
@@ -331,9 +335,9 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
             NSLog(@"%f", pageOffsetXCurrent);
             NSLog(@"%f", pageOffsetXLeft);
         } else if (page3OffsetXMatched) {
-            _pageView1Offset.constant = pageOffsetXLeft;
-            _pageView2Offset.constant = pageOffsetXRight;
-            _pageView3Offset.constant = pageOffsetXCurrent;
+            page1FrameX = pageOffsetXLeft;
+            page2FrameX = pageOffsetXRight;
+            page3FrameX = pageOffsetXCurrent;
 
             _pageView1.toPageNumber = selectedPage - 1;
             _pageView2.toPageNumber = selectedPage + 1;
@@ -343,13 +347,22 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
             NSLog(@"%f", pageOffsetXRight);
             NSLog(@"%f", pageOffsetXCurrent);
         } else {
-            NSLog(@"+_+_+_+_+_+_+_+_+_+_+_+_+_");
+            NSLog(@"ERROR!! %s", __FUNCTION__);
         }
-        [self.view setNeedsLayout];
 
-        [self hideShowView:_pageView1 withConstant:_pageView1Offset.constant];
-        [self hideShowView:_pageView2 withConstant:_pageView2Offset.constant];
-        [self hideShowView:_pageView3 withConstant:_pageView3Offset.constant];
+        CGRect frame = CGRectMake(0, 0, ScreenBoundsWidth(), ScreenBoundsHeight() - 20);
+        frame.origin.x = page1FrameX;
+        _pageView1.frame = frame;
+        frame.origin.x = page2FrameX;
+        _pageView2.frame = frame;
+        frame.origin.x = page3FrameX;
+        _pageView3.frame = frame;
+        
+        [self.view layoutIfNeeded];
+
+        [self hideShowView:_pageView1 withConstant:page1FrameX];
+        [self hideShowView:_pageView2 withConstant:page2FrameX];
+        [self hideShowView:_pageView3 withConstant:page3FrameX];
     }
 }
 
@@ -410,10 +423,7 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     return hitView;
 }
 
-
-
 @end
-
 
 @implementation MainScrollView
 

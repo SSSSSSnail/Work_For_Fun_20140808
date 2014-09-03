@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const DBName;
+
 @interface GlobalInstance : NSObject
 
 + (instancetype)sharedManager;
@@ -23,3 +25,5 @@ GlobalInstance *GInstance();
 
 CGFloat ScreenBoundsWidth();
 CGFloat ScreenBoundsHeight();
+
+NSString *DocumentDirectory();

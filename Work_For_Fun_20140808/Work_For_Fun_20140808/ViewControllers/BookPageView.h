@@ -26,5 +26,6 @@
 @property (assign, nonatomic) int pageNumber;
 @property (assign, nonatomic) int toPageNumber;
 @property (nonatomic, copy) NSString *keyword;
+@property (strong, nonatomic) UITapGestureRecognizer *doubleTap;
 
 @end

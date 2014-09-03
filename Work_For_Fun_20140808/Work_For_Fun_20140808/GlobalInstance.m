@@ -8,6 +8,8 @@
 
 #import "GlobalInstance.h"
 
+NSString *const DBName = @"book.db";
+
 @interface GlobalInstance ()
 
 @property (copy, nonatomic) NSString *documentPath;
@@ -36,7 +38,7 @@
         self.document = CGPDFDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:_documentPath]);
         self.totalPage = CGPDFDocumentGetNumberOfPages(_document);
 //        self.totalPage = 5;
-        self.currentPage = -1;
+        self.currentPage = - 1;
     }
     return self;
 }
@@ -56,4 +58,10 @@ CGFloat ScreenBoundsWidth()
 CGFloat ScreenBoundsHeight()
 {
     return [UIScreen mainScreen].bounds.size.height;
+}
+
+NSString *DocumentDirectory()
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    return paths[0];
 }

@@ -111,22 +111,17 @@
 
 - (void)awakeFromNib
 {
+    self.contentSize = CGSizeMake(ScreenBoundsWidth(), ScreenBoundsHeight() - 20);
+    
     self.contentView = [BookContentView new];
+    _contentView.frame = CGRectMake(0, 0, ScreenBoundsWidth(), ScreenBoundsHeight() - 20);
     [self addSubview:_contentView];
-    _contentView.backgroundColor = [UIColor blueColor];
-    [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
-        make.left.equalTo(self.mas_right).with.offset(- ScreenBoundsWidth());
-        make.top.equalTo(self.mas_bottom).with.offset(- (ScreenBoundsHeight() - 20));
-    }];
 
-    self.minimumZoomScale = 1.0;
-    self.maximumZoomScale = 3.0;
     self.delegate = self;
 
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didDoubleTap:)];
-    doubleTap.numberOfTapsRequired = 2;
-    [self addGestureRecognizer:doubleTap];
+    self.doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didDoubleTap:)];
+    _doubleTap.numberOfTapsRequired = 2;
+    [self addGestureRecognizer:_doubleTap];
 }
 
 /* Double tap zooms the content to fill the container view */
@@ -139,6 +134,15 @@
     }
 
 }
+//
+//- (void)layoutSubviews
+//{
+//    [super layoutSubviews];
+//	// Set minimum zoom scale to where the content fits the screen
+//	CGFloat hScale = CGRectGetWidth(self.frame) / CGRectGetWidth(_contentView.bounds);
+//	CGFloat vScale = CGRectGetHeight(self.frame) / CGRectGetHeight(_contentView.bounds);
+//	[self setMinimumZoomScale:MIN(hScale, vScale)];
+//}
 
 #pragma mark - UIScrollView delegate
 
@@ -149,8 +153,9 @@
 }
 
 /* Make the content view center on screen when zoomed out */
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView
-{
+//- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+//{
+//    NSLog(@"%s", __FUNCTION__);
 //	CGRect frame = self.contentView.frame;
 //    frame.origin = CGPointZero;
 //	// Calculate how much of the content view is outside the screen
@@ -165,12 +170,8 @@
 //		frame.origin.y = - totalInset.height / 2;
 //	}
 //	self.contentView.frame = frame;
-}
-
-- (void)updateConstraints
-{
-    [super updateConstraints];
-}
+//    [_contentView setNeedsDisplay];
+//}
 
 - (void)setPage:(CGPDFPageRef)page
 {

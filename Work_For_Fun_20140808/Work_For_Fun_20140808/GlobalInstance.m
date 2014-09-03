@@ -74,6 +74,18 @@ NSString *const DBName = @"book.sqlite";
     [_db close];
 }
 
+- (void)showJumpMessageToView:(UIView *)view message:(NSString *)message
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+
+	hud.mode = MBProgressHUDModeText;
+	hud.labelText = message;
+	hud.margin = 10.f;
+	hud.removeFromSuperViewOnHide = YES;
+
+	[hud hide:YES afterDelay:2];
+}
+
 @end
 
 GlobalInstance *GInstance()

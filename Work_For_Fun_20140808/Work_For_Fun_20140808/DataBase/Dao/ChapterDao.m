@@ -38,9 +38,16 @@ static NSString *const TableName = @"chapter";
     return bean;
 }
 
-- (NSArray *)selectAllChapter
+- (NSArray *)selectAllChapterOrderById
 {
-    return [self selectAll];
+    NSString *orderByString = [NSString stringWithFormat:@"%@ ASC", kChapterId];
+    return [self selectWithOrder:orderByString];
+}
+
+- (NSArray *)selectAllChapterOrderByLetter
+{
+    NSString *orderByString = [NSString stringWithFormat:@"%@, %@ ASC", kLetter, kChapterId];
+    return [self selectWithOrder:orderByString];
 }
 
 - (ChapterBean *)selectChapterById:(NSString *)chapterId

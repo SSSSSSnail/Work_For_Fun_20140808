@@ -24,6 +24,8 @@ extern NSString *const DBName;
 - (BOOL)initDataBase;
 - (void)closeDatabase;
 
+- (void)showJumpMessageToView:(UIView *)view message:(NSString *)message;
+
 @end
 
 GlobalInstance *GInstance();

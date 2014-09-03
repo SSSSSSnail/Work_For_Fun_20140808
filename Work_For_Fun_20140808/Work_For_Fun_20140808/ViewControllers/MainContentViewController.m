@@ -9,6 +9,7 @@
 #import "MainContentViewController.h"
 #import "LeftMenuViewController.h"
 #import "BookPageView.h"
+#import "ChapterBean.h"
 
 typedef NS_ENUM(NSInteger, BarButton) {
     BarButtonNote = 11,
@@ -35,11 +36,13 @@ static BOOL topMenuViewShow;
 
 static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 
-@interface MainContentViewController ()
+@interface MainContentViewController ()<LeftMenuActionDelegate>
 // Property
 @property (strong, nonatomic) UIView *leftMenuView;
 @property (assign, nonatomic) CGFloat pageViewWidth;
 @property (assign, nonatomic) CGFloat pageViewWithGapWidth;
+
+@property (weak, nonatomic) NSArray *chapterArray;
 
 // IBOutlet
 @property (weak, nonatomic) IBOutlet UIScrollView *mainContentScrollView;
@@ -106,8 +109,10 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 
     //Menu View
     LeftMenuViewController *leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftMenuViewController"];
+    leftMenuViewController.delegate = self;
     self.leftMenuView = leftMenuViewController.view;
     [self.view addSubview:_leftMenuView];
+    self.chapterArray = leftMenuViewController.chapterArrayOrderById;
 
     [_leftMenuView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -269,6 +274,22 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     }];
 }
 
+#pragma mark - Left Menu Controller Delegate
+- (void)jumpToPageNumber:(int)pageNumber
+{
+    NSString *message;
+    if (pageNumber != 0) {
+        message = [NSString stringWithFormat:@"跳至第%d页", pageNumber];
+    } else {
+        message = @"封面";
+    }
+    [GInstance() showJumpMessageToView:self.view message:message];
+
+    CGRect frame = _mainContentScrollView.frame;
+    frame.origin.x = CGRectGetWidth(_mainContentScrollView.frame) * pageNumber;
+    [_mainContentScrollView scrollRectToVisible:frame animated:NO];
+}
+
 #pragma mark - Main ScrollView Delegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -279,15 +300,15 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     }
 }
 
--(void)update:(int)selectedPage
+- (void)update:(int)selectedPage
 {
     GInstance().currentPage = selectedPage;
     NSLog(@"selectedPage : %d", selectedPage);
-    BOOL page1OffsetXMatched = false;
-    BOOL page2OffsetXMatched = false;
-    BOOL page3OffsetXMatched = false;
+    BOOL page1OffsetXMatched = NO;
+    BOOL page2OffsetXMatched = NO;
+    BOOL page3OffsetXMatched = NO;
 
-    BOOL pageOffsetCurrentMatched = false;
+    BOOL pageOffsetCurrentMatched = NO;
 
     CGFloat pageOffsetXCurrent = selectedPage * _pageViewWithGapWidth;
     CGFloat pageOffsetXLeft = (selectedPage - 1) * _pageViewWithGapWidth;
@@ -299,14 +320,14 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 
     NSLog(@"pageOffsetXCurrent : %f", pageOffsetXCurrent);
     if (pageOffsetXCurrent == page1FrameX) {
-        page1OffsetXMatched = true;
-        pageOffsetCurrentMatched = true;
+        page1OffsetXMatched = YES;
+        pageOffsetCurrentMatched = YES;
     } else if (pageOffsetXCurrent == page2FrameX) {
-        page2OffsetXMatched = true;
-        pageOffsetCurrentMatched = true;
+        page2OffsetXMatched = YES;
+        pageOffsetCurrentMatched = YES;
     } else if (pageOffsetXCurrent == page3FrameX) {
-        page3OffsetXMatched = true;
-        pageOffsetCurrentMatched = true;
+        page3OffsetXMatched = YES;
+        pageOffsetCurrentMatched = YES;
     }
 
     if (pageOffsetCurrentMatched) {
@@ -350,23 +371,36 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
             NSLog(@"ERROR!! %s", __FUNCTION__);
         }
 
-        CGRect frame = CGRectMake(0, 0, ScreenBoundsWidth(), ScreenBoundsHeight() - 20);
-        frame.origin.x = page1FrameX;
-        _pageView1.frame = frame;
-        frame.origin.x = page2FrameX;
-        _pageView2.frame = frame;
-        frame.origin.x = page3FrameX;
-        _pageView3.frame = frame;
-        
-        [self.view layoutIfNeeded];
+    } else {
+        page1FrameX = pageOffsetXRight;
+        page2FrameX = pageOffsetXCurrent;
+        page3FrameX = pageOffsetXLeft;
 
-        [self hideShowView:_pageView1 withConstant:page1FrameX];
-        [self hideShowView:_pageView2 withConstant:page2FrameX];
-        [self hideShowView:_pageView3 withConstant:page3FrameX];
+        _pageView1.toPageNumber = selectedPage + 1;
+        _pageView2.toPageNumber = selectedPage;
+        _pageView3.toPageNumber = selectedPage - 1;
+
+        NSLog(@"Jump: %f", pageOffsetXRight);
+        NSLog(@"Jump: %f", pageOffsetXCurrent);
+        NSLog(@"Jump: %f", pageOffsetXLeft);
     }
+
+    CGRect frame = CGRectMake(0, 0, ScreenBoundsWidth(), ScreenBoundsHeight() - 20);
+    frame.origin.x = page1FrameX;
+    _pageView1.frame = frame;
+    frame.origin.x = page2FrameX;
+    _pageView2.frame = frame;
+    frame.origin.x = page3FrameX;
+    _pageView3.frame = frame;
+
+    [self.view layoutIfNeeded];
+
+    [self hideShowView:_pageView1 withConstant:page1FrameX];
+    [self hideShowView:_pageView2 withConstant:page2FrameX];
+    [self hideShowView:_pageView3 withConstant:page3FrameX];
 }
 
--(void)hideShowView:(BookPageView *)aPage withConstant:(CGFloat)constantValue{
+- (void)hideShowView:(BookPageView *)aPage withConstant:(CGFloat)constantValue{
     if (constantValue < 0 || constantValue > _scrollContentViewWidth.constant) {
         aPage.hidden = YES;
     } else {
@@ -374,10 +408,28 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
         if (aPage.pageNumber != aPage.toPageNumber || (aPage.toPageNumber == 0 && aPage == _pageView1)) {
             CGPDFPageRef pdfPage = CGPDFDocumentGetPage(GInstance().document, aPage.toPageNumber + 1);
             [aPage setPage:pdfPage];
+            if (aPage.toPageNumber != 0) {
+                [aPage refreshTitle:[self chapterTitleWithPageNumber:aPage.toPageNumber] pageLabel:[NSString stringWithFormat:@"%d/%ld", aPage.toPageNumber, GInstance().totalPage]];
+            } else {
+                [aPage refreshTitle:nil pageLabel:nil];
+            }
             [aPage setKeyword:@"我们希望本书"];
             aPage.pageNumber = aPage.toPageNumber;
         }
     }
+}
+
+#pragma mark - Data
+- (NSString *)chapterTitleWithPageNumber:(int)pageNumber
+{
+    __block NSString *title = nil;
+    [_chapterArray enumerateObjectsUsingBlock:^(ChapterBean *chapterBean, NSUInteger idx, BOOL *stop) {
+        if (chapterBean.pageFrom <= pageNumber && chapterBean.pageTo >= pageNumber) {
+            title = chapterBean.title;
+        }
+    }];
+
+    return title;
 }
 
 @end

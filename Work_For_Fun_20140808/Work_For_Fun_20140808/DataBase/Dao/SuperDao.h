@@ -15,7 +15,9 @@
 - (int)selectCount;
 
 - (NSArray *)selectAll;
-- (NSArray *)selectByWhere:(NSString *)whereSql;
+- (NSArray *)selectWithWhere:(NSString *)whereSql;
+- (NSArray *)selectWithOrder:(NSString *)orderSql;
+- (NSArray *)selectWithWhere:(NSString *)whereSql order:(NSString *)orderSql;
 
 - (void)deleteAll;
 

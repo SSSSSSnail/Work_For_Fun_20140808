@@ -16,6 +16,7 @@
     #import "Masonry.h"
     #import <pop/POP.h>
     #import <FMDB/FMDB.h>
+    #import <MBProgressHUD/MBProgressHUD.h>
     #import "GlobalInstance.h"
 #endif
 

@@ -34,7 +34,6 @@ static NSString *const kUserGuide = @"userGuide";
     // Do any additional setup after loading the view.
 
     NSLog(@"%d", [[ChapterDao sharedInstance] selectCount]);
-    NSLog(@"%@", ((ChapterBean *)[[ChapterDao sharedInstance] selectAllChapter][0]).title);
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     int adNumber = [userDefaults integerForKey:kADNumber];
@@ -60,7 +59,7 @@ static NSString *const kUserGuide = @"userGuide";
 
     if (!_showedGuideAlready) {
         [_scrollImageViewCollection enumerateObjectsUsingBlock:^(UIImageView *imageView, NSUInteger idx, BOOL *stop) {
-            NSMutableString *imageNameString = [NSMutableString stringWithFormat:@"Guide%d", imageView.tag];
+            NSMutableString *imageNameString = [NSMutableString stringWithFormat:@"Guide%ld", (long)imageView.tag];
             if (!ISSCREEN4) {
                 [imageNameString stringByAppendingString:@"_3"];
             }

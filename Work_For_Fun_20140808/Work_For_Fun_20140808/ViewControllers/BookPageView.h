@@ -22,6 +22,7 @@
 @interface BookPageView : UIScrollView
 
 - (void)setPage:(CGPDFPageRef)page;
+- (void)refreshTitle:(NSString *)title pageLabel:(NSString *)page;
 
 @property (assign, nonatomic) int pageNumber;
 @property (assign, nonatomic) int toPageNumber;

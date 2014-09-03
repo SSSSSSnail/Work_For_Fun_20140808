@@ -104,6 +104,8 @@
 @interface BookPageView()<UIScrollViewDelegate>
 
 @property (strong, nonatomic) BookContentView *contentView;
+@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *pageLabel;
 
 @end
 
@@ -116,6 +118,29 @@
     self.contentView = [BookContentView new];
     _contentView.frame = CGRectMake(0, 0, ScreenBoundsWidth(), ScreenBoundsHeight() - 20);
     [self addSubview:_contentView];
+
+    CGRect titleLabeFrame;
+    CGRect pageLabelFrame;
+    if (ISSCREEN4) {
+        titleLabeFrame = CGRectMake(10, 25, ScreenBoundsWidth() - 20, 20);
+        pageLabelFrame = CGRectMake(30, ScreenBoundsHeight() - 20 - 32, ScreenBoundsWidth() - 60, 17);
+    } else {
+        titleLabeFrame = CGRectMake(20, 10, ScreenBoundsWidth() - 40, 20);
+        pageLabelFrame = CGRectMake(30, ScreenBoundsHeight() - 20 - 17, ScreenBoundsWidth() - 60, 17);
+    }
+
+    self.titleLabel = [[UILabel alloc] initWithFrame:titleLabeFrame];
+    _titleLabel.backgroundColor = [UIColor clearColor];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    [self addSubview:_titleLabel];
+
+    self.pageLabel = [[UILabel alloc] initWithFrame:pageLabelFrame];
+    _pageLabel.backgroundColor = [UIColor clearColor];
+    _pageLabel.textAlignment = NSTextAlignmentCenter;
+    _pageLabel.font = [UIFont systemFontOfSize:14];
+    _pageLabel.textColor = [UIColor darkGrayColor];
+    [self addSubview:_pageLabel];
 
     self.delegate = self;
 
@@ -134,15 +159,6 @@
     }
 
 }
-//
-//- (void)layoutSubviews
-//{
-//    [super layoutSubviews];
-//	// Set minimum zoom scale to where the content fits the screen
-//	CGFloat hScale = CGRectGetWidth(self.frame) / CGRectGetWidth(_contentView.bounds);
-//	CGFloat vScale = CGRectGetHeight(self.frame) / CGRectGetHeight(_contentView.bounds);
-//	[self setMinimumZoomScale:MIN(hScale, vScale)];
-//}
 
 #pragma mark - UIScrollView delegate
 
@@ -151,27 +167,6 @@
 {
     return _contentView;
 }
-
-/* Make the content view center on screen when zoomed out */
-//- (void)scrollViewDidZoom:(UIScrollView *)scrollView
-//{
-//    NSLog(@"%s", __FUNCTION__);
-//	CGRect frame = self.contentView.frame;
-//    frame.origin = CGPointZero;
-//	// Calculate how much of the content view is outside the screen
-//	CGSize totalInset = CGSizeMake(CGRectGetWidth(_contentView.frame) - CGRectGetWidth(self.bounds),
-//								   CGRectGetHeight(_contentView.frame) - CGRectGetHeight(self.bounds));
-//	if (totalInset.width < 0)
-//	{
-//		frame.origin.x = - totalInset.width / 2;
-//	}
-//	if (totalInset.height < 0)
-//	{
-//		frame.origin.y = - totalInset.height / 2;
-//	}
-//	self.contentView.frame = frame;
-//    [_contentView setNeedsDisplay];
-//}
 
 - (void)setPage:(CGPDFPageRef)page
 {
@@ -187,6 +182,12 @@
 - (NSString *)keyword
 {
     return _contentView.keyword;
+}
+
+- (void)refreshTitle:(NSString *)title pageLabel:(NSString *)page
+{
+    _titleLabel.text = title;
+    _pageLabel.text = page;
 }
 
 @end

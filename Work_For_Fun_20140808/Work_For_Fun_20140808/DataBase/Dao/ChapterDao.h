@@ -13,7 +13,8 @@
 
 + (instancetype)sharedInstance;
 
-- (NSArray *)selectAllChapter;
+- (NSArray *)selectAllChapterOrderById;
+- (NSArray *)selectAllChapterOrderByLetter;
 - (ChapterBean *)selectChapterById:(NSString *)chapterId;
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "LeftMenuViewController.h"
+#import "ChapterDao.h"
+#import "ChapterBean.h"
 
 typedef NS_ENUM(NSInteger, SegmentedIndex) {
     SegmentedIndexChapter = 0,
@@ -19,6 +21,7 @@ static CGFloat const scrollViewOffset = 297.0f;
 
 @interface LeftMenuViewController ()<UITextFieldDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
+// IBOutlet
 @property (weak, nonatomic) IBOutlet UIScrollView *menuScrollView;
 @property (weak, nonatomic) IBOutlet UIView *scrollContentView;
 @property (weak, nonatomic) IBOutlet UIView *blackMaskView;
@@ -33,11 +36,16 @@ static CGFloat const scrollViewOffset = 297.0f;
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *typeViewsCollection;
 
+// IBAction
 - (IBAction)tapLeftView:(UITapGestureRecognizer *)sender;
 - (IBAction)typeSegmentedControlValueChange:(UISegmentedControl *)sender;
 
-#pragma mark - Contrains
+// Contrains
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewContentTop2Bottom;
+
+// Property
+@property (strong, nonatomic) NSArray *chapterArrayOrderById;
+@property (strong, nonatomic) NSArray *chapterArrayOrderByLetter;
 
 @end
 
@@ -51,6 +59,8 @@ static CGFloat const scrollViewOffset = 297.0f;
     _searchTextField.leftViewMode = UITextFieldViewModeAlways;
     _searchTextField.leftView = searchIconImageView;
 
+    self.chapterArrayOrderById = [[ChapterDao sharedInstance] selectAllChapterOrderById];
+    self.chapterArrayOrderByLetter = [[ChapterDao sharedInstance] selectAllChapterOrderByLetter];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -148,9 +158,9 @@ static CGFloat const scrollViewOffset = 297.0f;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == _chapterTableView) {
-        return 10;
+        return _chapterArrayOrderById.count;
     } else if (tableView == _letterTableView) {
-        return 15;
+        return _chapterArrayOrderByLetter.count;
     } else if (tableView == _bookmarkTableView) {
         return 10;
     } else if (tableView == _historyTableView) {
@@ -164,12 +174,12 @@ static CGFloat const scrollViewOffset = 297.0f;
     if (tableView == _chapterTableView) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"chapterCell" forIndexPath:indexPath];
         UILabel *label = (UILabel *)[cell viewWithTag:11];
-        label.text = @"血液系统恶性肿瘤";
+        label.text = [_chapterArrayOrderById[indexPath.row] title];
         return cell;
     } else if (tableView == _letterTableView) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"letterCell" forIndexPath:indexPath];
         UILabel *label = (UILabel *)[cell viewWithTag:11];
-        label.text = @"字母排序";
+        label.text = [_chapterArrayOrderByLetter[indexPath.row] title];
         return cell;
     } else if (tableView == _bookmarkTableView) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"bookmarkCell" forIndexPath:indexPath];
@@ -202,6 +212,21 @@ static CGFloat const scrollViewOffset = 297.0f;
 #pragma mark UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    int pageNumber;
+    if (tableView == _chapterTableView) {
+        pageNumber = [_chapterArrayOrderById[indexPath.row] pageFrom];
+    } else if (tableView == _letterTableView) {
+        pageNumber = [_chapterArrayOrderByLetter[indexPath.row] pageFrom];
+    } else if (tableView == _bookmarkTableView) {
+        pageNumber = 10;
+    } else if (tableView == _historyTableView) {
+        pageNumber = 20;
+    } else {
+        pageNumber = 0;
+    }
+    if ([_delegate respondsToSelector:@selector(jumpToPageNumber:)]) {
+        [_delegate jumpToPageNumber:pageNumber];
+    }
     [_menuScrollView setContentOffset:CGPointMake(scrollViewOffset, 0) animated:YES];
 }
 

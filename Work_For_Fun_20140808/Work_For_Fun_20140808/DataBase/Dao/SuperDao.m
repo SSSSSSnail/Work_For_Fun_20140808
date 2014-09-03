@@ -50,6 +50,7 @@
         int totalCount = [rs intForColumnIndex:0];
         return totalCount;
     }
+    
     return 0;
 }
 
@@ -61,18 +62,45 @@
     while ([rs next]) {
         [beanArray addObject:[self mappingRs2Bean:rs]];
     }
-    return beanArray;
+
+    if (beanArray.count > 0) {
+        return beanArray;
+    } else {
+        return nil;
+    }
 }
 
-- (NSArray *)selectByWhere:(NSString *)whereSql;
+- (NSArray *)selectWithWhere:(NSString *)whereSql
 {
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@", self.tableName, whereSql];
+    return [self selectWithWhere:whereSql order:nil];
+}
+
+- (NSArray *)selectWithOrder:(NSString *)orderSql
+{
+    return [self selectWithWhere:nil order:orderSql];
+}
+
+- (NSArray *)selectWithWhere:(NSString *)whereSql order:(NSString *)orderSql
+{
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"SELECT * FROM %@", self.tableName];
+    if (whereSql) {
+        [sql appendFormat:@" WHERE %@", whereSql];
+    }
+    if (orderSql) {
+        [sql appendFormat:@" ORDER BY %@", orderSql];
+    }
+
     FMResultSet *rs = [_db executeQuery:sql];
     NSMutableArray *beanArray = [NSMutableArray array];
     while ([rs next]) {
         [beanArray addObject:[self mappingRs2Bean:rs]];
     }
-    return beanArray;
+
+    if (beanArray.count > 0) {
+        return beanArray;
+    } else {
+        return nil;
+    }
 }
 
 - (void)deleteAll

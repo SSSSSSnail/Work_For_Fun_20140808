@@ -41,6 +41,7 @@ PODS:
   - FMDB/standard (2.3):
     - FMDB/common
   - Masonry (0.5.3)
+  - MBProgressHUD (0.9)
   - pop (1.0.6)
 
 DEPENDENCIES:
@@ -48,6 +49,7 @@ DEPENDENCIES:
   - BlocksKit
   - FMDB
   - Masonry
+  - MBProgressHUD (~> 0.8)
   - pop (~> 1.0)
 
 SPEC CHECKSUMS:
@@ -55,6 +57,7 @@ SPEC CHECKSUMS:
   BlocksKit: 07c8a80f04275efac6a5f8b973782489c083a182
   FMDB: 31ec26773c7f7b7890a6038235a1f2bbd933a7cb
   Masonry: 35368c2ca9577ca87722c12fc52c4bad9b1c1516
+  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   pop: e518794da38942c05255eb64b36d894e70cb4f00
 
 COCOAPODS: 0.33.1

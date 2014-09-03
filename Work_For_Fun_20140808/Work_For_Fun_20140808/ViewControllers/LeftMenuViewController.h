@@ -7,8 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol LeftMenuActionDelegate<NSObject>
+
+- (void)jumpToPageNumber:(int)pageNumber;
+
+@end
 
 @interface LeftMenuViewController : UIViewController
+
+@property (weak, nonatomic) id<LeftMenuActionDelegate> delegate;
+@property (strong, nonatomic, readonly) NSArray *chapterArrayOrderById;
 
 @end
 

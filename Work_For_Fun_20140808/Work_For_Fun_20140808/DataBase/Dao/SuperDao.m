@@ -26,7 +26,7 @@
 
 - (NSString *)tableName
 {
-    NSAssert(NO, @"Return in subclass");
+    NSAssert(NO, @"SubClass: tableName");
     return nil;
 }
 
@@ -46,28 +46,17 @@
 {
     NSString *sql = [NSString stringWithFormat:@"SELECT COUNT(*) FROM %@", self.tableName];
     FMResultSet *rs = [_db executeQuery:sql];
+    int totalCount = 0;
     while ([rs next]) {
-        int totalCount = [rs intForColumnIndex:0];
-        return totalCount;
+        totalCount = [rs intForColumnIndex:0];
     }
-    
-    return 0;
+    [rs close];
+    return totalCount;
 }
 
 - (NSArray *)selectAll
 {
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@", self.tableName];
-    FMResultSet *rs = [_db executeQuery:sql];
-    NSMutableArray *beanArray = [NSMutableArray array];
-    while ([rs next]) {
-        [beanArray addObject:[self mappingRs2Bean:rs]];
-    }
-
-    if (beanArray.count > 0) {
-        return beanArray;
-    } else {
-        return nil;
-    }
+    return [self selectWithWhere:nil order:nil];
 }
 
 - (NSArray *)selectWithWhere:(NSString *)whereSql
@@ -95,7 +84,7 @@
     while ([rs next]) {
         [beanArray addObject:[self mappingRs2Bean:rs]];
     }
-
+    [rs close];
     if (beanArray.count > 0) {
         return beanArray;
     } else {
@@ -103,9 +92,34 @@
     }
 }
 
+- (void)insertBean:(SuperBean *)bean
+{
+    NSMutableString *qmarkString = [NSMutableString string];
+    [bean.valueArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [qmarkString appendString:@"?, "];
+    }];
+    if (qmarkString.length > 2) {
+        [qmarkString deleteCharactersInRange:NSMakeRange(qmarkString.length - 2, 2)];
+    }
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT INTO %@ (%@) VALUES (%@)", self.tableName, bean.columnString, qmarkString];
+    BOOL insertSuccess = [_db executeUpdate:sql withArgumentsInArray:bean.valueArray];
+    if (!insertSuccess) {
+        NSLog(@"ERROR: Insert data failed!");
+    }
+}
+
 - (void)deleteAll
 {
+    [self deleteWithWhere:nil];
+}
 
+- (void)deleteWithWhere:(NSString *)whereSql
+{
+    NSMutableString *deleteString = [NSMutableString stringWithFormat:@"DELETE FROM %@", self.tableName];
+    if (whereSql) {
+        [deleteString appendFormat:@" WHERE %@", whereSql];
+    }
+    [_db executeUpdate:deleteString];
 }
 
 @end

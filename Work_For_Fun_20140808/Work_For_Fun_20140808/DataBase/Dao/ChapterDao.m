@@ -7,6 +7,7 @@
 //
 
 #import "ChapterDao.h"
+#import "ChapterBean.h"
 
 static NSString *const TableName = @"chapter";
 
@@ -31,10 +32,11 @@ static NSString *const TableName = @"chapter";
 {
     ChapterBean *bean = [ChapterBean new];
     bean.chapterId = [rs intForColumn:kChapterId];
-    bean.title = [rs stringForColumn:kTitle];
-    bean.letter = [rs stringForColumn:kLetter];
-    bean.pageFrom = [rs intForColumn:kPageFrom];
-    bean.pageTo = [rs intForColumn:kPageTo];
+    bean.title = [rs stringForColumn:kChapterTitle];
+    bean.letter = [rs stringForColumn:kChapterLetter];
+    bean.pageFrom = [rs intForColumn:kChapterPageFrom];
+    bean.pageTo = [rs intForColumn:kChapterPageTo];
+    bean.document = [rs stringForColumn:kChapterDocument];
     return bean;
 }
 
@@ -46,13 +48,8 @@ static NSString *const TableName = @"chapter";
 
 - (NSArray *)selectAllChapterOrderByLetter
 {
-    NSString *orderByString = [NSString stringWithFormat:@"%@, %@ ASC", kLetter, kChapterId];
+    NSString *orderByString = [NSString stringWithFormat:@"%@, %@ ASC", kChapterLetter, kChapterId];
     return [self selectWithOrder:orderByString];
-}
-
-- (ChapterBean *)selectChapterById:(NSString *)chapterId
-{
-    return nil;
 }
 
 @end

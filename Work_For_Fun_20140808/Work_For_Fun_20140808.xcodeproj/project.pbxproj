@@ -27,8 +27,12 @@
 		0783DB1E19B7166F00869653 /* SuperBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 0783DB1D19B7166F00869653 /* SuperBean.m */; };
 		0783DB2119B7168700869653 /* ChapterBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 0783DB2019B7168700869653 /* ChapterBean.m */; };
 		0783DB2319B72E8E00869653 /* book.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0783DB2219B72E8E00869653 /* book.pdf */; };
+		0783DB2619B767FD00869653 /* BookmarkBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 0783DB2519B767FD00869653 /* BookmarkBean.m */; };
+		0783DB2919B7680F00869653 /* BookmarkDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 0783DB2819B7680F00869653 /* BookmarkDao.m */; };
 		07B9F05319A890AE002F132F /* GlobalInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B9F05219A890AE002F132F /* GlobalInstance.m */; };
 		07BBEEC419B5D74E004BB46C /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BBEEC319B5D74E004BB46C /* GuideViewController.m */; };
+		07CE3ACF19B8881400806999 /* HistoryBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3ACE19B8881400806999 /* HistoryBean.m */; };
+		07CE3AD219B8882A00806999 /* HistoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3AD119B8882A00806999 /* HistoryDao.m */; };
 		07F593931999ED1E00BD5C90 /* CIDFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593561999ED1E00BD5C90 /* CIDFont.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		07F593941999ED1E00BD5C90 /* CIDType0Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593581999ED1E00BD5C90 /* CIDType0Font.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		07F593951999ED1E00BD5C90 /* CIDType2Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F5935A1999ED1E00BD5C90 /* CIDType2Font.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
@@ -103,10 +107,18 @@
 		0783DB1F19B7168700869653 /* ChapterBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterBean.h; sourceTree = "<group>"; };
 		0783DB2019B7168700869653 /* ChapterBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterBean.m; sourceTree = "<group>"; };
 		0783DB2219B72E8E00869653 /* book.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = book.pdf; sourceTree = "<group>"; };
+		0783DB2419B767FD00869653 /* BookmarkBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookmarkBean.h; sourceTree = "<group>"; };
+		0783DB2519B767FD00869653 /* BookmarkBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookmarkBean.m; sourceTree = "<group>"; };
+		0783DB2719B7680F00869653 /* BookmarkDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookmarkDao.h; sourceTree = "<group>"; };
+		0783DB2819B7680F00869653 /* BookmarkDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookmarkDao.m; sourceTree = "<group>"; };
 		07B9F05119A890AE002F132F /* GlobalInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalInstance.h; sourceTree = "<group>"; };
 		07B9F05219A890AE002F132F /* GlobalInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalInstance.m; sourceTree = "<group>"; };
 		07BBEEC219B5D74E004BB46C /* GuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideViewController.h; sourceTree = "<group>"; };
 		07BBEEC319B5D74E004BB46C /* GuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideViewController.m; sourceTree = "<group>"; };
+		07CE3ACD19B8881400806999 /* HistoryBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryBean.h; sourceTree = "<group>"; };
+		07CE3ACE19B8881400806999 /* HistoryBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryBean.m; sourceTree = "<group>"; };
+		07CE3AD019B8882A00806999 /* HistoryDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryDao.h; sourceTree = "<group>"; };
+		07CE3AD119B8882A00806999 /* HistoryDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryDao.m; sourceTree = "<group>"; };
 		07F593551999ED1E00BD5C90 /* CIDFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIDFont.h; sourceTree = "<group>"; };
 		07F593561999ED1E00BD5C90 /* CIDFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CIDFont.m; sourceTree = "<group>"; };
 		07F593571999ED1E00BD5C90 /* CIDType0Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIDType0Font.h; sourceTree = "<group>"; };
@@ -222,6 +234,10 @@
 				0783DB1D19B7166F00869653 /* SuperBean.m */,
 				0783DB1F19B7168700869653 /* ChapterBean.h */,
 				0783DB2019B7168700869653 /* ChapterBean.m */,
+				0783DB2419B767FD00869653 /* BookmarkBean.h */,
+				0783DB2519B767FD00869653 /* BookmarkBean.m */,
+				07CE3ACD19B8881400806999 /* HistoryBean.h */,
+				07CE3ACE19B8881400806999 /* HistoryBean.m */,
 			);
 			path = Bean;
 			sourceTree = "<group>";
@@ -233,6 +249,10 @@
 				075594AA19B60B2E009DEFB4 /* SuperDao.m */,
 				0783DB1919B7164200869653 /* ChapterDao.h */,
 				0783DB1A19B7164200869653 /* ChapterDao.m */,
+				0783DB2719B7680F00869653 /* BookmarkDao.h */,
+				0783DB2819B7680F00869653 /* BookmarkDao.m */,
+				07CE3AD019B8882A00806999 /* HistoryDao.h */,
+				07CE3AD119B8882A00806999 /* HistoryDao.m */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -535,6 +555,7 @@
 				07F593A51999ED1E00BD5C90 /* PDFPage.m in Sources */,
 				07F593A01999ED1E00BD5C90 /* PageView.m in Sources */,
 				07F593AC1999ED1E00BD5C90 /* Selection.m in Sources */,
+				0783DB2619B767FD00869653 /* BookmarkBean.m in Sources */,
 				07F5939A1999ED1E00BD5C90 /* FontCollection.m in Sources */,
 				07F593AB1999ED1E00BD5C90 /* Scanner.m in Sources */,
 				07F593961999ED1E00BD5C90 /* CMap.m in Sources */,
@@ -547,9 +568,11 @@
 				07F593AA1999ED1E00BD5C90 /* RootViewController.m in Sources */,
 				07F593B01999ED1E00BD5C90 /* Type0Font.m in Sources */,
 				07F593A81999ED1E00BD5C90 /* RenderingState.m in Sources */,
+				07CE3ACF19B8881400806999 /* HistoryBean.m in Sources */,
 				07BBEEC419B5D74E004BB46C /* GuideViewController.m in Sources */,
 				07F5939B1999ED1E00BD5C90 /* FontDescriptor.m in Sources */,
 				07F593B7199A0F7D00BD5C90 /* LeftMenuViewController.m in Sources */,
+				07CE3AD219B8882A00806999 /* HistoryDao.m in Sources */,
 				07F593951999ED1E00BD5C90 /* CIDType2Font.m in Sources */,
 				07F593A71999ED1E00BD5C90 /* pdfScannerCallbacks.mm in Sources */,
 				075C120919938B2B004F72FD /* main.m in Sources */,
@@ -557,6 +580,7 @@
 				07F5939C1999ED1E00BD5C90 /* FontFile.m in Sources */,
 				07F5939E1999ED1E00BD5C90 /* MMType1Font.m in Sources */,
 				07F593991999ED1E00BD5C90 /* Font.m in Sources */,
+				0783DB2919B7680F00869653 /* BookmarkDao.m in Sources */,
 				0783DB1E19B7166F00869653 /* SuperBean.m in Sources */,
 				07F593A91999ED1E00BD5C90 /* RenderingStateStack.m in Sources */,
 				07F593AF1999ED1E00BD5C90 /* TrueTypeFont.m in Sources */,

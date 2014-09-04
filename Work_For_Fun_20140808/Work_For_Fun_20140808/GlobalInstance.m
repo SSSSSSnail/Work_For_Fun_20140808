@@ -9,6 +9,8 @@
 #import "GlobalInstance.h"
 
 NSString *const DBName = @"book.sqlite";
+int const MaxBookmarkCount = 20;
+int const MaxHistoryCount = 20;
 
 @interface GlobalInstance ()
 
@@ -74,7 +76,7 @@ NSString *const DBName = @"book.sqlite";
     [_db close];
 }
 
-- (void)showJumpMessageToView:(UIView *)view message:(NSString *)message
+- (void)showMessageToView:(UIView *)view message:(NSString *)message
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
 
@@ -83,7 +85,7 @@ NSString *const DBName = @"book.sqlite";
 	hud.margin = 10.f;
 	hud.removeFromSuperViewOnHide = YES;
 
-	[hud hide:YES afterDelay:2];
+	[hud hide:YES afterDelay:1.5f];
 }
 
 @end

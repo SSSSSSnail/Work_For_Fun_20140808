@@ -9,7 +9,10 @@
 #import <Foundation/Foundation.h>
 
 extern NSString *const DBName;
+extern int const MaxBookmarkCount;
+extern int const MaxHistoryCount;
 
+@class ChapterBean;
 @interface GlobalInstance : NSObject
 
 + (instancetype)sharedManager;
@@ -18,13 +21,14 @@ extern NSString *const DBName;
 @property (assign, nonatomic, readonly) CGPDFDocumentRef document;
 @property (assign, nonatomic, readonly) long totalPage;
 @property (assign, nonatomic) int currentPage;
+@property (strong, nonatomic) ChapterBean *currentChapter;
 
 @property (strong, nonatomic) FMDatabase *db;
 
 - (BOOL)initDataBase;
 - (void)closeDatabase;
 
-- (void)showJumpMessageToView:(UIView *)view message:(NSString *)message;
+- (void)showMessageToView:(UIView *)view message:(NSString *)message;
 
 @end
 

@@ -10,6 +10,10 @@
 #import "LeftMenuViewController.h"
 #import "BookPageView.h"
 #import "ChapterBean.h"
+#import "BookmarkDao.h"
+#import "BookmarkBean.h"
+#import "HistoryDao.h"
+#import "HistoryBean.h"
 
 typedef NS_ENUM(NSInteger, BarButton) {
     BarButtonNote = 11,
@@ -50,11 +54,15 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 
 @property (weak, nonatomic) IBOutlet UIView *topBarView;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *barButtonCollection;
+@property (weak, nonatomic) IBOutlet UIButton *bookmarkButton;
+
 @property (weak, nonatomic) IBOutlet UIView *topMenuView;
 @property (weak, nonatomic) IBOutlet UIView *topMenuContentView;
 @property (weak, nonatomic) IBOutlet UIImageView *topMenuArrow;
 @property (weak, nonatomic) IBOutlet UIView *topMenuAnimationView;
 @property (weak, nonatomic) IBOutlet UILabel *topMenuTitleLabel;
+@property (weak, nonatomic) IBOutlet UITextView *documentTextView;
+
 
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapTopMenuGesture;
 
@@ -104,9 +112,6 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     _pageViewWidth = ScreenBoundsWidth();
     _pageViewWithGapWidth = ScreenBoundsWidth() + ScrollViewGapWidth;
 
-    //Page View
-    [self update:0];
-
     //Menu View
     LeftMenuViewController *leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftMenuViewController"];
     leftMenuViewController.delegate = self;
@@ -123,6 +128,11 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     [_tapTopMenuGesture requireGestureRecognizerToFail:_pageView1.doubleTap];
     [_tapTopMenuGesture requireGestureRecognizerToFail:_pageView2.doubleTap];
     [_tapTopMenuGesture requireGestureRecognizerToFail:_pageView3.doubleTap];
+
+    //Page View
+    [self update:0];
+
+    _documentTextView.text = @"adlfjaldjfladjflajdflajdf";
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -146,8 +156,9 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     _scrollViewContentSizeHeight.constant = - (ScreenBoundsHeight() - 20.0f);
     _scrollContentViewHeight.constant = ScreenBoundsHeight() - 20.0f;
 
-    _topMenuViewWidth.constant = - 280.0f;
-    _topMenuViewBottom.constant = ISSCREEN4 ? 480.0f : 390.0f;
+    _topMenuViewWidth.constant = - 250.0f;
+    _topMenuViewBottom.constant = ISSCREEN4 ? 400.0f : 310.0f;
+    _topMenuView.alpha = 0;
 }
 
 #pragma mark - Bar Button Action
@@ -158,78 +169,112 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     switch (sender.tag) {
         case BarButtonNote:
             _topMenuTitleLabel.text = @"读书笔记";
+
             break;
         case BarButtonDocument:
             _topMenuTitleLabel.text = @"参考文献";
+            _documentTextView.text = GInstance().currentChapter.document;
+            if (!GInstance().currentChapter.document.length > 0) {
+                [GInstance() showMessageToView:self.view message:@"该章无文献"];
+                [self buttonScaleBackAnimation:sender withBounciness:bounciness];
+                return;
+            }
             break;
         case BarButtonCalculator:
+
             _topMenuTitleLabel.text = @"计算工具";
             break;
         case BarButtonSearch:
-            _topMenuTitleLabel.text = @"当前查询";
+            
+            _topMenuTitleLabel.text = @"章节查询";
             break;
         case BarButtonBookmark:
-            _topMenuTitleLabel.text = @"添加书签";
+            _topMenuTitleLabel.text = nil;
             break;
 
         default:
             break;
     }
 
-    if (!topMenuViewShow) {
-        _topMenuViewCenterX.constant = _topBarView.center.x;
-    }
-
-    [self.view layoutIfNeeded];
-    [_barButtonCollection enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-        if (button == sender) {
-            if (sender.selected == YES) {
-                button.selected = NO;
-
-                _topMenuViewWidth.constant = - 280.0f;
-                _topMenuViewBottom.constant = ISSCREEN4 ? 480.0f : 390.0f;
-                _topMenuViewCenterX.constant = sender.center.x;
-                _topArrowCenterX.constant = (ScreenBoundsWidth() - 290.0f) / 2;;
-
-                topMenuViewShow = NO;
-
-                bounciness = 26.0f;
-            } else {
-                button.selected = YES;
-
-                _topMenuViewWidth.constant = 0;
-                _topMenuViewBottom.constant = 0;
-                _topMenuViewCenterX.constant = _topBarView.center.x;
-                _topArrowCenterX.constant = sender.center.x;
-
-                topMenuViewShow = YES;
-            }
+    if (sender.tag == BarButtonBookmark) {
+        NSString *message;
+        if (_bookmarkButton.selected) {
+            [[BookmarkDao sharedInstance] deleteBookmarkByPage:GInstance().currentPage];
+            message = @"书签已删除";
         } else {
-            button.selected = NO;
+            BookmarkBean *bean = [BookmarkBean new];
+            bean.title = GInstance().currentChapter.title;
+            bean.page = GInstance().currentPage;
+            bean.date = [NSDate date];
+            [[BookmarkDao sharedInstance] insertBookmark:bean];
+            message = @"书签已添加";
         }
-    }];
+        _bookmarkButton.selected = !_bookmarkButton.selected;
+        [GInstance() showMessageToView:self.view message:message];
+    } else {
+        if (!topMenuViewShow) {
+            _topMenuViewCenterX.constant = _topBarView.center.x;
+        }
 
-    if (topMenuViewShow) {
-        _topMenuView.hidden = NO;
+        [self.view layoutIfNeeded];
+        __block float viewAlpha = 0;
+        [_barButtonCollection enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+            if (button == sender) {
+                if (sender.selected == YES) {
+                    button.selected = NO;
+
+                    _topMenuViewWidth.constant = - 250.0f;
+                    _topMenuViewBottom.constant = ISSCREEN4 ? 400.0f : 310.0f;
+                    _topMenuViewCenterX.constant = sender.center.x;
+                    _topArrowCenterX.constant = (ScreenBoundsWidth() - 290.0f) / 2;
+                    viewAlpha = 0;
+
+                    topMenuViewShow = NO;
+
+                    bounciness = 26.0f;
+                } else {
+                    button.selected = YES;
+
+                    _topMenuViewWidth.constant = 0;
+                    _topMenuViewBottom.constant = 0;
+                    _topMenuViewCenterX.constant = _topBarView.center.x;
+                    _topArrowCenterX.constant = sender.center.x;
+                    viewAlpha = 1.0f;
+
+                    topMenuViewShow = YES;
+                }
+            } else {
+                button.selected = NO;
+            }
+        }];
+
+        if (topMenuViewShow) {
+            _topMenuView.hidden = NO;
+        }
+
+        [UIView animateWithDuration:0.3f
+                              delay:0
+                            options:UIViewAnimationOptionBeginFromCurrentState |
+         UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             _topMenuView.alpha = viewAlpha;
+                             [self.view layoutIfNeeded];
+                         } completion:^(BOOL finished) {
+                             if (!topMenuViewShow) {
+                                 _topMenuView.hidden = YES;
+                             } else {
+                                 if (_documentTextView.hidden == NO) {
+                                     [_documentTextView setContentOffset:CGPointZero animated:NO];
+                                 }
+                             }
+                         }];
     }
 
-    [UIView animateWithDuration:0.3f
-                          delay:0
-                        options:UIViewAnimationOptionBeginFromCurrentState |
-                                UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         [self.view layoutIfNeeded];
-                     } completion:^(BOOL finished) {
-                         if (!topMenuViewShow) {
-                             _topMenuView.hidden = YES;
-                         }
-                     }];
     [self buttonScaleBackAnimation:sender withBounciness:bounciness];
 }
 
 - (IBAction)barButtonTouchDown:(UIButton *)sender
 {
-    NSLog(@"%s", __func__);
     POPBasicAnimation *scaleAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewScaleXY];
     scaleAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     scaleAnimation.duration = 0.1f;
@@ -239,7 +284,6 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 
 - (IBAction)barButtonTouchDragExit:(UIButton *)sender
 {
-    NSLog(@"%s", __func__);
     [self buttonScaleBackAnimation:sender withBounciness:16.0f];
 }
 
@@ -255,8 +299,6 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 #pragma mark - Show or Hidden Bar
 - (IBAction)contentViewTapAction:(UITapGestureRecognizer *)sender
 {
-    NSLog(@"%s", __FUNCTION__);
-
     if (topMenuBarShow) {
         _menuBarTop.constant = - TopbarHeight - 20 - TopbarShadowOffset;
     } else {
@@ -283,7 +325,7 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     } else {
         message = @"封面";
     }
-    [GInstance() showJumpMessageToView:self.view message:message];
+    [GInstance() showMessageToView:self.view message:message];
 
     CGRect frame = _mainContentScrollView.frame;
     frame.origin.x = CGRectGetWidth(_mainContentScrollView.frame) * pageNumber;
@@ -304,6 +346,18 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 {
     GInstance().currentPage = selectedPage;
     NSLog(@"selectedPage : %d", selectedPage);
+
+    //Refresh bookmark status
+
+    [self refreshCurrentChapter:GInstance().currentPage];
+    _bookmarkButton.selected = [[BookmarkDao sharedInstance] isPageAdded2Bookmark:selectedPage];
+    HistoryBean *bean = [HistoryBean new];
+    bean.title = GInstance().currentChapter.title;
+    bean.date = [NSDate date];
+    bean.page = GInstance().currentPage;
+    [[HistoryDao sharedInstance] insertHistory:bean];
+
+    //Refresh pageview
     BOOL page1OffsetXMatched = NO;
     BOOL page2OffsetXMatched = NO;
     BOOL page3OffsetXMatched = NO;
@@ -409,7 +463,7 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
             CGPDFPageRef pdfPage = CGPDFDocumentGetPage(GInstance().document, aPage.toPageNumber + 1);
             [aPage setPage:pdfPage];
             if (aPage.toPageNumber != 0) {
-                [aPage refreshTitle:[self chapterTitleWithPageNumber:aPage.toPageNumber] pageLabel:[NSString stringWithFormat:@"%d/%ld", aPage.toPageNumber, GInstance().totalPage]];
+                [aPage refreshTitle:GInstance().currentChapter.title pageLabel:[NSString stringWithFormat:@"%d/%ld", aPage.toPageNumber, GInstance().totalPage]];
             } else {
                 [aPage refreshTitle:nil pageLabel:nil];
             }
@@ -420,16 +474,13 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 }
 
 #pragma mark - Data
-- (NSString *)chapterTitleWithPageNumber:(int)pageNumber
+- (void)refreshCurrentChapter:(int)pageNumber
 {
-    __block NSString *title = nil;
     [_chapterArray enumerateObjectsUsingBlock:^(ChapterBean *chapterBean, NSUInteger idx, BOOL *stop) {
         if (chapterBean.pageFrom <= pageNumber && chapterBean.pageTo >= pageNumber) {
-            title = chapterBean.title;
+            GInstance().currentChapter = chapterBean;
         }
     }];
-
-    return title;
 }
 
 @end

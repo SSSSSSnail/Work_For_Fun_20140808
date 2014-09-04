@@ -9,6 +9,10 @@
 #import "LeftMenuViewController.h"
 #import "ChapterDao.h"
 #import "ChapterBean.h"
+#import "BookmarkDao.h"
+#import "BookmarkBean.h"
+#import "HistoryDao.h"
+#import "HistoryBean.h"
 
 typedef NS_ENUM(NSInteger, SegmentedIndex) {
     SegmentedIndexChapter = 0,
@@ -18,6 +22,7 @@ typedef NS_ENUM(NSInteger, SegmentedIndex) {
 };
 
 static CGFloat const scrollViewOffset = 297.0f;
+static NSString *const kEmptyCellIdentifier = @"emptyCell";
 
 @interface LeftMenuViewController ()<UITextFieldDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -27,12 +32,14 @@ static CGFloat const scrollViewOffset = 297.0f;
 @property (weak, nonatomic) IBOutlet UIView *blackMaskView;
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *typeSwitchSegmentedControl;
 @property (weak, nonatomic) IBOutlet UIView *typeSwitchAnimationView;
 @property (weak, nonatomic) IBOutlet UITableView *chapterTableView;
 @property (weak, nonatomic) IBOutlet UITableView *letterTableView;
 @property (weak, nonatomic) IBOutlet UIView *bookmarkHistoryView;
 @property (weak, nonatomic) IBOutlet UITableView *bookmarkTableView;
 @property (weak, nonatomic) IBOutlet UITableView *historyTableView;
+@property (weak, nonatomic) IBOutlet UIView *aboutView;
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *typeViewsCollection;
 
@@ -46,6 +53,8 @@ static CGFloat const scrollViewOffset = 297.0f;
 // Property
 @property (strong, nonatomic) NSArray *chapterArrayOrderById;
 @property (strong, nonatomic) NSArray *chapterArrayOrderByLetter;
+@property (strong, nonatomic) NSArray *bookmarkArrayOrderByDate;
+@property (strong, nonatomic) NSArray *historyArrayOrderByDate;
 
 @end
 
@@ -61,6 +70,9 @@ static CGFloat const scrollViewOffset = 297.0f;
 
     self.chapterArrayOrderById = [[ChapterDao sharedInstance] selectAllChapterOrderById];
     self.chapterArrayOrderByLetter = [[ChapterDao sharedInstance] selectAllChapterOrderByLetter];
+
+    [_bookmarkTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kEmptyCellIdentifier];
+    [_historyTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kEmptyCellIdentifier];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -98,8 +110,9 @@ static CGFloat const scrollViewOffset = 297.0f;
         showView = _letterTableView;
     } else if (sender.selectedSegmentIndex == SegmentedIndexBookmark) {
         showView = _bookmarkHistoryView;
+        [self reloadBookmarkAndHistory];
     } else if (sender.selectedSegmentIndex == SegmentedIndexAbout) {
-
+        showView = _aboutView;
     } else {
         showView = nil;
         NSLog(@"Error Index!");
@@ -128,7 +141,7 @@ static CGFloat const scrollViewOffset = 297.0f;
     }
 }
 
-#pragma mark UITextField Delegate
+#pragma mark - UITextField Delegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     ((UIImageView *)textField.leftView).highlighted = YES;
@@ -146,7 +159,7 @@ static CGFloat const scrollViewOffset = 297.0f;
     }
 }
 
-#pragma mark UIScrollView Delegate
+#pragma mark - UIScrollView Delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView == _menuScrollView) {
@@ -154,7 +167,16 @@ static CGFloat const scrollViewOffset = 297.0f;
     }
 }
 
-#pragma mark UITableView Datasource
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (scrollView == _menuScrollView) {
+        if (scrollView.contentOffset.x == 0 && _typeSwitchSegmentedControl.selectedSegmentIndex == SegmentedIndexBookmark) {
+            [self reloadBookmarkAndHistory];
+        }
+    }
+}
+
+#pragma mark - UITableView Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == _chapterTableView) {
@@ -162,9 +184,9 @@ static CGFloat const scrollViewOffset = 297.0f;
     } else if (tableView == _letterTableView) {
         return _chapterArrayOrderByLetter.count;
     } else if (tableView == _bookmarkTableView) {
-        return 10;
+        return _bookmarkArrayOrderByDate.count > 0 ? _bookmarkArrayOrderByDate.count : 1;
     } else if (tableView == _historyTableView) {
-        return 20;
+        return _historyArrayOrderByDate.count > 0 ? _historyArrayOrderByDate.count : 1;
     }
     return 1;
 }
@@ -182,19 +204,49 @@ static CGFloat const scrollViewOffset = 297.0f;
         label.text = [_chapterArrayOrderByLetter[indexPath.row] title];
         return cell;
     } else if (tableView == _bookmarkTableView) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"bookmarkCell" forIndexPath:indexPath];
-        UILabel *titleLabel = (UILabel *)[cell viewWithTag:11];
-        titleLabel.text = @"添加这里添加书签";
-        UILabel *dateLabel = (UILabel *)[cell viewWithTag:12];
-        dateLabel.text = @"2014-09-09";
-        return cell;
+        if (_bookmarkArrayOrderByDate.count > 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"bookmarkCell" forIndexPath:indexPath];
+            BookmarkBean *bean = _bookmarkArrayOrderByDate[indexPath.row];
+            UILabel *titleLabel = (UILabel *)[cell viewWithTag:11];
+            titleLabel.text = bean.title;
+            UILabel *pageLabel = (UILabel *)[cell viewWithTag:12];
+            if (bean.page == 0) {
+                pageLabel.text = nil;
+            } else {
+                pageLabel.text = [NSString stringWithFormat:@"%d", bean.page];
+            }
+            return cell;
+        } else {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kEmptyCellIdentifier forIndexPath:indexPath];
+            cell.backgroundColor = [UIColor colorWithRed:231.0f / 255 green:232.0f / 255 blue:226.0f / 255 alpha:1.0f];
+            cell.textLabel.font = [UIFont systemFontOfSize:16];
+            cell.textLabel.textColor = [UIColor darkGrayColor];
+            cell.textLabel.text = @"暂无记录";
+            return cell;
+        }
     } else if (tableView == _historyTableView) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"historyCell" forIndexPath:indexPath];
-        UILabel *titleLabel = (UILabel *)[cell viewWithTag:11];
-        titleLabel.text = @"历史记录显示位置";
-        UILabel *dateLabel = (UILabel *)[cell viewWithTag:12];
-        dateLabel.text = @"2014-09-09";
-        return cell;
+        if (_historyArrayOrderByDate.count > 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"historyCell" forIndexPath:indexPath];
+            HistoryBean *bean = _historyArrayOrderByDate[indexPath.row];
+            UILabel *titleLabel = (UILabel *)[cell viewWithTag:11];
+            titleLabel.text = bean.title;
+            UILabel *pageLabel = (UILabel *)[cell viewWithTag:12];
+            if (bean.page == 0) {
+                pageLabel.text = nil;
+            } else {
+                pageLabel.text = [NSString stringWithFormat:@"%d", bean.page];
+            }
+            UILabel *dateLabel = (UILabel *)[cell viewWithTag:13];
+            dateLabel.text = [self formatedDateString:bean.date];
+            return cell;
+        } else {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kEmptyCellIdentifier forIndexPath:indexPath];
+            cell.backgroundColor = [UIColor colorWithRed:231.0f / 255 green:232.0f / 255 blue:226.0f / 255 alpha:1.0f];
+            cell.textLabel.font = [UIFont systemFontOfSize:16];
+            cell.textLabel.textColor = [UIColor darkGrayColor];
+            cell.textLabel.text = @"暂无记录";
+            return cell;
+        }
     }
     return [[UITableViewCell alloc] init];
 }
@@ -209,7 +261,7 @@ static CGFloat const scrollViewOffset = 297.0f;
     return nil;
 }
 
-#pragma mark UITableView Delegate
+#pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     int pageNumber;
@@ -218,9 +270,9 @@ static CGFloat const scrollViewOffset = 297.0f;
     } else if (tableView == _letterTableView) {
         pageNumber = [_chapterArrayOrderByLetter[indexPath.row] pageFrom];
     } else if (tableView == _bookmarkTableView) {
-        pageNumber = 10;
+        pageNumber = [_bookmarkArrayOrderByDate[indexPath.row] page];
     } else if (tableView == _historyTableView) {
-        pageNumber = 20;
+        pageNumber = [_historyArrayOrderByDate[indexPath.row] page];
     } else {
         pageNumber = 0;
     }
@@ -228,6 +280,23 @@ static CGFloat const scrollViewOffset = 297.0f;
         [_delegate jumpToPageNumber:pageNumber];
     }
     [_menuScrollView setContentOffset:CGPointMake(scrollViewOffset, 0) animated:YES];
+}
+
+#pragma mark - Data
+- (void)reloadBookmarkAndHistory
+{
+    self.bookmarkArrayOrderByDate = [[BookmarkDao sharedInstance] selectBookmarkOrderByDateDesc];
+    [_bookmarkTableView reloadData];
+
+    self.historyArrayOrderByDate = [[HistoryDao sharedInstance] selectHistoryOrderByDateDesc];
+    [_historyTableView reloadData];
+}
+
+- (NSString *)formatedDateString:(NSDate *)date
+{
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    return [dateFormatter stringFromDate:date];
 }
 
 @end

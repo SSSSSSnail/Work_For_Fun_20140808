@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SuperBean.h"
 
 @interface SuperDao : NSObject
 
@@ -19,6 +20,9 @@
 - (NSArray *)selectWithOrder:(NSString *)orderSql;
 - (NSArray *)selectWithWhere:(NSString *)whereSql order:(NSString *)orderSql;
 
+- (void)insertBean:(SuperBean *)bean;
+
 - (void)deleteAll;
+- (void)deleteWithWhere:(NSString *)whereSql;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "SuperDao.h"
-#import "ChapterBean.h"
 
 @interface ChapterDao : SuperDao
 
@@ -15,6 +14,5 @@
 
 - (NSArray *)selectAllChapterOrderById;
 - (NSArray *)selectAllChapterOrderByLetter;
-- (ChapterBean *)selectChapterById:(NSString *)chapterId;
 
 @end

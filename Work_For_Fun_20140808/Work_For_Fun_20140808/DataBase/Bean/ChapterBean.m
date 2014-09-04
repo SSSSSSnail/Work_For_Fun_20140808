@@ -9,11 +9,24 @@
 #import "ChapterBean.h"
 
 NSString *const kChapterId = @"chapterId";
-NSString *const kTitle= @"title";
-NSString *const kLetter = @"letter";
-NSString *const kPageFrom = @"pageFrom";
-NSString *const kPageTo = @"pageTo";
+NSString *const kChapterTitle= @"title";
+NSString *const kChapterLetter = @"letter";
+NSString *const kChapterPageFrom = @"pageFrom";
+NSString *const kChapterPageTo = @"pageTo";
+NSString *const kChapterDocument = @"document";
 
 @implementation ChapterBean
+
+- (NSString *)columnString
+{
+    NSString *columnString = [NSString stringWithFormat:@"%@, %@, %@, %@, %@, %@", kChapterId, kChapterTitle, kChapterLetter, kChapterPageFrom, kChapterPageTo, kChapterDocument];
+    return columnString;
+}
+
+- (NSArray *)valueArray
+{
+    NSArray *valueArray = @[@(_chapterId), _title, _letter, @(_pageFrom), @(_pageTo), _document];
+    return valueArray;
+}
 
 @end

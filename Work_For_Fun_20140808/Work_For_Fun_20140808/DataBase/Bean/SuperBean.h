@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const kBeanId;
+
 @interface SuperBean : NSObject
+
+@property (copy, nonatomic, readonly) NSString *columnString;
+@property (strong, nonatomic, readonly) NSArray *valueArray;
 
 @end

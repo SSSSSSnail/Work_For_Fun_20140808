@@ -9,6 +9,8 @@
 #import "GuideViewController.h"
 
 #import "ChapterDao.h"
+#import "BookmarkDao.h"
+#import "BookmarkBean.h"
 
 static NSString *const kADNumber = @"adnumber";
 static NSString *const kUserGuide = @"userGuide";

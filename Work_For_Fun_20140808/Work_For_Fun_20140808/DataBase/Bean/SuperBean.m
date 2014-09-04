@@ -8,6 +8,20 @@
 
 #import "SuperBean.h"
 
+NSString *const kBeanId = @"serial";
+
 @implementation SuperBean
+
+- (NSString *)columnString
+{
+    NSAssert(NO, @"SubClass: columnString");
+    return nil;
+}
+
+- (NSArray *)valueArray
+{
+    NSAssert(NO, @"SubClass: valueArray");
+    return nil;
+}
 
 @end

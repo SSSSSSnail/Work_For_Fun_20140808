@@ -115,11 +115,27 @@
 
 - (void)deleteWithWhere:(NSString *)whereSql
 {
-    NSMutableString *deleteString = [NSMutableString stringWithFormat:@"DELETE FROM %@", self.tableName];
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"DELETE FROM %@", self.tableName];
     if (whereSql) {
-        [deleteString appendFormat:@" WHERE %@", whereSql];
+        [sql appendFormat:@" WHERE %@", whereSql];
     }
-    [_db executeUpdate:deleteString];
+    [_db executeUpdate:sql];
+}
+
+- (void)updateBean:(SuperBean *)bean;
+{
+    NSMutableString *qmarkString = [NSMutableString string];
+    [bean.valueArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [qmarkString appendString:@"?, "];
+    }];
+    if (qmarkString.length > 2) {
+        [qmarkString deleteCharactersInRange:NSMakeRange(qmarkString.length - 2, 2)];
+    }
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"UPDATE %@ SET (%@) = (%@) WHERE %@ = %d", self.tableName, bean.columnString, qmarkString, kBeanId, bean.beanId];
+    BOOL updateSuccess = [_db executeUpdate:sql withArgumentsInArray:bean.valueArray];
+    if (!updateSuccess) {
+        NSLog(@"ERROR: Update data failed!");
+    }
 }
 
 @end

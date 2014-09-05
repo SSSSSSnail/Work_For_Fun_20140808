@@ -189,7 +189,7 @@
                                                                     <constraint firstAttribute="height" constant="1" id="UeU-Jm-KFc"/>
                                                                 </constraints>
                                                             </view>
-                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNR-18-C80" userLabel="Text View - Document">
+                                                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNR-18-C80" userLabel="Text View - Document">
                                                                 <rect key="frame" x="15" y="40" width="300" height="447"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -197,7 +197,7 @@
                                                                 <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                             </textView>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcM-6K-CzS" userLabel="View - Count tool" customClass="UIControl">
+                                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcM-6K-CzS" userLabel="View - Count tool" customClass="UIControl">
                                                                 <rect key="frame" x="5" y="40" width="310" height="447"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <subviews>
@@ -318,19 +318,50 @@
                                                                     <action selector="countViewTouchDown:" destination="pbk-tu-bDg" eventType="touchDown" id="ncv-SV-Hq8"/>
                                                                 </connections>
                                                             </view>
+                                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="QYx-05-xiH" userLabel="Table View - Note">
+                                                                <rect key="frame" x="5" y="40" width="310" height="447"/>
+                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <prototypes>
+                                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="noteListCell" id="7et-AB-vLa">
+                                                                        <rect key="frame" x="0.0" y="22" width="310" height="44"/>
+                                                                        <autoresizingMask key="autoresizingMask"/>
+                                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7et-AB-vLa" id="kmj-Mp-8eb">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                        </tableViewCellContentView>
+                                                                    </tableViewCell>
+                                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="noteDetailCell" id="YvX-iO-JWY">
+                                                                        <rect key="frame" x="0.0" y="66" width="310" height="44"/>
+                                                                        <autoresizingMask key="autoresizingMask"/>
+                                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YvX-iO-JWY" id="jH1-yy-Hem">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                        </tableViewCellContentView>
+                                                                    </tableViewCell>
+                                                                </prototypes>
+                                                                <connections>
+                                                                    <outlet property="dataSource" destination="pbk-tu-bDg" id="2zu-oi-qYZ"/>
+                                                                    <outlet property="delegate" destination="pbk-tu-bDg" id="5wr-In-56U"/>
+                                                                </connections>
+                                                            </tableView>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
+                                                            <constraint firstItem="QYx-05-xiH" firstAttribute="leading" secondItem="3S1-ZD-I4Q" secondAttribute="leading" constant="5" id="74b-FK-2su"/>
                                                             <constraint firstAttribute="trailing" secondItem="hNR-18-C80" secondAttribute="trailing" constant="5" id="7km-kf-S76"/>
+                                                            <constraint firstAttribute="trailing" secondItem="QYx-05-xiH" secondAttribute="trailing" constant="5" id="89h-Dx-z5I"/>
                                                             <constraint firstItem="jcM-6K-CzS" firstAttribute="leading" secondItem="3S1-ZD-I4Q" secondAttribute="leading" constant="5" id="FIY-KG-shN"/>
                                                             <constraint firstItem="hNR-18-C80" firstAttribute="top" secondItem="wyL-Pp-VAq" secondAttribute="bottom" constant="8" id="IsH-fs-IXQ"/>
                                                             <constraint firstItem="hNR-18-C80" firstAttribute="leading" secondItem="3S1-ZD-I4Q" secondAttribute="leading" constant="15" id="J7p-ms-fPs"/>
                                                             <constraint firstItem="jcM-6K-CzS" firstAttribute="top" secondItem="wyL-Pp-VAq" secondAttribute="bottom" constant="8" id="O5e-dJ-qL9"/>
+                                                            <constraint firstAttribute="bottom" secondItem="QYx-05-xiH" secondAttribute="bottom" constant="5" id="SBu-zt-enn"/>
                                                             <constraint firstAttribute="trailing" secondItem="wyL-Pp-VAq" secondAttribute="trailing" constant="20" id="Zv6-9X-l3S"/>
                                                             <constraint firstItem="1L4-2w-ZE6" firstAttribute="leading" secondItem="3S1-ZD-I4Q" secondAttribute="leading" constant="20" id="bMl-GF-t9a"/>
                                                             <constraint firstItem="wyL-Pp-VAq" firstAttribute="leading" secondItem="3S1-ZD-I4Q" secondAttribute="leading" constant="20" id="cut-xL-Zf3"/>
                                                             <constraint firstAttribute="bottom" secondItem="hNR-18-C80" secondAttribute="bottom" constant="5" id="dj6-Mq-QCk"/>
                                                             <constraint firstAttribute="trailing" secondItem="1L4-2w-ZE6" secondAttribute="trailing" id="dwN-tH-b90"/>
+                                                            <constraint firstItem="QYx-05-xiH" firstAttribute="top" secondItem="wyL-Pp-VAq" secondAttribute="bottom" constant="8" id="fpz-eC-hQg"/>
                                                             <constraint firstAttribute="trailing" secondItem="jcM-6K-CzS" secondAttribute="trailing" constant="5" id="m9G-Ld-nXD"/>
                                                             <constraint firstAttribute="bottom" secondItem="jcM-6K-CzS" secondAttribute="bottom" constant="5" id="nVL-ua-QvO"/>
                                                             <constraint firstItem="wyL-Pp-VAq" firstAttribute="top" secondItem="1L4-2w-ZE6" secondAttribute="bottom" constant="10" id="sYe-uu-Rph"/>
@@ -400,6 +431,7 @@
                         <outlet property="heightTextField" destination="7Yx-yF-jTW" id="m21-AI-JHj"/>
                         <outlet property="mainContentScrollView" destination="SMi-bQ-Ibw" id="m0D-3S-X2R"/>
                         <outlet property="menuBarTop" destination="yoh-le-GtR" id="QAY-eZ-eDa"/>
+                        <outlet property="noteTableView" destination="QYx-05-xiH" id="2Gp-fZ-PAL"/>
                         <outlet property="pageView1" destination="G7X-Wh-rev" id="EAZ-C2-VA3"/>
                         <outlet property="pageView2" destination="8bK-rB-Rq4" id="riH-uT-Xlf"/>
                         <outlet property="pageView3" destination="37h-gP-5wr" id="okY-Fn-oo8"/>
@@ -431,6 +463,7 @@
                         <outletCollection property="countTextFieldCollection" destination="Brk-6W-LdO" id="KWB-mf-rk5"/>
                         <outletCollection property="topMenuViewCollection" destination="hNR-18-C80" id="oUq-Mx-TBr"/>
                         <outletCollection property="topMenuViewCollection" destination="jcM-6K-CzS" id="l9f-Qe-13c"/>
+                        <outletCollection property="topMenuViewCollection" destination="QYx-05-xiH" id="gs9-lv-Ipn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pqu-aQ-O56" userLabel="First Responder" sceneMemberID="firstResponder"/>

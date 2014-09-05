@@ -31,6 +31,7 @@ static NSString *const TableName = @"bookmark";
 - (id)mappingRs2Bean:(FMResultSet *)rs
 {
     BookmarkBean *bean = [BookmarkBean new];
+    bean.beanId = [rs intForColumn:kBeanId];
     bean.title = [rs stringForColumn:kBookmarkTitle];
     bean.page = [rs intForColumn:kBookmarkPage];
     bean.date = [rs dateForColumn:kBookmarkDate];
@@ -40,13 +41,13 @@ static NSString *const TableName = @"bookmark";
 - (NSArray *)selectBookmarkOrderByDateDesc
 {
     NSString *orderSql = [NSString stringWithFormat:@"%@ DESC", kBookmarkDate];
-    return [[BookmarkDao sharedInstance] selectWithOrder:orderSql];
+    return [self selectWithOrder:orderSql];
 }
 
 - (BOOL)isPageAdded2Bookmark:(int)page
 {
     NSString *whereSql = [NSString stringWithFormat:@"%@ = %d", kBookmarkPage, page];
-    NSArray *bookmarkArray = [[BookmarkDao sharedInstance] selectWithWhere:whereSql];
+    NSArray *bookmarkArray = [self selectWithWhere:whereSql];
     if (bookmarkArray.count > 0) {
         return YES;
     } else {
@@ -62,7 +63,7 @@ static NSString *const TableName = @"bookmark";
 
 - (void)insertBookmark:(BookmarkBean *)bean
 {
-    [[BookmarkDao sharedInstance] insertBean:bean];
+    [self insertBean:bean];
     //TODO: if count > 10
 }
 

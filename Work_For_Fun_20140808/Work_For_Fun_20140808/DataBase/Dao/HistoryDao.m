@@ -31,6 +31,7 @@ static NSString *const TableName = @"history";
 - (id)mappingRs2Bean:(FMResultSet *)rs
 {
     HistoryBean *bean = [HistoryBean new];
+    bean.beanId = [rs intForColumn:kBeanId];
     bean.title = [rs stringForColumn:kHistoryTitle];
     bean.page = [rs intForColumn:kHistoryPage];
     bean.date = [rs dateForColumn:kHistoryDate];
@@ -40,12 +41,12 @@ static NSString *const TableName = @"history";
 - (NSArray *)selectHistoryOrderByDateDesc
 {
     NSString *orderSql = [NSString stringWithFormat:@"%@ DESC", kHistoryDate];
-    return [[HistoryDao sharedInstance] selectWithOrder:orderSql];
+    return [self selectWithOrder:orderSql];
 }
 
 - (void)insertHistory:(HistoryBean *)bean
 {
-    [[HistoryDao sharedInstance] insertBean:bean];
+    [self insertBean:bean];
     //TODO: if count > 10
 }
 

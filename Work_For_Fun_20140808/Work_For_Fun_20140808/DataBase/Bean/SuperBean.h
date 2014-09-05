@@ -14,5 +14,6 @@ extern NSString *const kBeanId;
 
 @property (copy, nonatomic, readonly) NSString *columnString;
 @property (strong, nonatomic, readonly) NSArray *valueArray;
+@property (assign, nonatomic) int beanId;
 
 @end

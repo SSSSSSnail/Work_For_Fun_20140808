@@ -39,8 +39,10 @@ static BOOL topMenuBarShow;
 static BOOL topMenuViewShow;
 
 static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
+static NSString *const kNoteListCellIndentifier = @"noteListCell";
+static NSString *const kNoteDetailCellIndentifier = @"noteDetailCell";
 
-@interface MainContentViewController ()<LeftMenuActionDelegate, UITextFieldDelegate>
+@interface MainContentViewController ()<LeftMenuActionDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>
 // Property
 @property (strong, nonatomic) UIView *leftMenuView;
 @property (assign, nonatomic) CGFloat pageViewWidth;
@@ -61,6 +63,7 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 @property (weak, nonatomic) IBOutlet UIImageView *topMenuArrow;
 @property (weak, nonatomic) IBOutlet UIView *topMenuAnimationView;
 @property (weak, nonatomic) IBOutlet UILabel *topMenuTitleLabel;
+@property (weak, nonatomic) IBOutlet UITableView *noteTableView;
 @property (weak, nonatomic) IBOutlet UITextView *documentTextView;
 @property (weak, nonatomic) IBOutlet UIView *countToolView;
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *topMenuViewCollection;
@@ -185,31 +188,46 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     __block CGFloat bounciness = 16.0f;
 
     UIView *showView = nil;
+    NSString *message;
     switch (sender.tag) {
         case BarButtonNote:
             _topMenuTitleLabel.text = @"读书笔记";
-
+            showView = _noteTableView;
             break;
         case BarButtonDocument:
-            _topMenuTitleLabel.text = @"参考文献";
-            _documentTextView.text = GInstance().currentChapter.document;
             if (!GInstance().currentChapter.document.length > 0) {
                 [GInstance() showMessageToView:self.view message:@"该章无文献"];
                 [self buttonScaleBackAnimation:sender withBounciness:bounciness];
                 return;
+            } else {
+                _topMenuTitleLabel.text = @"参考文献";
+                _documentTextView.text = GInstance().currentChapter.document;
+                showView = _documentTextView;
             }
-            showView = _documentTextView;
             break;
         case BarButtonCalculator:
             _topMenuTitleLabel.text = @"计算工具";
             showView = _countToolView;
             break;
         case BarButtonSearch:
-            
             _topMenuTitleLabel.text = @"章节查询";
             break;
         case BarButtonBookmark:
-            _topMenuTitleLabel.text = nil;
+            if (_bookmarkButton.selected) {
+                [[BookmarkDao sharedInstance] deleteBookmarkByPage:GInstance().currentPage];
+                message = @"书签已删除";
+            } else {
+                BookmarkBean *bean = [BookmarkBean new];
+                bean.title = GInstance().currentChapter.title;
+                bean.page = GInstance().currentPage;
+                bean.date = [NSDate date];
+                [[BookmarkDao sharedInstance] insertBookmark:bean];
+                message = @"书签已添加";
+            }
+            _bookmarkButton.selected = !_bookmarkButton.selected;
+            [GInstance() showMessageToView:self.view message:message];
+            [self buttonScaleBackAnimation:sender withBounciness:bounciness];
+            return;
             break;
 
         default:
@@ -217,79 +235,62 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     }
     [self refreshShowHiddenMenuView:showView];
 
-    if (sender.tag == BarButtonBookmark) {
-        NSString *message;
-        if (_bookmarkButton.selected) {
-            [[BookmarkDao sharedInstance] deleteBookmarkByPage:GInstance().currentPage];
-            message = @"书签已删除";
-        } else {
-            BookmarkBean *bean = [BookmarkBean new];
-            bean.title = GInstance().currentChapter.title;
-            bean.page = GInstance().currentPage;
-            bean.date = [NSDate date];
-            [[BookmarkDao sharedInstance] insertBookmark:bean];
-            message = @"书签已添加";
-        }
-        _bookmarkButton.selected = !_bookmarkButton.selected;
-        [GInstance() showMessageToView:self.view message:message];
-    } else {
-        if (!topMenuViewShow) {
-            _topMenuViewCenterX.constant = _topBarView.center.x;
-        }
-
-        [self.view layoutIfNeeded];
-        __block float viewAlpha = 0;
-        [_barButtonCollection enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-            if (button == sender) {
-                if (sender.selected == YES) {
-                    button.selected = NO;
-
-                    _topMenuViewWidth.constant = - 250.0f;
-                    _topMenuViewBottom.constant = ISSCREEN4 ? 400.0f : 310.0f;
-                    _topMenuViewCenterX.constant = sender.center.x;
-                    _topArrowCenterX.constant = (ScreenBoundsWidth() - 290.0f) / 2;
-                    viewAlpha = 0;
-
-                    topMenuViewShow = NO;
-
-                    bounciness = 26.0f;
-                } else {
-                    button.selected = YES;
-
-                    _topMenuViewWidth.constant = 0;
-                    _topMenuViewBottom.constant = 0;
-                    _topMenuViewCenterX.constant = _topBarView.center.x;
-                    _topArrowCenterX.constant = sender.center.x;
-                    viewAlpha = 1.0f;
-
-                    topMenuViewShow = YES;
-                }
-            } else {
-                button.selected = NO;
-            }
-        }];
-
-        if (topMenuViewShow) {
-            _topMenuView.hidden = NO;
-        }
-
-        [UIView animateWithDuration:0.3f
-                              delay:0
-                            options:UIViewAnimationOptionBeginFromCurrentState |
-         UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             _topMenuView.alpha = viewAlpha;
-                             [self.view layoutIfNeeded];
-                         } completion:^(BOOL finished) {
-                             if (!topMenuViewShow) {
-                                 _topMenuView.hidden = YES;
-                             } else {
-                                 if (_documentTextView.hidden == NO) {
-                                     [_documentTextView setContentOffset:CGPointZero animated:NO];
-                                 }
-                             }
-                         }];
+    if (!topMenuViewShow) {
+        _topMenuViewCenterX.constant = _topBarView.center.x;
     }
+
+    [self.view layoutIfNeeded];
+    __block float viewAlpha = 0;
+    [_barButtonCollection enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        if (button == sender) {
+            if (sender.selected == YES) {
+                button.selected = NO;
+
+                _topMenuViewWidth.constant = - 250.0f;
+                _topMenuViewBottom.constant = ISSCREEN4 ? 400.0f : 310.0f;
+                _topMenuViewCenterX.constant = sender.center.x;
+                _topArrowCenterX.constant = (ScreenBoundsWidth() - 290.0f) / 2;
+                viewAlpha = 0;
+
+                topMenuViewShow = NO;
+
+                bounciness = 26.0f;
+            } else {
+                button.selected = YES;
+
+                _topMenuViewWidth.constant = 0;
+                _topMenuViewBottom.constant = 0;
+                _topMenuViewCenterX.constant = _topBarView.center.x;
+                _topArrowCenterX.constant = sender.center.x;
+                viewAlpha = 1.0f;
+
+                topMenuViewShow = YES;
+            }
+        } else {
+            button.selected = NO;
+        }
+    }];
+
+    if (topMenuViewShow) {
+        _topMenuView.hidden = NO;
+    }
+
+    [UIView animateWithDuration:0.3f
+                          delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState |
+     UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         _topMenuView.alpha = viewAlpha;
+                         [self.view layoutIfNeeded];
+                     } completion:^(BOOL finished) {
+                         if (!topMenuViewShow) {
+                             _topMenuView.hidden = YES;
+                         } else {
+                             if (_documentTextView.hidden == NO) {
+                                 [_documentTextView setContentOffset:CGPointZero animated:NO];
+                             }
+                         }
+                     }];
 
     [self buttonScaleBackAnimation:sender withBounciness:bounciness];
 }
@@ -336,6 +337,7 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     int unitDose = _unitDoseTextField.text.intValue;
 
     float areaValue = 0.0061f * height + 0.0128f * weight - 0.1529f;
+    areaValue = areaValue > 0 ? areaValue : 0;
     _areaTextField.text = [NSString stringWithFormat:@"%.2f", areaValue];
     _doseTextField.text = [NSString stringWithFormat:@"%.2f", areaValue * unitDose];
 }
@@ -364,7 +366,6 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
             ((UIImageView *)countTextField.leftView).highlighted = NO;
         }
     }];
-
 }
 
 #pragma mark - Show or Hidden Bar
@@ -544,6 +545,19 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     }
 }
 
+#pragma mark - UITableView DataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 10;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kNoteListCellIndentifier forIndexPath:indexPath];
+    cell.textLabel.text = @"测试啊啊啊";
+    return cell;
+}
+
 #pragma mark - Data
 - (void)refreshCurrentChapter:(int)pageNumber
 {
@@ -573,13 +587,11 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 #pragma mark - Dispatch Event
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    if (self.hidden || !self.userInteractionEnabled || self.alpha < 0.01)
-    {
+    if (self.hidden || !self.userInteractionEnabled || self.alpha < 0.01) {
         return nil;
     }
 
-    if (![self pointInside:point withEvent:event])
-    {
+    if (![self pointInside:point withEvent:event]) {
         return nil;
     }
 

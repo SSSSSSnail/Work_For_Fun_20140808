@@ -51,7 +51,7 @@ int const MaxHistoryCount = 20;
     NSFileManager *fm = [NSFileManager defaultManager];
     NSString *writableDBPath = [DocumentDirectory() stringByAppendingPathComponent:DBName];
 
-    [fm removeItemAtPath:writableDBPath error:&error];
+//    [fm removeItemAtPath:writableDBPath error:&error];
     success = [fm fileExistsAtPath:writableDBPath];
     if(!success){
         NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:DBName];

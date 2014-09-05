@@ -25,4 +25,6 @@
 - (void)deleteAll;
 - (void)deleteWithWhere:(NSString *)whereSql;
 
+- (void)updateBean:(SuperBean *)bean;
+
 @end

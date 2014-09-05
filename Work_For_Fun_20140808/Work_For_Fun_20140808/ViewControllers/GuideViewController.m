@@ -35,8 +35,6 @@ static NSString *const kUserGuide = @"userGuide";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    NSLog(@"%d", [[ChapterDao sharedInstance] selectCount]);
-
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     int adNumber = [userDefaults integerForKey:kADNumber];
     if (adNumber == 1) {

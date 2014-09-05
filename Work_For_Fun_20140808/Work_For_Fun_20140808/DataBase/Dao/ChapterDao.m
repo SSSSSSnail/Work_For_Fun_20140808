@@ -31,6 +31,7 @@ static NSString *const TableName = @"chapter";
 - (id)mappingRs2Bean:(FMResultSet *)rs
 {
     ChapterBean *bean = [ChapterBean new];
+    bean.beanId = [rs intForColumn:kBeanId];
     bean.chapterId = [rs intForColumn:kChapterId];
     bean.title = [rs stringForColumn:kChapterTitle];
     bean.letter = [rs stringForColumn:kChapterLetter];

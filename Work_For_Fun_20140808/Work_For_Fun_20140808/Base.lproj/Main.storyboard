@@ -197,10 +197,126 @@
                                                                 <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                             </textView>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcM-6K-CzS" userLabel="View - Count tool">
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcM-6K-CzS" userLabel="View - Count tool" customClass="UIControl">
                                                                 <rect key="frame" x="5" y="40" width="310" height="447"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="体表面积及化疗药物剂量" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mIZ-LP-w06">
+                                                                        <rect key="frame" x="42" y="10" width="226" height="25"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="18"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="身高" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="7Yx-yF-jTW" userLabel="Round Style Text Field height">
+                                                                        <rect key="frame" x="53" y="51" width="155" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
+                                                                        <connections>
+                                                                            <outlet property="delegate" destination="pbk-tu-bDg" id="p3h-oY-mP2"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="体重" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gwV-7Z-K8e" userLabel="Round Style Text Field weight">
+                                                                        <rect key="frame" x="52" y="97" width="156" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
+                                                                        <connections>
+                                                                            <outlet property="delegate" destination="pbk-tu-bDg" id="WHS-2Z-P7k"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="药物的标准剂量" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Brk-6W-LdO" userLabel="Round Style Text Field 标准剂量">
+                                                                        <rect key="frame" x="53" y="143" width="155" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                                        <connections>
+                                                                            <outlet property="delegate" destination="pbk-tu-bDg" id="faW-y4-rk5"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cfB-Z3-Mso" userLabel="Round Style Text Field 表面积">
+                                                                        <rect key="frame" x="53" y="281" width="100" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                    </textField>
+                                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ip2-ur-opc" userLabel="Round Style Text Field 剂量">
+                                                                        <rect key="frame" x="167" y="281" width="104" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                    </textField>
+                                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="mg/m²" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZP-m5-BKq">
+                                                                        <rect key="frame" x="215" y="143" width="56" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="体表面积(m²)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rna-pZ-94D">
+                                                                        <rect key="frame" x="53" y="243" width="106" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="药物剂量(mg)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xXA-va-6aZ">
+                                                                        <rect key="frame" x="167" y="243" width="102" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gMM-V8-XuK">
+                                                                        <rect key="frame" x="215" y="97" width="56" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="cm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3k-OA-0bs">
+                                                                        <rect key="frame" x="215" y="51" width="56" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bm7-Sl-W5h">
+                                                                        <rect key="frame" x="102" y="189" width="106" height="40"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <color key="backgroundColor" red="0.0" green="0.32156862745098036" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <state key="normal" title="计   算">
+                                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        </state>
+                                                                        <connections>
+                                                                            <action selector="countButtonAction:" destination="pbk-tu-bDg" eventType="touchUpInside" id="gVS-WL-5Qh"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="95s-aT-JfN">
+                                                                        <rect key="frame" x="53" y="319" width="218" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <attributedString key="attributedText">
+                                                                            <fragment content="★">
+                                                                                <attributes>
+                                                                                    <color key="NSColor" red="0.0" green="0.32156862745098036" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    <font key="NSFont" size="17" name="STHeitiSC-Light"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="24" defaultTabInterval="36">
+                                                                                        <tabStops/>
+                                                                                    </paragraphStyle>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                            <fragment content="  以上计算结果仅供参考">
+                                                                                <attributes>
+                                                                                    <color key="NSColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                    <font key="NSFont" size="17" name="STHeitiSC-Light"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="24" defaultTabInterval="36">
+                                                                                        <tabStops/>
+                                                                                    </paragraphStyle>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                        </attributedString>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                                <connections>
+                                                                    <action selector="countViewTouchDown:" destination="pbk-tu-bDg" eventType="touchDown" id="ncv-SV-Hq8"/>
+                                                                </connections>
                                                             </view>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -276,8 +392,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="areaTextField" destination="cfB-Z3-Mso" id="op3-N6-vKd"/>
                         <outlet property="bookmarkButton" destination="Ybx-Dc-Bo3" id="X3K-ho-J9s"/>
+                        <outlet property="countToolView" destination="jcM-6K-CzS" id="1qv-HJ-902"/>
                         <outlet property="documentTextView" destination="hNR-18-C80" id="1WM-Be-cL5"/>
+                        <outlet property="doseTextField" destination="ip2-ur-opc" id="GHO-1s-Uv8"/>
+                        <outlet property="heightTextField" destination="7Yx-yF-jTW" id="m21-AI-JHj"/>
                         <outlet property="mainContentScrollView" destination="SMi-bQ-Ibw" id="m0D-3S-X2R"/>
                         <outlet property="menuBarTop" destination="yoh-le-GtR" id="QAY-eZ-eDa"/>
                         <outlet property="pageView1" destination="G7X-Wh-rev" id="EAZ-C2-VA3"/>
@@ -299,11 +419,18 @@
                         <outlet property="topMenuViewBottom" destination="JmQ-5a-Aaw" id="1Uo-tS-FRI"/>
                         <outlet property="topMenuViewCenterX" destination="Lc1-pV-a8G" id="6as-zM-OeM"/>
                         <outlet property="topMenuViewWidth" destination="dfx-Rh-cIA" id="t2W-bu-YRP"/>
+                        <outlet property="unitDoseTextField" destination="Brk-6W-LdO" id="13t-3i-sGO"/>
+                        <outlet property="weightTextField" destination="gwV-7Z-K8e" id="mzC-Dc-c89"/>
                         <outletCollection property="barButtonCollection" destination="Ybx-Dc-Bo3" id="SzV-el-qIh"/>
                         <outletCollection property="barButtonCollection" destination="U0d-KT-Nhe" id="GSG-sN-7Wn"/>
                         <outletCollection property="barButtonCollection" destination="pKS-wL-Mrj" id="4rY-fp-tOy"/>
                         <outletCollection property="barButtonCollection" destination="Zlz-k5-sUk" id="L8Q-5d-CGo"/>
                         <outletCollection property="barButtonCollection" destination="Lw3-Di-DTB" id="gXk-Sc-nhi"/>
+                        <outletCollection property="countTextFieldCollection" destination="7Yx-yF-jTW" id="jLZ-Rx-tYd"/>
+                        <outletCollection property="countTextFieldCollection" destination="gwV-7Z-K8e" id="s7x-Qa-cBd"/>
+                        <outletCollection property="countTextFieldCollection" destination="Brk-6W-LdO" id="KWB-mf-rk5"/>
+                        <outletCollection property="topMenuViewCollection" destination="hNR-18-C80" id="oUq-Mx-TBr"/>
+                        <outletCollection property="topMenuViewCollection" destination="jcM-6K-CzS" id="l9f-Qe-13c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pqu-aQ-O56" userLabel="First Responder" sceneMemberID="firstResponder"/>

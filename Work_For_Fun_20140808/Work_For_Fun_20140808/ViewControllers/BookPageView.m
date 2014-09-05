@@ -106,6 +106,7 @@
 @property (strong, nonatomic) BookContentView *contentView;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *pageLabel;
+@property (strong, nonatomic) UIView *lineView;
 
 @end
 
@@ -120,20 +121,28 @@
     [self addSubview:_contentView];
 
     CGRect titleLabeFrame;
+    CGRect lineViewFrame;
     CGRect pageLabelFrame;
     if (ISSCREEN4) {
-        titleLabeFrame = CGRectMake(10, 25, ScreenBoundsWidth() - 20, 20);
+        titleLabeFrame = CGRectMake(15, 20, ScreenBoundsWidth() - 30, 20);
+        lineViewFrame = CGRectMake(15, 41, ScreenBoundsWidth() - 30, 0.5f);
         pageLabelFrame = CGRectMake(30, ScreenBoundsHeight() - 20 - 32, ScreenBoundsWidth() - 60, 17);
     } else {
-        titleLabeFrame = CGRectMake(20, 10, ScreenBoundsWidth() - 40, 20);
+        titleLabeFrame = CGRectMake(20, 5, ScreenBoundsWidth() - 40, 20);
+        lineViewFrame = CGRectMake(20, 26, ScreenBoundsWidth() - 40, 0.5f);
         pageLabelFrame = CGRectMake(30, ScreenBoundsHeight() - 20 - 17, ScreenBoundsWidth() - 60, 17);
     }
 
     self.titleLabel = [[UILabel alloc] initWithFrame:titleLabeFrame];
     _titleLabel.backgroundColor = [UIColor clearColor];
-    _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    _titleLabel.textAlignment = NSTextAlignmentLeft;
+    _titleLabel.font = [UIFont boldSystemFontOfSize:14];
+    _titleLabel.textColor = [UIColor colorWithRed:0 green:82.0f / 255 blue:154.0f / 255 alpha:1.0f];
     [self addSubview:_titleLabel];
+
+    self.lineView = [[UIView alloc] initWithFrame:lineViewFrame];
+    _lineView.backgroundColor = [UIColor lightGrayColor];
+    [self addSubview:_lineView];
 
     self.pageLabel = [[UILabel alloc] initWithFrame:pageLabelFrame];
     _pageLabel.backgroundColor = [UIColor clearColor];
@@ -186,6 +195,11 @@
 
 - (void)refreshTitle:(NSString *)title pageLabel:(NSString *)page
 {
+    if (!title.length > 0) {
+        _lineView.hidden = YES;
+    } else {
+        _lineView.hidden = NO;
+    }
     _titleLabel.text = title;
     _pageLabel.text = page;
 }

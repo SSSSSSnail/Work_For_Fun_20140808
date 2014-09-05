@@ -40,7 +40,7 @@ static BOOL topMenuViewShow;
 
 static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 
-@interface MainContentViewController ()<LeftMenuActionDelegate>
+@interface MainContentViewController ()<LeftMenuActionDelegate, UITextFieldDelegate>
 // Property
 @property (strong, nonatomic) UIView *leftMenuView;
 @property (assign, nonatomic) CGFloat pageViewWidth;
@@ -62,7 +62,15 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 @property (weak, nonatomic) IBOutlet UIView *topMenuAnimationView;
 @property (weak, nonatomic) IBOutlet UILabel *topMenuTitleLabel;
 @property (weak, nonatomic) IBOutlet UITextView *documentTextView;
+@property (weak, nonatomic) IBOutlet UIView *countToolView;
+@property (strong, nonatomic) IBOutletCollection(UIView) NSArray *topMenuViewCollection;
 
+@property (weak, nonatomic) IBOutlet UITextField *heightTextField;
+@property (weak, nonatomic) IBOutlet UITextField *weightTextField;
+@property (weak, nonatomic) IBOutlet UITextField *unitDoseTextField;
+@property (weak, nonatomic) IBOutlet UITextField *areaTextField;
+@property (weak, nonatomic) IBOutlet UITextField *doseTextField;
+@property (strong, nonatomic) IBOutletCollection(UITextField) NSArray *countTextFieldCollection;
 
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapTopMenuGesture;
 
@@ -88,6 +96,9 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 - (IBAction)barButtonTouchDown:(UIButton *)sender;
 - (IBAction)barButtonTouchDragExit:(UIButton *)sender;
 
+- (IBAction)countButtonAction:(UIButton *)sender;
+- (IBAction)countViewTouchDown:(id)sender;
+
 - (IBAction)contentViewTapAction:(UITapGestureRecognizer *)sender;
 
 @end
@@ -102,6 +113,15 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     _topBarView.layer.shadowOffset = CGSizeMake(0, TopbarShadowOffset);
     _topBarView.layer.shadowOpacity = 0.75f;
     _topBarView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+
+    _heightTextField.leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HeightLeftIcon"] highlightedImage:[UIImage imageNamed:@"HeightLeftIcon_s"]];
+    _heightTextField.leftViewMode = UITextFieldViewModeAlways;
+
+    _weightTextField.leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WeightLeftIcon"] highlightedImage:[UIImage imageNamed:@"WeightLeftIcon_s"]];
+    _weightTextField.leftViewMode = UITextFieldViewModeAlways;
+
+    _unitDoseTextField.leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"DoseLeftIcon"] highlightedImage:[UIImage imageNamed:@"DoseLeftIcon_s"]];
+    _unitDoseTextField.leftViewMode = UITextFieldViewModeAlways;
 
     //Top Menu Content View
     _topMenuContentView.layer.borderWidth = 1.0f;
@@ -131,8 +151,6 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 
     //Page View
     [self update:0];
-
-    _documentTextView.text = @"adlfjaldjfladjflajdflajdf";
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -166,6 +184,7 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
 {
     __block CGFloat bounciness = 16.0f;
 
+    UIView *showView = nil;
     switch (sender.tag) {
         case BarButtonNote:
             _topMenuTitleLabel.text = @"读书笔记";
@@ -179,10 +198,11 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
                 [self buttonScaleBackAnimation:sender withBounciness:bounciness];
                 return;
             }
+            showView = _documentTextView;
             break;
         case BarButtonCalculator:
-
             _topMenuTitleLabel.text = @"计算工具";
+            showView = _countToolView;
             break;
         case BarButtonSearch:
             
@@ -195,6 +215,7 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
         default:
             break;
     }
+    [self refreshShowHiddenMenuView:showView];
 
     if (sender.tag == BarButtonBookmark) {
         NSString *message;
@@ -273,6 +294,17 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     [self buttonScaleBackAnimation:sender withBounciness:bounciness];
 }
 
+- (void)refreshShowHiddenMenuView:(UIView *)showView
+{
+    [_topMenuViewCollection enumerateObjectsUsingBlock:^(UIView *menuView, NSUInteger idx, BOOL *stop) {
+        if (menuView == showView) {
+            menuView.hidden = NO;
+        } else {
+            menuView.hidden = YES;
+        }
+    }];
+}
+
 - (IBAction)barButtonTouchDown:(UIButton *)sender
 {
     POPBasicAnimation *scaleAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewScaleXY];
@@ -287,6 +319,32 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     [self buttonScaleBackAnimation:sender withBounciness:16.0f];
 }
 
+- (IBAction)countButtonAction:(UIButton *)sender
+{
+    [_countToolView endEditing:YES];
+    if (!_heightTextField.text.length > 0 ||
+        !_weightTextField.text.length > 0 ||
+        !_unitDoseTextField.text.length > 0) {
+        [GInstance() showMessageToView:self.view message:@"请输入完整信息"];
+        _areaTextField.text = nil;
+        _doseTextField.text = nil;
+        return;
+    }
+
+    int height = _heightTextField.text.intValue;
+    int weight = _weightTextField.text.intValue;
+    int unitDose = _unitDoseTextField.text.intValue;
+
+    float areaValue = 0.0061f * height + 0.0128f * weight - 0.1529f;
+    _areaTextField.text = [NSString stringWithFormat:@"%.2f", areaValue];
+    _doseTextField.text = [NSString stringWithFormat:@"%.2f", areaValue * unitDose];
+}
+
+- (IBAction)countViewTouchDown:(id)sender
+{
+    [_countToolView endEditing:YES];
+}
+
 - (void)buttonScaleBackAnimation:(UIButton *)sender withBounciness:(CGFloat)bounciness
 {
     POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
@@ -294,6 +352,19 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
     scaleAnimation.springSpeed = 6.0f;
     scaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0f, 1.0f)];
     [sender pop_addAnimation:scaleAnimation forKey:kAnimationScaleUpOrDown];
+}
+
+#pragma mark - UITextField Delegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [_countTextFieldCollection enumerateObjectsUsingBlock:^(UITextField *countTextField, NSUInteger idx, BOOL *stop) {
+        if (countTextField == textField) {
+            ((UIImageView *)countTextField.leftView).highlighted = YES;
+        } else {
+            ((UIImageView *)countTextField.leftView).highlighted = NO;
+        }
+    }];
+
 }
 
 #pragma mark - Show or Hidden Bar
@@ -463,7 +534,7 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
             CGPDFPageRef pdfPage = CGPDFDocumentGetPage(GInstance().document, aPage.toPageNumber + 1);
             [aPage setPage:pdfPage];
             if (aPage.toPageNumber != 0) {
-                [aPage refreshTitle:GInstance().currentChapter.title pageLabel:[NSString stringWithFormat:@"%d/%ld", aPage.toPageNumber, GInstance().totalPage]];
+                [aPage refreshTitle:[self chapterTitleForPage:aPage.toPageNumber] pageLabel:[NSString stringWithFormat:@"%d/%ld", aPage.toPageNumber, GInstance().totalPage - 1]];
             } else {
                 [aPage refreshTitle:nil pageLabel:nil];
             }
@@ -481,6 +552,17 @@ static NSString *const kAnimationScaleUpOrDown = @"pop.animation.scale.up.down";
             GInstance().currentChapter = chapterBean;
         }
     }];
+}
+
+- (NSString *)chapterTitleForPage:(int)pageNumber
+{
+    __block NSString *title = nil;
+    [_chapterArray enumerateObjectsUsingBlock:^(ChapterBean *chapterBean, NSUInteger idx, BOOL *stop) {
+        if (chapterBean.pageFrom <= pageNumber && chapterBean.pageTo >= pageNumber) {
+            title = chapterBean.title;
+        }
+    }];
+    return title;
 }
 
 @end

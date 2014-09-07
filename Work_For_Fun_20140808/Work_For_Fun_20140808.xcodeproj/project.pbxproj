@@ -35,6 +35,10 @@
 		07CE3AD219B8882A00806999 /* HistoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3AD119B8882A00806999 /* HistoryDao.m */; };
 		07CE3AD519B9AEBE00806999 /* NoteBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3AD419B9AEBE00806999 /* NoteBean.m */; };
 		07CE3AD819B9AECE00806999 /* NoteDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3AD719B9AECE00806999 /* NoteDao.m */; };
+		07CE3ADB19BB238C00806999 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3ADA19BB238C00806999 /* LoginViewController.m */; };
+		07CE3ADF19BC155800806999 /* AnimationWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3ADE19BC155800806999 /* AnimationWrapper.m */; };
+		07CE3AE219BC1B6900806999 /* RequestWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3AE119BC1B6900806999 /* RequestWrapper.m */; };
+		07CE3AE519BC303B00806999 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3AE419BC303B00806999 /* WebViewController.m */; };
 		07F593931999ED1E00BD5C90 /* CIDFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593561999ED1E00BD5C90 /* CIDFont.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		07F593941999ED1E00BD5C90 /* CIDType0Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593581999ED1E00BD5C90 /* CIDType0Font.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		07F593951999ED1E00BD5C90 /* CIDType2Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F5935A1999ED1E00BD5C90 /* CIDType2Font.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
@@ -125,6 +129,14 @@
 		07CE3AD419B9AEBE00806999 /* NoteBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteBean.m; sourceTree = "<group>"; };
 		07CE3AD619B9AECE00806999 /* NoteDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteDao.h; sourceTree = "<group>"; };
 		07CE3AD719B9AECE00806999 /* NoteDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteDao.m; sourceTree = "<group>"; };
+		07CE3AD919BB238C00806999 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		07CE3ADA19BB238C00806999 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		07CE3ADD19BC155800806999 /* AnimationWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationWrapper.h; sourceTree = "<group>"; };
+		07CE3ADE19BC155800806999 /* AnimationWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationWrapper.m; sourceTree = "<group>"; };
+		07CE3AE019BC1B6900806999 /* RequestWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestWrapper.h; sourceTree = "<group>"; };
+		07CE3AE119BC1B6900806999 /* RequestWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestWrapper.m; sourceTree = "<group>"; };
+		07CE3AE319BC303B00806999 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		07CE3AE419BC303B00806999 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		07F593551999ED1E00BD5C90 /* CIDFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIDFont.h; sourceTree = "<group>"; };
 		07F593561999ED1E00BD5C90 /* CIDFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CIDFont.m; sourceTree = "<group>"; };
 		07F593571999ED1E00BD5C90 /* CIDType0Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIDType0Font.h; sourceTree = "<group>"; };
@@ -302,6 +314,7 @@
 		075C120219938B2B004F72FD /* Work_For_Fun_20140808 */ = {
 			isa = PBXGroup;
 			children = (
+				07CE3ADC19BC155800806999 /* Util */,
 				075594A619B60B1A009DEFB4 /* DataBase */,
 				07F593B4199A0F5300BD5C90 /* ViewControllers */,
 				07F593541999ED1E00BD5C90 /* PDFKitten */,
@@ -344,6 +357,17 @@
 				075C122419938B2B004F72FD /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		07CE3ADC19BC155800806999 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				07CE3AE019BC1B6900806999 /* RequestWrapper.h */,
+				07CE3AE119BC1B6900806999 /* RequestWrapper.m */,
+				07CE3ADD19BC155800806999 /* AnimationWrapper.h */,
+				07CE3ADE19BC155800806999 /* AnimationWrapper.m */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		07F593541999ED1E00BD5C90 /* PDFKitten */ = {
@@ -413,6 +437,8 @@
 		07F593B4199A0F5300BD5C90 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				07CE3AD919BB238C00806999 /* LoginViewController.h */,
+				07CE3ADA19BB238C00806999 /* LoginViewController.m */,
 				07BBEEC219B5D74E004BB46C /* GuideViewController.h */,
 				07BBEEC319B5D74E004BB46C /* GuideViewController.m */,
 				07F593B5199A0F7D00BD5C90 /* LeftMenuViewController.h */,
@@ -421,6 +447,8 @@
 				07F593B9199A0F9200BD5C90 /* MainContentViewController.m */,
 				0775321E19B2F33E001211DF /* BookPageView.h */,
 				0775321F19B2F33E001211DF /* BookPageView.m */,
+				07CE3AE319BC303B00806999 /* WebViewController.h */,
+				07CE3AE419BC303B00806999 /* WebViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -561,6 +589,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				075C120D19938B2B004F72FD /* AppDelegate.m in Sources */,
+				07CE3AE519BC303B00806999 /* WebViewController.m in Sources */,
 				07F593AE1999ED1E00BD5C90 /* StringDetector.m in Sources */,
 				07F593A51999ED1E00BD5C90 /* PDFPage.m in Sources */,
 				07F593A01999ED1E00BD5C90 /* PageView.m in Sources */,
@@ -581,9 +610,11 @@
 				07F593B01999ED1E00BD5C90 /* Type0Font.m in Sources */,
 				07F593A81999ED1E00BD5C90 /* RenderingState.m in Sources */,
 				07CE3ACF19B8881400806999 /* HistoryBean.m in Sources */,
+				07CE3AE219BC1B6900806999 /* RequestWrapper.m in Sources */,
 				07BBEEC419B5D74E004BB46C /* GuideViewController.m in Sources */,
 				07F5939B1999ED1E00BD5C90 /* FontDescriptor.m in Sources */,
 				07F593B7199A0F7D00BD5C90 /* LeftMenuViewController.m in Sources */,
+				07CE3ADB19BB238C00806999 /* LoginViewController.m in Sources */,
 				07CE3AD219B8882A00806999 /* HistoryDao.m in Sources */,
 				07F593951999ED1E00BD5C90 /* CIDType2Font.m in Sources */,
 				07F593A71999ED1E00BD5C90 /* pdfScannerCallbacks.mm in Sources */,
@@ -596,6 +627,7 @@
 				0783DB1E19B7166F00869653 /* SuperBean.m in Sources */,
 				07F593A91999ED1E00BD5C90 /* RenderingStateStack.m in Sources */,
 				07F593AF1999ED1E00BD5C90 /* TrueTypeFont.m in Sources */,
+				07CE3ADF19BC155800806999 /* AnimationWrapper.m in Sources */,
 				07F593BA199A0F9200BD5C90 /* MainContentViewController.m in Sources */,
 				07F593931999ED1E00BD5C90 /* CIDFont.m in Sources */,
 				0775322019B2F33E001211DF /* BookPageView.m in Sources */,

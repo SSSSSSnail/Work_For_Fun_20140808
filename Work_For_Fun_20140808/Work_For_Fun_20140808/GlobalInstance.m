@@ -12,6 +12,14 @@ NSString *const DBName = @"book.sqlite";
 int const MaxBookmarkCount = 20;
 int const MaxHistoryCount = 20;
 
+NSString *const kADString = @"adnumber";
+NSString *const kUserGuide = @"userGuide";
+NSString *const kUserIdentifier = @"userIdentifier";
+
+NSString *const kRegisterSuccess = @"baxterbook://blank";
+
+static NSString *const kDeviceType = @"IPHONE";
+
 @interface GlobalInstance ()
 
 @property (copy, nonatomic) NSString *documentPath;
@@ -78,6 +86,11 @@ int const MaxHistoryCount = 20;
 
 - (void)showMessageToView:(UIView *)view message:(NSString *)message
 {
+    [self showMessageToView:view message:message autoHide:YES];
+}
+
+- (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide
+{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
 
 	hud.mode = MBProgressHUDModeText;
@@ -85,7 +98,11 @@ int const MaxHistoryCount = 20;
 	hud.margin = 10.f;
 	hud.removeFromSuperViewOnHide = YES;
 
-	[hud hide:YES afterDelay:1.5f];
+    if (autoHide) {
+        [hud hide:YES afterDelay:1.5f];
+    }
+
+    return hud;
 }
 
 @end
@@ -109,4 +126,28 @@ NSString *DocumentDirectory()
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     return paths[0];
+}
+
+NSString *SystemVersion()
+{
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+    return version;
+}
+
+NSString *DeviceType()
+{
+    return kDeviceType;
+}
+
+void SaveStringUserDefault(NSString *key, NSString *value)
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:value forKey:key];
+    [userDefaults synchronize];
+}
+
+NSString *LoadStringUserDefault(NSString *key)
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults stringForKey:key];
 }

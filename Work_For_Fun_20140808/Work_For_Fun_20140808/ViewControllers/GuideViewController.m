@@ -12,9 +12,6 @@
 #import "BookmarkDao.h"
 #import "BookmarkBean.h"
 
-static NSString *const kADNumber = @"adnumber";
-static NSString *const kUserGuide = @"userGuide";
-
 @interface GuideViewController ()
 
 @property (assign, nonatomic) BOOL showedGuideAlready;
@@ -34,24 +31,23 @@ static NSString *const kUserGuide = @"userGuide";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    int adNumber = [userDefaults integerForKey:kADNumber];
-    if (adNumber == 1) {
-        adNumber = 2;
+    NSString *adString = LoadStringUserDefault(kADString);
+    if ([adString isEqualToString:@"1"]) {
+        adString = @"2";
     } else {
-        adNumber = 1;
+        adString = @"1";
     }
-    [userDefaults setInteger:adNumber forKey:kADNumber];
+    SaveStringUserDefault(kADString, adString);
 
-    _showedGuideAlready = [userDefaults boolForKey:kUserGuide];
-
-    if (!_showedGuideAlready) {
-        [userDefaults setBool:YES forKey:kUserGuide];
+    NSString *guideString = LoadStringUserDefault(kUserGuide);
+    if (!guideString) {
+        SaveStringUserDefault(kUserGuide, @"Y");
+        _showedGuideAlready = NO;
+    } else {
+        _showedGuideAlready = YES;
     }
-    [userDefaults synchronize];
 
-    NSMutableString *imageNameString = [NSMutableString stringWithFormat:@"ad%d", adNumber];
+    NSMutableString *imageNameString = [NSMutableString stringWithFormat:@"ad%@", adString];
     if (!ISSCREEN4) {
         [imageNameString appendString:@"_3"];
     }
@@ -66,6 +62,15 @@ static NSString *const kUserGuide = @"userGuide";
             imageView.image = [UIImage imageNamed:imageNameString];
         }];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+//    if (!LoadStringUserDefault(kUserIdentifier)) {
+//        [self performSegueWithIdentifier:@"presentLoginViewController" sender:self];
+//    }
 }
 
 - (void)didReceiveMemoryWarning

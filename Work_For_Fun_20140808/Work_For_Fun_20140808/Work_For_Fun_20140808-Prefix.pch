@@ -18,6 +18,8 @@
     #import <FMDB/FMDB.h>
     #import <MBProgressHUD/MBProgressHUD.h>
     #import "GlobalInstance.h"
+    #import "AnimationWrapper.h"
+    #import "RequestWrapper.h"
 #endif
 
 #define ISSCREEN4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)

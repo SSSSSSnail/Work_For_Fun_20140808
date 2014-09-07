@@ -156,6 +156,7 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
 {
     if (_searchTextField.isFirstResponder) {
         [_searchTextField resignFirstResponder];
+        ((UIImageView *)_searchTextField.leftView).highlighted = NO;
     }
 }
 

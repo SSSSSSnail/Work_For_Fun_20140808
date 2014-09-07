@@ -8,6 +8,8 @@
 
 #import "MainContentViewController.h"
 #import "LeftMenuViewController.h"
+#import "WebViewController.h"
+
 #import "BookPageView.h"
 #import "ChapterBean.h"
 #import "BookmarkDao.h"
@@ -16,6 +18,7 @@
 #import "HistoryBean.h"
 
 typedef NS_ENUM(NSInteger, BarButton) {
+    BarButtonProfile = 10,
     BarButtonNote = 11,
     BarButtonDocument = 12,
     BarButtonCalculator = 13,
@@ -152,7 +155,7 @@ static NSString *const kNoteDetailCellIndentifier = @"noteDetailCell";
     [_tapTopMenuGesture requireGestureRecognizerToFail:_pageView2.doubleTap];
     [_tapTopMenuGesture requireGestureRecognizerToFail:_pageView3.doubleTap];
 
-    //Page View
+    //PageView
     [self update:0];
 }
 
@@ -190,6 +193,10 @@ static NSString *const kNoteDetailCellIndentifier = @"noteDetailCell";
     UIView *showView = nil;
     NSString *message;
     switch (sender.tag) {
+        case BarButtonProfile:
+            [self buttonScaleBackAnimation:sender withBounciness:bounciness];
+            return;
+            break;
         case BarButtonNote:
             _topMenuTitleLabel.text = @"读书笔记";
             showView = _noteTableView;
@@ -323,6 +330,9 @@ static NSString *const kNoteDetailCellIndentifier = @"noteDetailCell";
 - (IBAction)countButtonAction:(UIButton *)sender
 {
     [_countToolView endEditing:YES];
+    [_countTextFieldCollection enumerateObjectsUsingBlock:^(UITextField *countTextField, NSUInteger idx, BOOL *stop) {
+        ((UIImageView *)countTextField.leftView).highlighted = NO;
+    }];
     if (!_heightTextField.text.length > 0 ||
         !_weightTextField.text.length > 0 ||
         !_unitDoseTextField.text.length > 0) {
@@ -345,6 +355,9 @@ static NSString *const kNoteDetailCellIndentifier = @"noteDetailCell";
 - (IBAction)countViewTouchDown:(id)sender
 {
     [_countToolView endEditing:YES];
+    [_countTextFieldCollection enumerateObjectsUsingBlock:^(UITextField *countTextField, NSUInteger idx, BOOL *stop) {
+        ((UIImageView *)countTextField.leftView).highlighted = NO;
+    }];
 }
 
 - (void)buttonScaleBackAnimation:(UIButton *)sender withBounciness:(CGFloat)bounciness
@@ -354,6 +367,15 @@ static NSString *const kNoteDetailCellIndentifier = @"noteDetailCell";
     scaleAnimation.springSpeed = 6.0f;
     scaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0f, 1.0f)];
     [sender pop_addAnimation:scaleAnimation forKey:kAnimationScaleUpOrDown];
+}
+
+//presentUpdateProfileViewController
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"pushUpdateProfileViewController"]) {
+        WebViewController *webViewController = segue.destinationViewController;
+        webViewController.webViewLoadURL = REGISTERURL;
+    }
 }
 
 #pragma mark - UITextField Delegate

@@ -38,6 +38,18 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+//    if (LoadStringUserDefault(kUserIdentifier)) {
+//        NSMutableDictionary *paramDic = [@{@"action" : @"log",
+//                                           @"version" : SystemVersion(),
+//                                           @"devicetype" : DeviceType(),
+//                                           @"userid" : LoadStringUserDefault(kUserIdentifier)} mutableCopy];
+//        [paramDic setObject:@"2014090511000000001100000000110000000011000000001100000" forKey:@"records"];
+//        [RequestWrapper requestWithURL:UPLOADLOG withParameters:@{} success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+//            NSLog(@"%@", responseObject);
+//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//            NSLog(@"%@", error);
+//        }];
+//    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

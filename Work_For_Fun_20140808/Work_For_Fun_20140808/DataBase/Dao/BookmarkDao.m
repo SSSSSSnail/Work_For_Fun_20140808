@@ -64,7 +64,6 @@ static NSString *const TableName = @"bookmark";
 - (void)insertBookmark:(BookmarkBean *)bean
 {
     [self insertBean:bean];
-    //TODO: if count > 10
 }
 
 @end

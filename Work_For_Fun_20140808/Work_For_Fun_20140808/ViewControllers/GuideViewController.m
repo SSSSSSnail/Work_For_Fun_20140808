@@ -68,9 +68,9 @@
 {
     [super viewDidAppear:animated];
 
-//    if (!LoadStringUserDefault(kUserIdentifier)) {
-//        [self performSegueWithIdentifier:@"presentLoginViewController" sender:self];
-//    }
+    if (!LoadStringUserDefault(kUserIdentifier)) {
+        [self performSegueWithIdentifier:@"presentLoginViewController" sender:self];
+    }
 }
 
 - (void)didReceiveMemoryWarning

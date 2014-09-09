@@ -17,6 +17,7 @@
     #import <pop/POP.h>
     #import <FMDB/FMDB.h>
     #import <MBProgressHUD/MBProgressHUD.h>
+    #import <BlocksKit+UIKit.h>
     #import "GlobalInstance.h"
     #import "AnimationWrapper.h"
     #import "RequestWrapper.h"

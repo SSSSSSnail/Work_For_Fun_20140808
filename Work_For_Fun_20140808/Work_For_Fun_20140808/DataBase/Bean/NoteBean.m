@@ -6,24 +6,22 @@
 //  Copyright (c) 2014 Snail. All rights reserved.
 //
 
+#import "NoteBean.h"
+
 NSString *const kNoteChapterId = @"chapterId";
 NSString *const kNoteContent = @"content";
 NSString *const kNoteDate = @"date";
 
-#import "NoteBean.h"
-
 @implementation NoteBean
 
-- (NSString *)columnString
+- (NSArray *)columnArray
 {
-    NSString *columnString = [NSString stringWithFormat:@"%@, %@, %@", kNoteChapterId, kNoteContent, kNoteDate];
-    return columnString;
+    return @[kNoteChapterId, kNoteContent, kNoteDate];
 }
 
 - (NSArray *)valueArray
 {
-    NSArray *valueArray = @[@(_chapterId), _content, _date];
-    return valueArray;
+    return @[@(_chapterId), _content, _date];
 }
 
 @end

@@ -47,7 +47,11 @@ static NSString *const TableName = @"history";
 - (void)insertHistory:(HistoryBean *)bean
 {
     [self insertBean:bean];
-    //TODO: if count > 10
+
+    //Delete Records
+    int maxHistoryId = [self selectMaxValue:kBeanId];
+    NSString *whereSql = [NSString stringWithFormat:@"%@ < %d", kBeanId, maxHistoryId - MaxHistoryCount];
+    [self deleteWithWhere:whereSql];
 }
 
 @end

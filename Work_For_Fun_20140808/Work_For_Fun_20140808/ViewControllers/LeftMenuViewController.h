@@ -16,7 +16,6 @@
 @interface LeftMenuViewController : UIViewController
 
 @property (weak, nonatomic) id<LeftMenuActionDelegate> delegate;
-@property (strong, nonatomic, readonly) NSArray *chapterArrayOrderById;
 
 @end
 

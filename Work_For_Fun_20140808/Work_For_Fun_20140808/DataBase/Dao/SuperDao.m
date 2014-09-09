@@ -54,6 +54,18 @@
     return totalCount;
 }
 
+- (int)selectMaxValue:(NSString *)column
+{
+    NSString *sql = [NSString stringWithFormat:@"SELECT MAX(%@) FROM %@", column, self.tableName];
+    FMResultSet *rs = [_db executeQuery:sql];
+    int maxValue = 0;
+    while ([rs next]) {
+        maxValue = [rs intForColumnIndex:0];
+    }
+    [rs close];
+    return maxValue;
+}
+
 - (NSArray *)selectAll
 {
     return [self selectWithWhere:nil order:nil];
@@ -95,13 +107,22 @@
 - (void)insertBean:(SuperBean *)bean
 {
     NSMutableString *qmarkString = [NSMutableString string];
-    [bean.valueArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [bean.columnArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [qmarkString appendString:@"?, "];
     }];
     if (qmarkString.length > 2) {
         [qmarkString deleteCharactersInRange:NSMakeRange(qmarkString.length - 2, 2)];
     }
-    NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT INTO %@ (%@) VALUES (%@)", self.tableName, bean.columnString, qmarkString];
+
+    NSMutableString *columnString = [NSMutableString string];
+    [bean.columnArray enumerateObjectsUsingBlock:^(NSString *column, NSUInteger idx, BOOL *stop) {
+        [columnString appendFormat:@"%@, ", column];
+    }];
+    if (columnString.length > 2) {
+        [columnString deleteCharactersInRange:NSMakeRange(columnString.length - 2, 2)];
+    }
+
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT INTO %@ (%@) VALUES (%@)", self.tableName, columnString, qmarkString];
     BOOL insertSuccess = [_db executeUpdate:sql withArgumentsInArray:bean.valueArray];
     if (!insertSuccess) {
         NSLog(@"ERROR: Insert data failed!");
@@ -124,14 +145,17 @@
 
 - (void)updateBean:(SuperBean *)bean;
 {
-    NSMutableString *qmarkString = [NSMutableString string];
-    [bean.valueArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [qmarkString appendString:@"?, "];
+    NSMutableString *columnString = [NSMutableString string];
+    [bean.columnArray enumerateObjectsUsingBlock:^(NSString *column, NSUInteger idx, BOOL *stop) {
+        [columnString appendFormat:@"%@ = ?, ", column];
     }];
-    if (qmarkString.length > 2) {
-        [qmarkString deleteCharactersInRange:NSMakeRange(qmarkString.length - 2, 2)];
+    if (columnString.length > 2) {
+        [columnString deleteCharactersInRange:NSMakeRange(columnString.length - 2, 2)];
     }
-    NSMutableString *sql = [NSMutableString stringWithFormat:@"UPDATE %@ SET (%@) = (%@) WHERE %@ = %d", self.tableName, bean.columnString, qmarkString, kBeanId, bean.beanId];
+
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"UPDATE %@ SET %@ WHERE %@ = %d", self.tableName, columnString, kBeanId, bean.beanId];
+    NSLog(@"%@", sql);
+    NSLog(@"%@", bean.valueArray);
     BOOL updateSuccess = [_db executeUpdate:sql withArgumentsInArray:bean.valueArray];
     if (!updateSuccess) {
         NSLog(@"ERROR: Update data failed!");

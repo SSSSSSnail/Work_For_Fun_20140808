@@ -12,7 +12,7 @@ NSString *const kBeanId = @"serial";
 
 @implementation SuperBean
 
-- (NSString *)columnString
+- (NSArray *)columnArray
 {
     NSAssert(NO, @"SubClass: columnString");
     return nil;

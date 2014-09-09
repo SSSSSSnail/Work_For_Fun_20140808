@@ -53,6 +53,7 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
 // Property
 @property (strong, nonatomic) NSArray *chapterArrayOrderById;
 @property (strong, nonatomic) NSArray *chapterArrayOrderByLetter;
+@property (strong, nonatomic) NSMutableDictionary *letter2indexDictionary;
 @property (strong, nonatomic) NSArray *bookmarkArrayOrderByDate;
 @property (strong, nonatomic) NSArray *historyArrayOrderByDate;
 
@@ -68,11 +69,14 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
     _searchTextField.leftViewMode = UITextFieldViewModeAlways;
     _searchTextField.leftView = searchIconImageView;
 
-    self.chapterArrayOrderById = [[ChapterDao sharedInstance] selectAllChapterOrderById];
+    self.chapterArrayOrderById = GInstance().chapterArrayOrderById;
     self.chapterArrayOrderByLetter = [[ChapterDao sharedInstance] selectAllChapterOrderByLetter];
+    self.letter2indexDictionary = [NSMutableDictionary dictionary];
 
     [_bookmarkTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kEmptyCellIdentifier];
     [_historyTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kEmptyCellIdentifier];
+
+    _letterTableView.backgroundColor = [UIColor colorWithRed:231.0f / 255 green:232.0f / 255 blue:226.0f / 255 alpha:1.0f];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -260,6 +264,31 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
         return @"浏览历史";
     }
     return nil;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    NSMutableArray *letterArray = [NSMutableArray array];
+    if (tableView == _letterTableView) {
+        __block NSString *lastLetter = nil;
+        [_chapterArrayOrderByLetter enumerateObjectsUsingBlock:^(ChapterBean *chapter, NSUInteger idx, BOOL *stop) {
+            if (![lastLetter isEqualToString:chapter.letter]) {
+                [letterArray addObject:chapter.letter];
+                [_letter2indexDictionary setObject:@(idx) forKey:chapter.letter];
+                lastLetter = chapter.letter;
+            }
+        }];
+    }
+    return letterArray;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    if (tableView == _letterTableView) {
+        [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:((NSNumber *)_letter2indexDictionary[title]).intValue inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [GInstance() showMessageToView:self.view message:title];
+    }
+    return index;
 }
 
 #pragma mark - UITableView Delegate

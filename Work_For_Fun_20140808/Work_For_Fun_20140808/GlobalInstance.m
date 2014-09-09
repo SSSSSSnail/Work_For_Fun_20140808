@@ -7,10 +7,13 @@
 //
 
 #import "GlobalInstance.h"
+#import "LogDao.h"
+#import "LogBean.h"
+#import "ChapterDao.h"
+#import "ChapterBean.h"
 
 NSString *const DBName = @"book.sqlite";
-int const MaxBookmarkCount = 20;
-int const MaxHistoryCount = 20;
+int const MaxHistoryCount = 30;
 
 NSString *const kADString = @"adnumber";
 NSString *const kUserGuide = @"userGuide";
@@ -25,6 +28,8 @@ static NSString *const kDeviceType = @"IPHONE";
 @property (copy, nonatomic) NSString *documentPath;
 @property (assign, nonatomic) CGPDFDocumentRef document;
 @property (assign, nonatomic) long totalPage;
+
+@property (strong, nonatomic) NSArray *chapterArrayOrderById;
 
 @end
 
@@ -82,6 +87,48 @@ static NSString *const kDeviceType = @"IPHONE";
 
 - (void) closeDatabase{
     [_db close];
+}
+
+- (void)loadInitChapters
+{
+    self.chapterArrayOrderById = [[ChapterDao sharedInstance] selectAllChapterOrderById];
+}
+
+- (void)setCurrentChapter:(ChapterBean *)currentChapter
+{
+    _currentChapter = currentChapter;
+    LogDao *logDao = [LogDao sharedInstance];
+    LogBean *bean = [logDao selectLogToday];
+    if (bean) {
+        bean.record = [self recordStringWithRecord:bean.record currentChapter:currentChapter];
+        [logDao updateLog:bean];
+    } else {
+        bean = [LogBean new];
+        bean.chapterId = currentChapter.chapterId;
+        bean.record = [self recordStringWithRecord:nil currentChapter:currentChapter];;
+        bean.date = [logDao formatedDateString:[NSDate date]];
+        [logDao insertLog:bean];
+    }
+}
+
+- (NSString *)recordStringWithRecord:(NSString *)record currentChapter:(ChapterBean *)currentChapter
+{
+    NSMutableString *recordString;
+    if (record.length > 0) {
+        recordString = [NSMutableString stringWithString:record];
+        [recordString replaceCharactersInRange:NSMakeRange(currentChapter.chapterId, 1) withString:@"1"];
+    } else {
+        recordString = [NSMutableString string];
+        [GInstance().chapterArrayOrderById enumerateObjectsUsingBlock:^(ChapterBean *chapterBean, NSUInteger idx, BOOL *stop) {
+            if (chapterBean.chapterId == currentChapter.chapterId) {
+                [recordString appendString:@"1"];
+            } else {
+                [recordString appendString:@"0"];
+            }
+        }];
+    }
+
+    return recordString;
 }
 
 - (void)showMessageToView:(UIView *)view message:(NSString *)message

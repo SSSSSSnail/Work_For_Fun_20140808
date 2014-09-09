@@ -10,12 +10,13 @@
 //#define SERVERURL @"http://192.168.1.8:8080/baxter-book/"
 #define LOGINURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"user.do"]
 #define REGISTERURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"register.jsp?from=app"]
-#define UPLOADLOG [NSString stringWithFormat:@"%@%@", SERVERURL, @"app.do"]
+#define UPLOADLOGURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"app.do"]
+
+#define DOWNLOADURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"download.jsp"]
 
 #import <Foundation/Foundation.h>
 
 extern NSString *const DBName;
-extern int const MaxBookmarkCount;
 extern int const MaxHistoryCount;
 
 extern NSString *const kADString;
@@ -33,12 +34,16 @@ extern NSString *const kRegisterSuccess;
 @property (assign, nonatomic, readonly) CGPDFDocumentRef document;
 @property (assign, nonatomic, readonly) long totalPage;
 @property (assign, nonatomic) int currentPage;
+
+@property (strong, nonatomic, readonly) NSArray *chapterArrayOrderById;
 @property (strong, nonatomic) ChapterBean *currentChapter;
 
 @property (strong, nonatomic) FMDatabase *db;
 
 - (BOOL)initDataBase;
 - (void)closeDatabase;
+
+- (void)loadInitChapters;
 
 - (void)showMessageToView:(UIView *)view message:(NSString *)message;
 - (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide;

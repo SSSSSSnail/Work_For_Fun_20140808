@@ -68,7 +68,7 @@
                            success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                                NSTimeInterval delayTime = 0.5f;
                                BOOL isUserValid;
-                               if ((BOOL)responseObject[@"result"] == YES) {
+                               if ([(NSNumber *)responseObject[@"result"] isEqualToNumber:@(YES)]) {
                                    isUserValid = YES;
                                    hud.labelText = @"登录成功";
                                    SaveStringUserDefault(kUserIdentifier, responseObject[@"userid"]);

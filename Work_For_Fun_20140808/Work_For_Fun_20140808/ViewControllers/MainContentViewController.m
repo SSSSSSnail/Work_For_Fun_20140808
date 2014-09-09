@@ -143,7 +143,7 @@ static NSString *const kNoteDetailCellIndentifier = @"noteDetailCell";
     leftMenuViewController.delegate = self;
     self.leftMenuView = leftMenuViewController.view;
     [self.view addSubview:_leftMenuView];
-    self.chapterArray = leftMenuViewController.chapterArrayOrderById;
+    self.chapterArray = GInstance().chapterArrayOrderById;
 
     [_leftMenuView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -585,7 +585,9 @@ static NSString *const kNoteDetailCellIndentifier = @"noteDetailCell";
 {
     [_chapterArray enumerateObjectsUsingBlock:^(ChapterBean *chapterBean, NSUInteger idx, BOOL *stop) {
         if (chapterBean.pageFrom <= pageNumber && chapterBean.pageTo >= pageNumber) {
-            GInstance().currentChapter = chapterBean;
+            if (GInstance().currentChapter.chapterId != chapterBean.chapterId || !GInstance().currentChapter) {
+                GInstance().currentChapter = chapterBean;
+            }
         }
     }];
 }

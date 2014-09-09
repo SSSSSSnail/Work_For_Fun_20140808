@@ -14,16 +14,14 @@ NSString *const kHistoryDate = @"date";
 
 @implementation HistoryBean
 
-- (NSString *)columnString
+- (NSArray *)columnArray
 {
-    NSString *columnString = [NSString stringWithFormat:@"%@, %@, %@", kHistoryTitle, kHistoryPage, kHistoryDate];
-    return columnString;
+    return @[kHistoryTitle, kHistoryPage, kHistoryDate];
 }
 
 - (NSArray *)valueArray
 {
-    NSArray *valueArray = @[_title, @(_page), _date];
-    return valueArray;
+    return @[_title, @(_page), _date];
 }
 
 @end

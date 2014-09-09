@@ -14,16 +14,14 @@ NSString *const kBookmarkDate = @"date";
 
 @implementation BookmarkBean
 
-- (NSString *)columnString
+- (NSArray *)columnArray
 {
-    NSString *columnString = [NSString stringWithFormat:@"%@, %@, %@", kBookmarkTitle, kBookmarkPage, kBookmarkDate];
-    return columnString;
+    return @[kBookmarkTitle, kBookmarkPage, kBookmarkDate];
 }
 
 - (NSArray *)valueArray
 {
-    NSArray *valueArray = @[_title, @(_page), _date];
-    return valueArray;
+    return @[_title, @(_page), _date];
 }
 
 @end

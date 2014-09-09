@@ -17,16 +17,14 @@ NSString *const kChapterDocument = @"document";
 
 @implementation ChapterBean
 
-- (NSString *)columnString
+- (NSArray *)columnArray
 {
-    NSString *columnString = [NSString stringWithFormat:@"%@, %@, %@, %@, %@, %@", kChapterId, kChapterTitle, kChapterLetter, kChapterPageFrom, kChapterPageTo, kChapterDocument];
-    return columnString;
+    return @[kChapterId, kChapterTitle, kChapterLetter, kChapterPageFrom, kChapterPageTo, kChapterDocument];
 }
 
 - (NSArray *)valueArray
 {
-    NSArray *valueArray = @[@(_chapterId), _title, _letter, @(_pageFrom), @(_pageTo), _document];
-    return valueArray;
+    return @[@(_chapterId), _title, _letter, @(_pageFrom), @(_pageTo), _document];
 }
 
 @end

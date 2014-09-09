@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "LogDao.h"
+#import "LogBean.h"
 
 @implementation AppDelegate
 
@@ -14,6 +16,8 @@
 {
     if (![GInstance() initDataBase]) {
         NSLog(@"ERROR: Database init failed!!");
+    } else {
+        [GInstance() loadInitChapters];
     }
     return YES;
 }
@@ -38,18 +42,40 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-//    if (LoadStringUserDefault(kUserIdentifier)) {
-//        NSMutableDictionary *paramDic = [@{@"action" : @"log",
-//                                           @"version" : SystemVersion(),
-//                                           @"devicetype" : DeviceType(),
-//                                           @"userid" : LoadStringUserDefault(kUserIdentifier)} mutableCopy];
-//        [paramDic setObject:@"2014090511000000001100000000110000000011000000001100000" forKey:@"records"];
-//        [RequestWrapper requestWithURL:UPLOADLOG withParameters:@{} success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-//            NSLog(@"%@", responseObject);
-//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//            NSLog(@"%@", error);
-//        }];
-//    }
+    if (LoadStringUserDefault(kUserIdentifier)) {
+
+        NSArray *recordArray = [[LogDao sharedInstance] selectLogBeforeTodayOrderByDateDesc];
+        if (recordArray.count > 0) {
+            NSLog(@"Start upload log");
+            NSMutableDictionary *paramDic = [@{@"action" : @"log",
+                                               @"version" : SystemVersion(),
+                                               @"devicetype" : DeviceType(),
+                                               @"userid" : LoadStringUserDefault(kUserIdentifier)} mutableCopy];
+            
+            NSMutableString *uploadRecordString = [NSMutableString string];
+            [recordArray enumerateObjectsUsingBlock:^(LogBean *logBean, NSUInteger idx, BOOL *stop) {
+                if (idx != 0) {
+                    [uploadRecordString appendString:@"@"];
+                }
+                [uploadRecordString appendString:logBean.date];
+                [uploadRecordString appendString:logBean.record];
+            }];
+            [paramDic setObject:uploadRecordString forKey:@"records"];
+            [RequestWrapper requestWithURL:UPLOADLOGURL withParameters:paramDic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                if ([responseObject[@"result"] isEqualToNumber:@1]) {
+                    //Delete logs
+                    [[LogDao sharedInstance] deleteLogByBeans:recordArray];
+                }
+                if (![responseObject[@"version"] isEqualToString:SystemVersion()]) {
+                    [[UIAlertView bk_showAlertViewWithTitle:@"提示" message:@"发现新版本, 是否更新?" cancelButtonTitle:@"取消" otherButtonTitles:@[@"更新"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:DOWNLOADURL]];
+                    }] show];
+                }
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"ERROR: %@", error);
+            }];
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

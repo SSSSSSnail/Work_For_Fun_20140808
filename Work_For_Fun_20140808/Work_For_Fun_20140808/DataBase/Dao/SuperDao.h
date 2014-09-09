@@ -15,6 +15,8 @@
 
 - (int)selectCount;
 
+- (int)selectMaxValue:(NSString *)column;
+
 - (NSArray *)selectAll;
 - (NSArray *)selectWithWhere:(NSString *)whereSql;
 - (NSArray *)selectWithOrder:(NSString *)orderSql;

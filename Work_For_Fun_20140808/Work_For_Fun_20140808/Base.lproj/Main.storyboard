@@ -566,7 +566,7 @@
                                                                     <outlet property="delegate" destination="AIC-wC-Y86" id="Ayk-ia-kYk"/>
                                                                 </connections>
                                                             </tableView>
-                                                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="uym-Eb-esf" userLabel="Table View - Letter">
+                                                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="uym-Eb-esf" userLabel="Table View - Letter">
                                                                 <rect key="frame" x="0.0" y="0.0" width="297" height="398"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="sectionIndexBackgroundColor" red="0.90588235289999997" green="0.90980392160000001" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>

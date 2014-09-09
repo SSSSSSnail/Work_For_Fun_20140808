@@ -39,6 +39,8 @@
 		07CE3ADF19BC155800806999 /* AnimationWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3ADE19BC155800806999 /* AnimationWrapper.m */; };
 		07CE3AE219BC1B6900806999 /* RequestWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3AE119BC1B6900806999 /* RequestWrapper.m */; };
 		07CE3AE519BC303B00806999 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CE3AE419BC303B00806999 /* WebViewController.m */; };
+		07EEF3B819BC6E47009AEE17 /* LogBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 07EEF3B719BC6E47009AEE17 /* LogBean.m */; };
+		07EEF3BB19BC6E58009AEE17 /* LogDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 07EEF3BA19BC6E58009AEE17 /* LogDao.m */; };
 		07F593931999ED1E00BD5C90 /* CIDFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593561999ED1E00BD5C90 /* CIDFont.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		07F593941999ED1E00BD5C90 /* CIDType0Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593581999ED1E00BD5C90 /* CIDType0Font.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		07F593951999ED1E00BD5C90 /* CIDType2Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F5935A1999ED1E00BD5C90 /* CIDType2Font.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
@@ -137,6 +139,10 @@
 		07CE3AE119BC1B6900806999 /* RequestWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestWrapper.m; sourceTree = "<group>"; };
 		07CE3AE319BC303B00806999 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		07CE3AE419BC303B00806999 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		07EEF3B619BC6E47009AEE17 /* LogBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogBean.h; sourceTree = "<group>"; };
+		07EEF3B719BC6E47009AEE17 /* LogBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogBean.m; sourceTree = "<group>"; };
+		07EEF3B919BC6E58009AEE17 /* LogDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogDao.h; sourceTree = "<group>"; };
+		07EEF3BA19BC6E58009AEE17 /* LogDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogDao.m; sourceTree = "<group>"; };
 		07F593551999ED1E00BD5C90 /* CIDFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIDFont.h; sourceTree = "<group>"; };
 		07F593561999ED1E00BD5C90 /* CIDFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CIDFont.m; sourceTree = "<group>"; };
 		07F593571999ED1E00BD5C90 /* CIDType0Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIDType0Font.h; sourceTree = "<group>"; };
@@ -258,6 +264,8 @@
 				07CE3ACE19B8881400806999 /* HistoryBean.m */,
 				07CE3AD319B9AEBE00806999 /* NoteBean.h */,
 				07CE3AD419B9AEBE00806999 /* NoteBean.m */,
+				07EEF3B619BC6E47009AEE17 /* LogBean.h */,
+				07EEF3B719BC6E47009AEE17 /* LogBean.m */,
 			);
 			path = Bean;
 			sourceTree = "<group>";
@@ -275,6 +283,8 @@
 				07CE3AD119B8882A00806999 /* HistoryDao.m */,
 				07CE3AD619B9AECE00806999 /* NoteDao.h */,
 				07CE3AD719B9AECE00806999 /* NoteDao.m */,
+				07EEF3B919BC6E58009AEE17 /* LogDao.h */,
+				07EEF3BA19BC6E58009AEE17 /* LogDao.m */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -588,6 +598,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07EEF3B819BC6E47009AEE17 /* LogBean.m in Sources */,
 				075C120D19938B2B004F72FD /* AppDelegate.m in Sources */,
 				07CE3AE519BC303B00806999 /* WebViewController.m in Sources */,
 				07F593AE1999ED1E00BD5C90 /* StringDetector.m in Sources */,
@@ -602,6 +613,7 @@
 				07F593981999ED1E00BD5C90 /* DocumentsView.m in Sources */,
 				0783DB1B19B7164200869653 /* ChapterDao.m in Sources */,
 				07F593AD1999ED1E00BD5C90 /* SimpleFont.m in Sources */,
+				07EEF3BB19BC6E58009AEE17 /* LogDao.m in Sources */,
 				07F593B21999ED1E00BD5C90 /* Type3Font.m in Sources */,
 				07CE3AD519B9AEBE00806999 /* NoteBean.m in Sources */,
 				07F593941999ED1E00BD5C90 /* CIDType0Font.m in Sources */,

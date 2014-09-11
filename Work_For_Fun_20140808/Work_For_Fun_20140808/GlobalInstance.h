@@ -11,6 +11,7 @@
 #define LOGINURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"user.do"]
 #define REGISTERURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"register.jsp?from=app"]
 #define UPLOADLOGURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"app.do"]
+#define PROFILEURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"applogin.jsp"]
 
 #define DOWNLOADURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"download.jsp"]
 

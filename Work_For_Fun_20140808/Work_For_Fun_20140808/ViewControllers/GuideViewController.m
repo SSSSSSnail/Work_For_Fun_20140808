@@ -22,6 +22,9 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewContentHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewContentWidth;
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+
+@property (assign, nonatomic) BOOL tapADAlready;
 
 @end
 
@@ -62,6 +65,18 @@
             imageView.image = [UIImage imageNamed:imageNameString];
         }];
     }
+    
+    if (!LoadStringUserDefault(kUserIdentifier)) {
+        _adImageView.hidden = YES;
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (LoadStringUserDefault(kUserIdentifier)) {
+        _adImageView.hidden = NO;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -70,6 +85,10 @@
 
     if (!LoadStringUserDefault(kUserIdentifier)) {
         [self performSegueWithIdentifier:@"presentLoginViewController" sender:self];
+    } else {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self tapADImageView:nil];
+        });
     }
 }
 
@@ -82,12 +101,22 @@
 - (void)updateViewConstraints
 {
     [super updateViewConstraints];
-    _scrollViewContentWidth.constant = - (ScreenBoundsWidth() + 10.0f) * 4;
+    _scrollViewContentWidth.constant = - ScreenBoundsWidth() * 4;
     _scrollViewContentHeight.constant = - ScreenBoundsHeight();
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    int currentPage = floorf(scrollView.contentOffset.x / ScreenBoundsWidth());
+    _pageControl.currentPage = currentPage;
 }
 
 - (IBAction)tapADImageView:(id)sender
 {
+    if (_tapADAlready) {
+        return;
+    }
+    _tapADAlready = YES;
     if (_showedGuideAlready) {
         //Dismiss
         [self performSegueWithIdentifier:@"modalToMainController" sender:self];
@@ -95,7 +124,8 @@
         //Show User Guide
         [UIView transitionWithView:_adImageView duration:1 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionTransitionCurlUp animations:^{
             _adImageView.hidden = YES;
-        } completion:^(BOOL finished) {}];
+        } completion:^(BOOL finished) {
+        }];
     }
 }
 

@@ -47,7 +47,7 @@ static NSString *const TableName = @"note";
 
 - (void)insertNote:(NoteBean *)bean
 {
-    [self insertNote:bean];
+    [self insertBean:bean];
 }
 
 - (void)deleteNoteById:(int)noteId

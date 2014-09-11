@@ -54,4 +54,10 @@ static NSString *const TableName = @"history";
     [self deleteWithWhere:whereSql];
 }
 
+- (HistoryBean *)selectLastHistory
+{
+    NSString *orderSql = [NSString stringWithFormat:@"%@ DESC LIMIT 1", kHistoryDate];
+    return [self selectWithOrder:orderSql][0];
+}
+
 @end

@@ -16,4 +16,6 @@
 - (NSArray *)selectHistoryOrderByDateDesc;
 - (void)insertHistory:(HistoryBean *)bean;
 
+- (HistoryBean *)selectLastHistory;
+
 @end

@@ -10,6 +10,7 @@
 @protocol LeftMenuActionDelegate<NSObject>
 
 - (void)jumpToPageNumber:(int)pageNumber;
+- (void)leftMenuShowed;
 
 @end
 

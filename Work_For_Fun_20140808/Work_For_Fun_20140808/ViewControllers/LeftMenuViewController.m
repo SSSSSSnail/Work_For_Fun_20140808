@@ -77,17 +77,25 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
     [_historyTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kEmptyCellIdentifier];
 
     _letterTableView.backgroundColor = [UIColor colorWithRed:231.0f / 255 green:232.0f / 255 blue:226.0f / 255 alpha:1.0f];
+    _menuScrollView.hidden = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [_menuScrollView setContentOffset:CGPointMake(scrollViewOffset, 0) animated:YES];
 
     UITableViewHeaderFooterView *bookmarkHeaderFooterView = [_bookmarkTableView headerViewForSection:0];
     bookmarkHeaderFooterView.textLabel.textColor = [UIColor colorWithRed:2.0f/255 green:83.0f/255 blue:157.0f/255 alpha:1.0f];
     UITableViewHeaderFooterView *historyHeaderFooterView = [_historyTableView headerViewForSection:0];
     historyHeaderFooterView.textLabel.textColor = [UIColor colorWithRed:2.0f/255 green:83.0f/255 blue:157.0f/255 alpha:1.0f];
+
+    [_menuScrollView setContentOffset:CGPointMake(scrollViewOffset, 0) animated:NO];
+    _menuScrollView.hidden = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -175,9 +183,15 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     if (scrollView == _menuScrollView) {
-        if (scrollView.contentOffset.x == 0 && _typeSwitchSegmentedControl.selectedSegmentIndex == SegmentedIndexBookmark) {
-            [self reloadBookmarkAndHistory];
+        if (scrollView.contentOffset.x == 0) {
+            if ([_delegate respondsToSelector:@selector(leftMenuShowed)]) {
+                [_delegate leftMenuShowed];
+            }
+            if (_typeSwitchSegmentedControl.selectedSegmentIndex == SegmentedIndexBookmark) {
+                [self reloadBookmarkAndHistory];
+            }
         }
+
     }
 }
 

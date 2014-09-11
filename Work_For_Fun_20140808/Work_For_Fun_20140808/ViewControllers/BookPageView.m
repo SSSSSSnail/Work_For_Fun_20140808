@@ -177,6 +177,26 @@
     return _contentView;
 }
 
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    BOOL hiddenFlag;
+    if (scrollView.zoomScale != 1.0) {
+        hiddenFlag = YES;
+    } else {
+        hiddenFlag = NO;
+    }
+
+    if (_titleLabel.hidden != hiddenFlag) {
+        _titleLabel.hidden = hiddenFlag;
+    }
+    if (_pageLabel.hidden != hiddenFlag) {
+         _pageLabel.hidden = hiddenFlag;
+    }
+    if (_lineView.hidden != hiddenFlag) {
+        _lineView.hidden = hiddenFlag;
+    }
+}
+
 - (void)setPage:(CGPDFPageRef)page
 {
     [_contentView setPage:page];

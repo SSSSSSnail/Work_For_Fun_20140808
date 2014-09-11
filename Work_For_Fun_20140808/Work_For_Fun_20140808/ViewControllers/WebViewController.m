@@ -23,7 +23,15 @@
     // Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden = NO;
     _webView.scrollView.bounces = NO;
-    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_webViewLoadURL]]];
+    if ([_webViewLoadURL isEqualToString:PROFILEURL]) {
+        NSString *body = [NSString stringWithFormat:@"userid=%@", LoadStringUserDefault(kUserIdentifier)];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:_webViewLoadURL]];
+        [request setHTTPMethod: @"POST"];
+        [request setHTTPBody: [body dataUsingEncoding: NSUTF8StringEncoding]];
+        [_webView loadRequest: request];
+    } else {
+        [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_webViewLoadURL]]];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -46,6 +54,10 @@
         return NO;
     } else if ([absoluteURLString isEqualToString:REGISTERURL]) {
         self.hud = [GInstance() showMessageToView:self.view message:@"页面加载中..." autoHide:NO];
+    } else if ([absoluteURLString isEqualToString:PROFILEURL]) {
+        self.hud = [GInstance() showMessageToView:self.view message:@"页面加载中..." autoHide:NO];
+    } else {
+        NSLog(@"%@", absoluteURLString);
     }
     return YES;
 }
@@ -53,7 +65,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     NSString *absoluteURLString = webView.request.URL.absoluteString;
-    if ([absoluteURLString isEqualToString:REGISTERURL]) {
+    if ([absoluteURLString isEqualToString:REGISTERURL] || [absoluteURLString isEqualToString:PROFILEURL]) {
         [_hud hide:YES];
     }
 }
@@ -61,7 +73,7 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     NSString *absoluteURLString = webView.request.URL.absoluteString;
-    if ([absoluteURLString isEqualToString:REGISTERURL]) {
+    if ([absoluteURLString isEqualToString:REGISTERURL] || [absoluteURLString isEqualToString:PROFILEURL]) {
         [_hud hide:YES];
     }
 }

@@ -72,6 +72,8 @@
 		07F593B21999ED1E00BD5C90 /* Type3Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593921999ED1E00BD5C90 /* Type3Font.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		07F593B7199A0F7D00BD5C90 /* LeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593B6199A0F7D00BD5C90 /* LeftMenuViewController.m */; };
 		07F593BA199A0F9200BD5C90 /* MainContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F593B9199A0F9200BD5C90 /* MainContentViewController.m */; };
+		07FE02A219C201CA0029071D /* BookContentBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FE02A119C201CA0029071D /* BookContentBean.m */; };
+		07FE02A519C201DB0029071D /* BookContentDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FE02A419C201DB0029071D /* BookContentDao.m */; };
 		202E8CD9D35045608DAD1A30 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70B0663602E44548A9B3BB3B /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -204,6 +206,10 @@
 		07F593B6199A0F7D00BD5C90 /* LeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewController.m; sourceTree = "<group>"; };
 		07F593B8199A0F9200BD5C90 /* MainContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainContentViewController.h; sourceTree = "<group>"; };
 		07F593B9199A0F9200BD5C90 /* MainContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainContentViewController.m; sourceTree = "<group>"; };
+		07FE02A019C201CA0029071D /* BookContentBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookContentBean.h; sourceTree = "<group>"; };
+		07FE02A119C201CA0029071D /* BookContentBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookContentBean.m; sourceTree = "<group>"; };
+		07FE02A319C201DB0029071D /* BookContentDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookContentDao.h; sourceTree = "<group>"; };
+		07FE02A419C201DB0029071D /* BookContentDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookContentDao.m; sourceTree = "<group>"; };
 		66939BF7B5CD48B6A6A3F12D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		70B0663602E44548A9B3BB3B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -266,6 +272,8 @@
 				07CE3AD419B9AEBE00806999 /* NoteBean.m */,
 				07EEF3B619BC6E47009AEE17 /* LogBean.h */,
 				07EEF3B719BC6E47009AEE17 /* LogBean.m */,
+				07FE02A019C201CA0029071D /* BookContentBean.h */,
+				07FE02A119C201CA0029071D /* BookContentBean.m */,
 			);
 			path = Bean;
 			sourceTree = "<group>";
@@ -285,6 +293,8 @@
 				07CE3AD719B9AECE00806999 /* NoteDao.m */,
 				07EEF3B919BC6E58009AEE17 /* LogDao.h */,
 				07EEF3BA19BC6E58009AEE17 /* LogDao.m */,
+				07FE02A319C201DB0029071D /* BookContentDao.h */,
+				07FE02A419C201DB0029071D /* BookContentDao.m */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -618,6 +628,7 @@
 				07CE3AD519B9AEBE00806999 /* NoteBean.m in Sources */,
 				07F593941999ED1E00BD5C90 /* CIDType0Font.m in Sources */,
 				07F593971999ED1E00BD5C90 /* CompositeFont.m in Sources */,
+				07FE02A219C201CA0029071D /* BookContentBean.m in Sources */,
 				07F593AA1999ED1E00BD5C90 /* RootViewController.m in Sources */,
 				07F593B01999ED1E00BD5C90 /* Type0Font.m in Sources */,
 				07F593A81999ED1E00BD5C90 /* RenderingState.m in Sources */,
@@ -625,6 +636,7 @@
 				07CE3AE219BC1B6900806999 /* RequestWrapper.m in Sources */,
 				07BBEEC419B5D74E004BB46C /* GuideViewController.m in Sources */,
 				07F5939B1999ED1E00BD5C90 /* FontDescriptor.m in Sources */,
+				07FE02A519C201DB0029071D /* BookContentDao.m in Sources */,
 				07F593B7199A0F7D00BD5C90 /* LeftMenuViewController.m in Sources */,
 				07CE3ADB19BB238C00806999 /* LoginViewController.m in Sources */,
 				07CE3AD219B8882A00806999 /* HistoryDao.m in Sources */,

@@ -18,6 +18,8 @@
 #import "HistoryBean.h"
 #import "NoteDao.h"
 #import "NoteBean.h"
+#import "BookContentDao.h"
+#import "BookContentBean.h"
 
 typedef NS_ENUM(NSInteger, BarButton) {
     BarButtonProfile = 10,
@@ -56,6 +58,8 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
 
 @property (weak, nonatomic) NSArray *chapterArray;
 
+@property (strong, nonatomic) NSArray *searchResultPageArray;
+
 // IBOutlet
 @property (weak, nonatomic) IBOutlet UIScrollView *mainContentScrollView;
 @property (weak, nonatomic) IBOutlet UIView *scrollContentView;
@@ -74,8 +78,10 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
 @property (weak, nonatomic) IBOutlet UITextView *documentTextView;
 @property (weak, nonatomic) IBOutlet UIView *countToolView;
 @property (weak, nonatomic) IBOutlet UIView *searchView;
-@property (strong, nonatomic) IBOutletCollection(UIView) NSArray *topMenuViewCollection;
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
+@property (weak, nonatomic) IBOutlet UITableView *searchTableView;
+
+@property (strong, nonatomic) IBOutletCollection(UIView) NSArray *topMenuViewCollection;
 
 @property (weak, nonatomic) IBOutlet UITextField *heightTextField;
 @property (weak, nonatomic) IBOutlet UITextField *weightTextField;
@@ -171,6 +177,8 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
         make.edges.equalTo(self.view);
     }];
     [self addChildViewController:leftMenuViewController];
+
+    self.searchResultPageArray = @[];
 
     //Cancel singel tap
     [_tapTopMenuGesture requireGestureRecognizerToFail:_pageView1.doubleTap];
@@ -519,6 +527,28 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
     ((UIImageView *)textField.leftView).highlighted = NO;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == _searchTextField) {
+        [_searchTextField resignFirstResponder];
+
+        if (textField.text.length > 0) {
+            int fromPage = GInstance().currentChapter.pageFrom;
+            int toPage = GInstance().currentChapter.pageTo;
+            self.searchResultPageArray = [[BookContentDao sharedInstance] selectBookContent:_searchTextField.text fromPage:fromPage toPage:toPage];
+            [_searchTableView reloadData];
+            if (!_searchResultPageArray.count > 0) {
+                [GInstance() showMessageToView:self.view message:@"本章没有匹配记录"];
+            }
+        }
+    }
+    return YES;
+}
+
+/*
+ 
+ */
+
 #pragma mark - Show or Hidden Bar
 - (IBAction)contentViewTapAction:(UITapGestureRecognizer *)sender
 {
@@ -573,9 +603,11 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    int selectedPage = floorf(scrollView.contentOffset.x / _pageViewWithGapWidth);
-    if (selectedPage != GInstance().currentPage) {
-        [self update:selectedPage];
+    if (scrollView == _mainContentScrollView) {
+        int selectedPage = floorf(scrollView.contentOffset.x / _pageViewWithGapWidth);
+        if (selectedPage != GInstance().currentPage) {
+            [self update:selectedPage];
+        }
     }
 }
 
@@ -706,7 +738,7 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
             } else {
                 [aPage refreshTitle:nil pageLabel:nil];
             }
-            [aPage setKeyword:@"我们希望本书"];
+            [aPage setKeyword:nil];
             aPage.pageNumber = aPage.toPageNumber;
         }
     }
@@ -715,46 +747,66 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
 #pragma mark - UITableView DataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _noteArray.count;
+    if (tableView == _noteTableView) {
+        return _noteArray.count;
+    }
+    if (tableView == _searchTableView) {
+        return _searchResultPageArray.count;
+    }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([indexPath compare:_selectedIndexPath] == NSOrderedSame) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kNoteDetailCellIndentifier forIndexPath:indexPath];
-        UITextView *contentTextView = (UITextView *)[cell viewWithTag:11];
-        if ([_noteArray[indexPath.row] isKindOfClass:[NSNull class]]) {
-            contentTextView.text = nil;
-        } else {
-            NoteBean *noteBean = _noteArray[indexPath.row];
-            contentTextView.text = noteBean.content;
-        }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [contentTextView becomeFirstResponder];
-        });
-        tableView.scrollEnabled = NO;
-        return cell;
-    } else {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kNoteListCellIndentifier forIndexPath:indexPath];
-        UILabel *noteLabel = (UILabel *)[cell viewWithTag:11];
-        UILabel *dateLabel = (UILabel *)[cell viewWithTag:12];
-        if ([_noteArray[indexPath.row] isKindOfClass:[NSNull class]]) {
-            noteLabel.text = @"暂无笔记";
-            dateLabel.text = nil;
+    if (tableView == _noteTableView) {
+        if ([indexPath compare:_selectedIndexPath] == NSOrderedSame) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kNoteDetailCellIndentifier forIndexPath:indexPath];
+            UITextView *contentTextView = (UITextView *)[cell viewWithTag:11];
+            if ([_noteArray[indexPath.row] isKindOfClass:[NSNull class]]) {
+                contentTextView.text = nil;
+            } else {
+                NoteBean *noteBean = _noteArray[indexPath.row];
+                contentTextView.text = noteBean.content;
+            }
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [contentTextView becomeFirstResponder];
+            });
+            tableView.scrollEnabled = NO;
             return cell;
         } else {
-            NoteBean *noteBean = _noteArray[indexPath.row];
-            noteLabel.text = noteBean.content;
-            dateLabel.text = [self formatedDateString:noteBean.date];
-            return cell;
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kNoteListCellIndentifier forIndexPath:indexPath];
+            UILabel *noteLabel = (UILabel *)[cell viewWithTag:11];
+            UILabel *dateLabel = (UILabel *)[cell viewWithTag:12];
+            if ([_noteArray[indexPath.row] isKindOfClass:[NSNull class]]) {
+                noteLabel.text = @"暂无笔记";
+                dateLabel.text = nil;
+                return cell;
+            } else {
+                NoteBean *noteBean = _noteArray[indexPath.row];
+                noteLabel.text = noteBean.content;
+                dateLabel.text = [self formatedDateString:noteBean.date];
+                return cell;
+            }
         }
     }
+    if (tableView == _searchTableView) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSearchResultCellIndentifier forIndexPath:indexPath];
+        int page = ((BookContentBean *)_searchResultPageArray[indexPath.row]).page;
+        ((UILabel *)[cell viewWithTag:11]).text = [self chapterTitleForPage:page];
+        ((UILabel *)[cell viewWithTag:12]).text = [NSString stringWithFormat:@"%d", page];
+        return cell;
+    }
+    return nil;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![_noteArray[0] isKindOfClass:[NSNull class]]) {
-        return YES;
+    if (tableView == _noteTableView) {
+        if (![_noteArray[0] isKindOfClass:[NSNull class]]) {
+            return YES;
+        } else {
+            return NO;
+        }
     } else {
         return NO;
     }
@@ -762,24 +814,30 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        self.noteArray = [[[NoteDao sharedInstance] selectNoteOrderByDateDesc:GInstance().currentChapter.chapterId] mutableCopy];
-        NoteBean *bean = _noteArray[indexPath.row];
-        [_noteArray removeObject:bean];
-        [[NoteDao sharedInstance] deleteNoteById:bean.beanId];
+    if (tableView == _noteTableView) {
+        if (editingStyle == UITableViewCellEditingStyleDelete) {
+            self.noteArray = [[[NoteDao sharedInstance] selectNoteOrderByDateDesc:GInstance().currentChapter.chapterId] mutableCopy];
+            NoteBean *bean = _noteArray[indexPath.row];
+            [_noteArray removeObject:bean];
+            [[NoteDao sharedInstance] deleteNoteById:bean.beanId];
 
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
     }
 }
 
 #pragma mark - UITableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([indexPath compare:_selectedIndexPath] == NSOrderedSame) {
-        if (ISSCREEN4) {
-            return 445.0f;
+    if (tableView == _noteTableView) {
+        if ([indexPath compare:_selectedIndexPath] == NSOrderedSame) {
+            if (ISSCREEN4) {
+                return 445.0f;
+            } else {
+                return 357.0f;
+            }
         } else {
-            return 357.0f;
+            return 40.0f;
         }
     } else {
         return 40.0f;
@@ -788,15 +846,22 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![_noteArray[indexPath.row] isKindOfClass:[NSNull class]]) {
-        self.noteArray = [[[NoteDao sharedInstance] selectNoteOrderByDateDesc:GInstance().currentChapter.chapterId] mutableCopy];
-        self.selectedIndexPath = indexPath;
-        [_addSaveNoteButton setTitle:@"保存笔记" forState:UIControlStateNormal];
-        _addSaveNoteButton.selected = YES;
-        [_noteTableView beginUpdates];
-        [_noteTableView reloadRowsAtIndexPaths:@[_selectedIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [_noteTableView endUpdates];
-        [_noteTableView scrollToRowAtIndexPath:_selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    if (tableView == _noteTableView) {
+        if (![_noteArray[indexPath.row] isKindOfClass:[NSNull class]]) {
+            self.noteArray = [[[NoteDao sharedInstance] selectNoteOrderByDateDesc:GInstance().currentChapter.chapterId] mutableCopy];
+            self.selectedIndexPath = indexPath;
+            [_addSaveNoteButton setTitle:@"保存笔记" forState:UIControlStateNormal];
+            _addSaveNoteButton.selected = YES;
+            [_noteTableView beginUpdates];
+            [_noteTableView reloadRowsAtIndexPaths:@[_selectedIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [_noteTableView endUpdates];
+            [_noteTableView scrollToRowAtIndexPath:_selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        }
+    }
+
+    if (tableView == _searchTableView) {
+        [self dismissAllTopMenuView];
+        [self jumpToPageNumber:((BookContentBean *)_searchResultPageArray[indexPath.row]).page];
     }
 }
 

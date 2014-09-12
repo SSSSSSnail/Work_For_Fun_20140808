@@ -19,6 +19,7 @@
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *scrollImageViewCollection;
 - (IBAction)tapADImageView:(id)sender;
 - (IBAction)tapStartImageView:(id)sender;
+@property (weak, nonatomic) IBOutlet UIScrollView *guideScrollView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewContentHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewContentWidth;
@@ -64,6 +65,7 @@
             }
             imageView.image = [UIImage imageNamed:imageNameString];
         }];
+        _guideScrollView.hidden = YES;
     }
     
     if (!LoadStringUserDefault(kUserIdentifier)) {
@@ -77,6 +79,7 @@
     if (LoadStringUserDefault(kUserIdentifier)) {
         _adImageView.hidden = NO;
     }
+    _guideScrollView.hidden = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated

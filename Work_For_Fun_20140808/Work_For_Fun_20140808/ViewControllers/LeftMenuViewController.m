@@ -13,6 +13,8 @@
 #import "BookmarkBean.h"
 #import "HistoryDao.h"
 #import "HistoryBean.h"
+#import "BookContentDao.h"
+#import "BookContentBean.h"
 
 typedef NS_ENUM(NSInteger, SegmentedIndex) {
     SegmentedIndexChapter = 0,
@@ -23,6 +25,12 @@ typedef NS_ENUM(NSInteger, SegmentedIndex) {
 
 static CGFloat const scrollViewOffset = 297.0f;
 static NSString *const kEmptyCellIdentifier = @"emptyCell";
+static NSString *const kSearchResultCellIdentifier = @"searchResultCell";
+static NSString *const kChapterCellIdentifier = @"chapterCell";
+static NSString *const kLetterCellIdentifier = @"letterCell";
+static NSString *const kBookmarkCellIdentifier = @"bookmarkCell";
+static NSString *const kHistoryCellIdentifier = @"historyCell";
+
 
 @interface LeftMenuViewController ()<UITextFieldDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -43,6 +51,8 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *typeViewsCollection;
 
+@property (weak, nonatomic) IBOutlet UITableView *searchResultTableView;
+
 // IBAction
 - (IBAction)tapLeftView:(UITapGestureRecognizer *)sender;
 - (IBAction)typeSegmentedControlValueChange:(UISegmentedControl *)sender;
@@ -56,6 +66,8 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
 @property (strong, nonatomic) NSMutableDictionary *letter2indexDictionary;
 @property (strong, nonatomic) NSArray *bookmarkArrayOrderByDate;
 @property (strong, nonatomic) NSArray *historyArrayOrderByDate;
+
+@property (strong, nonatomic) NSArray *searchResultArray;
 
 @end
 
@@ -72,6 +84,8 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
     self.chapterArrayOrderById = GInstance().chapterArrayOrderById;
     self.chapterArrayOrderByLetter = [[ChapterDao sharedInstance] selectAllChapterOrderByLetter];
     self.letter2indexDictionary = [NSMutableDictionary dictionary];
+
+    self.searchResultArray = @[];
 
     [_bookmarkTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kEmptyCellIdentifier];
     [_historyTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kEmptyCellIdentifier];
@@ -110,7 +124,6 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
     [super updateViewConstraints];
     _scrollViewContentTop2Bottom.constant = - ScreenBoundsHeight();
 }
-
 
 #pragma mark - Type Change
 - (IBAction)typeSegmentedControlValueChange:(UISegmentedControl *)sender
@@ -157,11 +170,51 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     ((UIImageView *)textField.leftView).highlighted = YES;
+    [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        _searchResultTableView.alpha = 1.0f;
+    } completion:^(BOOL finished) {
+
+    }];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     ((UIImageView *)textField.leftView).highlighted = NO;
+    if (!textField.text.length > 0) {
+        [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            _searchResultTableView.alpha = 0;
+            self.searchResultArray = nil;
+            [_searchResultTableView reloadData];
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [textField resignFirstResponder];
+    });
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == _searchTextField) {
+        [_searchTextField resignFirstResponder];
+
+        if (textField.text.length > 0) {
+            int fromPage = 1;
+            int toPage = 1008;
+            self.searchResultArray = [[BookContentDao sharedInstance] selectBookContent:_searchTextField.text fromPage:fromPage toPage:toPage];
+            [_searchResultTableView reloadData];
+            if (!_searchResultArray.count > 0) {
+                [GInstance() showMessageToView:self.view message:@"没有匹配记录"];
+            }
+        }
+    }
+    return YES;
 }
 
 - (IBAction)tapLeftView:(UITapGestureRecognizer *)sender
@@ -206,6 +259,8 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
         return _bookmarkArrayOrderByDate.count > 0 ? _bookmarkArrayOrderByDate.count : 1;
     } else if (tableView == _historyTableView) {
         return _historyArrayOrderByDate.count > 0 ? _historyArrayOrderByDate.count : 1;
+    } else if (tableView == _searchResultTableView) {
+        return _searchResultArray.count;
     }
     return 1;
 }
@@ -213,18 +268,18 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == _chapterTableView) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"chapterCell" forIndexPath:indexPath];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kChapterCellIdentifier forIndexPath:indexPath];
         UILabel *label = (UILabel *)[cell viewWithTag:11];
         label.text = [_chapterArrayOrderById[indexPath.row] title];
         return cell;
     } else if (tableView == _letterTableView) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"letterCell" forIndexPath:indexPath];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kLetterCellIdentifier forIndexPath:indexPath];
         UILabel *label = (UILabel *)[cell viewWithTag:11];
         label.text = [_chapterArrayOrderByLetter[indexPath.row] title];
         return cell;
     } else if (tableView == _bookmarkTableView) {
         if (_bookmarkArrayOrderByDate.count > 0) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"bookmarkCell" forIndexPath:indexPath];
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kBookmarkCellIdentifier forIndexPath:indexPath];
             BookmarkBean *bean = _bookmarkArrayOrderByDate[indexPath.row];
             UILabel *titleLabel = (UILabel *)[cell viewWithTag:11];
             titleLabel.text = bean.title;
@@ -245,7 +300,7 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
         }
     } else if (tableView == _historyTableView) {
         if (_historyArrayOrderByDate.count > 0) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"historyCell" forIndexPath:indexPath];
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kHistoryCellIdentifier forIndexPath:indexPath];
             HistoryBean *bean = _historyArrayOrderByDate[indexPath.row];
             UILabel *titleLabel = (UILabel *)[cell viewWithTag:11];
             titleLabel.text = bean.title;
@@ -266,6 +321,14 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
             cell.textLabel.text = @"暂无记录";
             return cell;
         }
+    } else if (tableView == _searchResultTableView) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSearchResultCellIdentifier forIndexPath:indexPath];
+        BookContentBean *bean = _searchResultArray[indexPath.row];
+        UILabel *titleLabel = (UILabel *)[cell viewWithTag:11];
+        titleLabel.text = [self chapterTitleForPage:bean.page];
+        UILabel *pageLabel = (UILabel *)[cell viewWithTag:12];
+        pageLabel.text = [NSString stringWithFormat:@"%d", bean.page];
+        return cell;
     }
     return [[UITableViewCell alloc] init];
 }
@@ -317,6 +380,8 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
         pageNumber = [_bookmarkArrayOrderByDate[indexPath.row] page];
     } else if (tableView == _historyTableView) {
         pageNumber = [_historyArrayOrderByDate[indexPath.row] page];
+    } else if (tableView == _searchResultTableView) {
+        pageNumber = [_searchResultArray[indexPath.row] page];
     } else {
         pageNumber = 0;
     }
@@ -341,6 +406,17 @@ static NSString *const kEmptyCellIdentifier = @"emptyCell";
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     return [dateFormatter stringFromDate:date];
+}
+
+- (NSString *)chapterTitleForPage:(int)pageNumber
+{
+    __block NSString *title = nil;
+    [_chapterArrayOrderById enumerateObjectsUsingBlock:^(ChapterBean *chapterBean, NSUInteger idx, BOOL *stop) {
+        if (chapterBean.pageFrom <= pageNumber && chapterBean.pageTo >= pageNumber) {
+            title = chapterBean.title;
+        }
+    }];
+    return title;
 }
 
 @end

@@ -9,6 +9,11 @@
       "idiom" : "universal",
       "scale" : "2x",
       "filename" : "WeightLeftIcon@2x.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x",
+      "filename" : "WeightLeftIcon@3x.png"
     }
   ],
   "info" : {

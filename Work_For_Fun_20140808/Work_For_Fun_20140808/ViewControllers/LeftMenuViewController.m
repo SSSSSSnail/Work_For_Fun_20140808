@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, SegmentedIndex) {
     SegmentedIndexAbout = 3
 };
 
-static CGFloat const scrollViewOffset = 297.0f;
+static CGFloat const scrollViewOffset = 23.0f;
 static NSString *const kEmptyCellIdentifier = @"emptyCell";
 static NSString *const kSearchResultCellIdentifier = @"searchResultCell";
 static NSString *const kChapterCellIdentifier = @"chapterCell";
@@ -59,6 +59,10 @@ static NSString *const kHistoryCellIdentifier = @"historyCell";
 
 // Contrains
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewContentTop2Bottom;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *menuViewWidthConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewHSpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewWidthConstraint;
+
 
 // Property
 @property (strong, nonatomic) NSArray *chapterArrayOrderById;
@@ -108,7 +112,7 @@ static NSString *const kHistoryCellIdentifier = @"historyCell";
     UITableViewHeaderFooterView *historyHeaderFooterView = [_historyTableView headerViewForSection:0];
     historyHeaderFooterView.textLabel.textColor = [UIColor colorWithRed:2.0f/255 green:83.0f/255 blue:157.0f/255 alpha:1.0f];
 
-    [_menuScrollView setContentOffset:CGPointMake(scrollViewOffset, 0) animated:NO];
+    [_menuScrollView setContentOffset:CGPointMake((ScreenBoundsWidth() - scrollViewOffset), 0) animated:NO];
     _menuScrollView.hidden = NO;
 }
 
@@ -123,6 +127,9 @@ static NSString *const kHistoryCellIdentifier = @"historyCell";
 {
     [super updateViewConstraints];
     _scrollViewContentTop2Bottom.constant = - ScreenBoundsHeight();
+    _contentViewWidthConstraint.constant = ScreenBoundsWidth() * 2 - scrollViewOffset;
+    _contentViewHSpaceConstraint.constant = - (ScreenBoundsWidth() * 2 - scrollViewOffset);
+    _menuViewWidthConstraint.constant = ScreenBoundsWidth() - scrollViewOffset;
 }
 
 #pragma mark - Type Change
@@ -229,7 +236,7 @@ static NSString *const kHistoryCellIdentifier = @"historyCell";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView == _menuScrollView) {
-        _blackMaskView.alpha = 0.4f * (scrollViewOffset - scrollView.contentOffset.x) / scrollViewOffset;
+        _blackMaskView.alpha = 0.4f * (ScreenBoundsWidth() - scrollViewOffset - scrollView.contentOffset.x) / (ScreenBoundsWidth() - scrollViewOffset);
     }
 }
 
@@ -388,7 +395,7 @@ static NSString *const kHistoryCellIdentifier = @"historyCell";
     if ([_delegate respondsToSelector:@selector(jumpToPageNumber:)]) {
         [_delegate jumpToPageNumber:pageNumber];
     }
-    [_menuScrollView setContentOffset:CGPointMake(scrollViewOffset, 0) animated:YES];
+    [_menuScrollView setContentOffset:CGPointMake(ScreenBoundsWidth() - scrollViewOffset, 0) animated:YES];
 }
 
 #pragma mark - Data
@@ -426,7 +433,7 @@ static NSString *const kHistoryCellIdentifier = @"historyCell";
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
-    if (point.x <= [UIScreen mainScreen].bounds.size.width) {
+    if (point.x <= ScreenBoundsWidth()) {
         return YES;
     } else {
         return NO;

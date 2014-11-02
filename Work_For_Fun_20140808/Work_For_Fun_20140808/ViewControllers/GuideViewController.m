@@ -23,6 +23,8 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewContentHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewContentWidth;
+@property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *guideImageViewContentWidthCollection;
+
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @property (assign, nonatomic) BOOL tapADAlready;
@@ -50,26 +52,26 @@
     } else {
         _showedGuideAlready = YES;
     }
-
-    NSMutableString *imageNameString = [NSMutableString stringWithFormat:@"ad%@", adString];
-    if (!ISSCREEN4) {
-        [imageNameString appendString:@"_3"];
-    }
-    _adImageView.image = [UIImage imageNamed:imageNameString];
+    
+    UIImage *imagess = [UIImage imageNamed:RenameFullScreenImage([NSString stringWithFormat:@"ad%@", adString])];
+    
+    _adImageView.image = imagess;
 
     if (!_showedGuideAlready) {
         [_scrollImageViewCollection enumerateObjectsUsingBlock:^(UIImageView *imageView, NSUInteger idx, BOOL *stop) {
-            NSMutableString *imageNameString = [NSMutableString stringWithFormat:@"Guide%ld", (long)imageView.tag];
-            if (!ISSCREEN4) {
-                [imageNameString stringByAppendingString:@"_3"];
-            }
-            imageView.image = [UIImage imageNamed:imageNameString];
+            imageView.image = [UIImage imageNamed:RenameFullScreenImage([NSString stringWithFormat:@"Guide%ld", (long)imageView.tag])];
         }];
+        _guideScrollView.hidden = NO;
+        _pageControl.hidden = NO;
+    } else {
         _guideScrollView.hidden = YES;
+        _pageControl.hidden = YES;
     }
     
     if (!LoadStringUserDefault(kUserIdentifier)) {
         _adImageView.hidden = YES;
+    } else {
+        _adImageView.hidden = NO;
     }
 }
 
@@ -106,6 +108,9 @@
     [super updateViewConstraints];
     _scrollViewContentWidth.constant = - ScreenBoundsWidth() * 4;
     _scrollViewContentHeight.constant = - ScreenBoundsHeight();
+    [_guideImageViewContentWidthCollection enumerateObjectsUsingBlock:^(NSLayoutConstraint *imageViewConstraint, NSUInteger idx, BOOL *stop) {
+        imageViewConstraint.constant = ScreenBoundsWidth();
+    }];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

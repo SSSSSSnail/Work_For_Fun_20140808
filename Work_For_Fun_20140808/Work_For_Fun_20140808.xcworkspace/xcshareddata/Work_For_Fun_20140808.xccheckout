@@ -10,29 +10,29 @@
 	<string>Work_For_Fun_20140808</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>E7EAAD25-39DF-420A-87CC-CC8348C2AB3C</key>
+		<key>AF8E20D70135283A1015F82F03A7E3E98A9AC628</key>
 		<string>https://github.com/SSSSSSnail/Work_For_Fun_20140808.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Work_For_Fun_20140808/Work_For_Fun_20140808.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>E7EAAD25-39DF-420A-87CC-CC8348C2AB3C</key>
+		<key>AF8E20D70135283A1015F82F03A7E3E98A9AC628</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/SSSSSSnail/Work_For_Fun_20140808.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>E7EAAD25-39DF-420A-87CC-CC8348C2AB3C</string>
+	<string>AF8E20D70135283A1015F82F03A7E3E98A9AC628</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>E7EAAD25-39DF-420A-87CC-CC8348C2AB3C</string>
+			<string>AF8E20D70135283A1015F82F03A7E3E98A9AC628</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Work_For_Fun_20140808</string>
 		</dict>

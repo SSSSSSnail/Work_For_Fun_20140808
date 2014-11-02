@@ -20,19 +20,19 @@ PODS:
   - AFNetworking/UIKit (2.3.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - BlocksKit (2.2.3):
+  - BlocksKit (2.2.5):
     - BlocksKit/All
-  - BlocksKit/All (2.2.3):
+  - BlocksKit/All (2.2.5):
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
     - BlocksKit/MessageUI
     - BlocksKit/UIKit
-  - BlocksKit/Core (2.2.3)
-  - BlocksKit/DynamicDelegate (2.2.3)
-  - BlocksKit/MessageUI (2.2.3):
+  - BlocksKit/Core (2.2.5)
+  - BlocksKit/DynamicDelegate (2.2.5)
+  - BlocksKit/MessageUI (2.2.5):
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
-  - BlocksKit/UIKit (2.2.3):
+  - BlocksKit/UIKit (2.2.5):
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
   - FMDB (2.3):
@@ -46,18 +46,18 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
-  - BlocksKit
+  - BlocksKit (~> 2.2.5)
   - FMDB
   - Masonry
-  - MBProgressHUD (~> 0.8)
-  - pop (~> 1.0)
+  - MBProgressHUD
+  - pop
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
-  BlocksKit: 07c8a80f04275efac6a5f8b973782489c083a182
+  BlocksKit: 4439e7f30a9f90743462ca63545a15c1f4304cef
   FMDB: 31ec26773c7f7b7890a6038235a1f2bbd933a7cb
   Masonry: 35368c2ca9577ca87722c12fc52c4bad9b1c1516
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   pop: e518794da38942c05255eb64b36d894e70cb4f00
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.34.4

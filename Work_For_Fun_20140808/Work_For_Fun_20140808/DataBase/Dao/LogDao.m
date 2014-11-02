@@ -52,8 +52,6 @@ static NSString *const TableName = @"log";
 - (NSArray *)selectLogBeforeTodayOrderByDateDesc
 {
     NSString *whereSql = [NSString stringWithFormat:@"%@ < %@", kLogDate, [self formatedDateString:[NSDate date]]];
-#warning TEST
-//    whereSql = nil;
     NSString *orderSql = [NSString stringWithFormat:@"%@ DESC", kLogDate];
     return [self selectWithWhere:whereSql order:orderSql];
 }

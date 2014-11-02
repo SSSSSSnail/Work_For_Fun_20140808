@@ -9,6 +9,11 @@
       "idiom" : "universal",
       "scale" : "2x",
       "filename" : "leftMenuSearchIcon_highlight@2x.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x",
+      "filename" : "leftMenuSearchIcon_highlight@3x.png"
     }
   ],
   "info" : {

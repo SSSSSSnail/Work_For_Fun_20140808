@@ -9,6 +9,11 @@
       "idiom" : "universal",
       "scale" : "2x",
       "filename" : "Bar_Button_Calculator_Selected@2x.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x",
+      "filename" : "Bar_Button_Calculator_Selected@3x.png"
     }
   ],
   "info" : {

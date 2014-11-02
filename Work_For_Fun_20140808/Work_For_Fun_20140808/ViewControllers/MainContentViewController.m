@@ -108,6 +108,7 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollContentViewWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollContentViewHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *counttoolMarginLeftConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *menuBarTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topArrowCenterX;
@@ -223,6 +224,8 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
 
     _scrollViewContentSizeHeight.constant = - (ScreenBoundsHeight() - 20.0f);
     _scrollContentViewHeight.constant = ScreenBoundsHeight() - 20.0f;
+    
+    _counttoolMarginLeftConstraint.constant = 22.0f + (ScreenBoundsWidth() - 320) / 2;
 
     _topMenuViewWidth.constant = - 250.0f;
     _topMenuViewBottom.constant = ISSCREEN4 ? 400.0f : 310.0f;
@@ -241,7 +244,7 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
     }
 
     UIView *showView = nil;
-    NSString *message;
+    __block NSString *message;
     switch (sender.tag) {
         case BarButtonProfile:
             [self performSegueWithIdentifier:@"pushUpdateProfileViewController" sender:sender];
@@ -288,12 +291,24 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
                 [[BookmarkDao sharedInstance] deleteBookmarkByPage:GInstance().currentPage];
                 message = @"书签已删除";
             } else {
-                BookmarkBean *bean = [BookmarkBean new];
-                bean.title = GInstance().currentChapter.title;
-                bean.page = GInstance().currentPage;
-                bean.date = [NSDate date];
-                [[BookmarkDao sharedInstance] insertBookmark:bean];
-                message = @"书签已添加";
+                UIAlertView *noteTitleAlertView = [UIAlertView bk_showAlertViewWithTitle:@"请输入书签标题" message:nil cancelButtonTitle:@"确定" otherButtonTitles:@[@"取消"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    if (buttonIndex == 0) {
+                        NSString *noteTitle = [alertView textFieldAtIndex:0].text;
+                        if (noteTitle.length <= 0) {
+                            noteTitle = GInstance().currentChapter.title;
+                        }
+                        BookmarkBean *bean = [BookmarkBean new];
+                        bean.title = noteTitle;
+                        bean.page = GInstance().currentPage;
+                        bean.date = [NSDate date];
+                        [[BookmarkDao sharedInstance] insertBookmark:bean];
+                        message = @"书签已添加";
+                    }
+                }];
+                
+                noteTitleAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                [noteTitleAlertView textFieldAtIndex:0].text = GInstance().currentChapter.title;
+                [noteTitleAlertView show];
             }
             _bookmarkButton.selected = !_bookmarkButton.selected;
             [GInstance() showMessageToView:self.view message:message];
@@ -347,7 +362,7 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
             button.selected = NO;
         }
     }];
-
+    
     if (topMenuViewShow) {
         _topMenuView.hidden = NO;
     }
@@ -404,6 +419,7 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
 - (IBAction)addSaveNoteButtonAction:(UIButton *)sender
 {
     BOOL shouldInserCell;
+    BOOL shouldDeleteCell = NO;
     NSIndexPath *indexPath = _selectedIndexPath;
     if (sender.selected) {
         sender.selected = NO;
@@ -415,8 +431,12 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
             if (bean.beanId) {
                 [[NoteDao sharedInstance] updateNote:bean];
             } else {
-                bean.date = [NSDate date];
-                [[NoteDao sharedInstance] insertNote:bean];
+                if (bean.content.length > 0) {
+                    bean.date = [NSDate date];
+                    [[NoteDao sharedInstance] insertNote:bean];
+                } else {
+                    shouldDeleteCell = YES;
+                }
             }
         } else {
             NoteBean *bean = [NoteBean new];
@@ -448,7 +468,13 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
     if (shouldInserCell) {
         [_noteTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else {
-        [_noteTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        if (shouldDeleteCell) {
+            NoteBean *bean = _noteArray[indexPath.row];
+            [_noteArray removeObject:bean];
+            [_noteTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        } else {
+            [_noteTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
     }
     [_noteTableView endUpdates];
     [self buttonScaleBackAnimation:sender withBounciness:16.0f];

@@ -12,6 +12,7 @@
 #define REGISTERURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"register.jsp?from=app"]
 #define UPLOADLOGURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"app.do"]
 #define PROFILEURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"applogin.jsp"]
+#define GETPASSWORDURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"getPassword.jsp?from=app"]
 
 #define DOWNLOADURL [NSString stringWithFormat:@"%@%@", SERVERURL, @"download.jsp"]
 
@@ -63,3 +64,5 @@ NSString *DeviceType();
 
 void SaveStringUserDefault(NSString *key, NSString *value);
 NSString *LoadStringUserDefault(NSString *key);
+
+NSString *RenameFullScreenImage(NSString *imageName);

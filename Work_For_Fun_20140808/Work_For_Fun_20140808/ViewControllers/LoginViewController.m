@@ -122,6 +122,9 @@
     if ([segue.identifier isEqualToString:@"pushRegisterViewController"]) {
         WebViewController *webViewController = segue.destinationViewController;
         webViewController.webViewLoadURL = REGISTERURL;
+    } else if ([segue.identifier isEqualToString:@"pushPasswordViewController"]) {
+        WebViewController *webViewController = segue.destinationViewController;
+        webViewController.webViewLoadURL = GETPASSWORDURL;
     }
 }
 

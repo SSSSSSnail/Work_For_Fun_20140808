@@ -198,3 +198,21 @@ NSString *LoadStringUserDefault(NSString *key)
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return [userDefaults stringForKey:key];
 }
+
+NSString *RenameFullScreenImage(NSString *imageName)
+{
+    NSString *appendString;
+    if (ScreenBoundsHeight() == 480.0f) { //iPhone4 iPhone4S
+        appendString = @"_4_4S";
+    } else if (ScreenBoundsHeight() == 568.0f) { //iPhone5 iPhone5S
+        appendString = @"_5_5S";
+    } else if (ScreenBoundsHeight() == 667.0f) { //iPhone6
+        appendString = @"_6";
+    } else if (ScreenBoundsHeight() == 736.0f) { //iPhone6Plus
+        appendString = @"_6Plus";
+    } else { //Others
+        appendString = @"";
+    }
+    NSLog(@"%@", [NSString stringWithFormat:@"%@%@", imageName, appendString]);
+    return [NSString stringWithFormat:@"%@%@", imageName, appendString];
+}

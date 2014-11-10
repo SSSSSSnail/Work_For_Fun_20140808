@@ -289,6 +289,7 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
             if (_bookmarkButton.selected) {
                 [[BookmarkDao sharedInstance] deleteBookmarkByPage:GInstance().currentPage];
                 [GInstance() showMessageToView:self.view message:@"书签已删除"];
+                _bookmarkButton.selected = !_bookmarkButton.selected;
             } else {
                 UIAlertView *bookmarkTitleAlertView = [UIAlertView bk_alertViewWithTitle:@"请输入书签标题"];
                 [bookmarkTitleAlertView bk_addButtonWithTitle:@"确定" handler:^{
@@ -575,9 +576,12 @@ static NSString *const kSearchResultCellIndentifier = @"searchResultCell";
     return YES;
 }
 
-/*
- 
- */
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    self.searchResultPageArray = nil;
+    [_searchTableView reloadData];
+    return YES;
+}
 
 #pragma mark - Show or Hidden Bar
 - (IBAction)contentViewTapAction:(UITapGestureRecognizer *)sender

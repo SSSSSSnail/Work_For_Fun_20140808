@@ -45,36 +45,36 @@
     if (LoadStringUserDefault(kUserIdentifier)) {
 
         NSArray *recordArray = [[LogDao sharedInstance] selectLogBeforeTodayOrderByDateDesc];
-        if (recordArray.count > 0) {
-            NSLog(@"Start upload log");
-            NSMutableDictionary *paramDic = [@{@"action" : @"log",
-                                               @"version" : SystemVersion(),
-                                               @"devicetype" : DeviceType(),
-                                               @"userid" : LoadStringUserDefault(kUserIdentifier)} mutableCopy];
-            
-            NSMutableString *uploadRecordString = [NSMutableString string];
-            [recordArray enumerateObjectsUsingBlock:^(LogBean *logBean, NSUInteger idx, BOOL *stop) {
-                if (idx != 0) {
-                    [uploadRecordString appendString:@"@"];
-                }
-                [uploadRecordString appendString:logBean.date];
-                [uploadRecordString appendString:logBean.record];
-            }];
-            [paramDic setObject:uploadRecordString forKey:@"records"];
-            [RequestWrapper requestWithURL:UPLOADLOGURL withParameters:paramDic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-                if ([responseObject[@"result"] isEqualToNumber:@1]) {
-                    //Delete logs
-                    [[LogDao sharedInstance] deleteLogByBeans:recordArray];
-                }
-                if (![responseObject[@"version"] isEqualToString:SystemVersion()]) {
-                    [[UIAlertView bk_showAlertViewWithTitle:@"提示" message:@"发现新版本, 是否更新?" cancelButtonTitle:@"取消" otherButtonTitles:@[@"更新"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        NSLog(@"Start upload log");
+        NSMutableDictionary *paramDic = [@{@"action" : @"log",
+                                           @"version" : SystemVersion(),
+                                           @"devicetype" : DeviceType(),
+                                           @"userid" : LoadStringUserDefault(kUserIdentifier)} mutableCopy];
+        
+        NSMutableString *uploadRecordString = [NSMutableString string];
+        [recordArray enumerateObjectsUsingBlock:^(LogBean *logBean, NSUInteger idx, BOOL *stop) {
+            if (idx != 0) {
+                [uploadRecordString appendString:@"@"];
+            }
+            [uploadRecordString appendString:logBean.date];
+            [uploadRecordString appendString:logBean.record];
+        }];
+        [paramDic setObject:uploadRecordString forKey:@"records"];
+        [RequestWrapper requestWithURL:UPLOADLOGURL withParameters:paramDic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+            if ([responseObject[@"result"] isEqualToNumber:@1]) {
+                //Delete logs
+                [[LogDao sharedInstance] deleteLogByBeans:recordArray];
+            }
+            if (![responseObject[@"version"] isEqualToString:SystemVersion()]) {
+                [[UIAlertView bk_showAlertViewWithTitle:@"提示" message:@"发现新版本, 是否更新?" cancelButtonTitle:@"取消" otherButtonTitles:@[@"更新"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    if (buttonIndex == 1) {
                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:DOWNLOADURL]];
-                    }] show];
-                }
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"ERROR: %@", error);
-            }];
-        }
+                    }
+                }] show];
+            }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"ERROR: %@", error);
+        }];
     }
 }
 
